@@ -1,0 +1,14 @@
+﻿using NugetWorkflow.Common.GitAdapter.DTOs.Requests;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NugetWorkflow.Common.GitAdapter.Interfaces
+{
+    public interface IGitAdapter
+    {
+        public void CloneProjects(CloneProjectsRequestDTO request);
+    }
+}

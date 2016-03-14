@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{14CE9437-6740-4F17-B439-808B315E41F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetWorkflow.UI.WpfUI", "..\Source\UI\ModernUI.UI.WpfUI\NugetWorkflow.UI.WpfUI.csproj", "{5D3515CF-D670-456A-8580-03AAA2277A11}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{0AFA52AB-919F-4385-91B3-E69C96B1D4A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetWorkflow.Plugins.GitAdapter", "..\Source\Plugins\NugetWorkflow.Plugins.GitAdapter\NugetWorkflow.Plugins.GitAdapter.csproj", "{BEA72E20-B3A6-44A0-9F8D-95EDA63C0D29}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{0092D9C9-E65B-487D-9674-6884249931D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetWorkflow.Common.GitAdapter", "..\Source\Common\NugetWorkflow.Common.GitAdapter\NugetWorkflow.Common.GitAdapter.csproj", "{EE3DBE23-AF0C-41B6-BB80-FE9B2C619B0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetWorkflow.Common.Base", "..\Source\Common\NugetWorkflow.Common.Base\NugetWorkflow.Common.Base.csproj", "{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D3515CF-D670-456A-8580-03AAA2277A11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D3515CF-D670-456A-8580-03AAA2277A11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D3515CF-D670-456A-8580-03AAA2277A11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D3515CF-D670-456A-8580-03AAA2277A11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEA72E20-B3A6-44A0-9F8D-95EDA63C0D29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEA72E20-B3A6-44A0-9F8D-95EDA63C0D29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEA72E20-B3A6-44A0-9F8D-95EDA63C0D29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEA72E20-B3A6-44A0-9F8D-95EDA63C0D29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE3DBE23-AF0C-41B6-BB80-FE9B2C619B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE3DBE23-AF0C-41B6-BB80-FE9B2C619B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE3DBE23-AF0C-41B6-BB80-FE9B2C619B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE3DBE23-AF0C-41B6-BB80-FE9B2C619B0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5D3515CF-D670-456A-8580-03AAA2277A11} = {14CE9437-6740-4F17-B439-808B315E41F1}
+		{BEA72E20-B3A6-44A0-9F8D-95EDA63C0D29} = {0AFA52AB-919F-4385-91B3-E69C96B1D4A0}
+		{EE3DBE23-AF0C-41B6-BB80-FE9B2C619B0B} = {0092D9C9-E65B-487D-9674-6884249931D7}
+		{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1} = {0092D9C9-E65B-487D-9674-6884249931D7}
+	EndGlobalSection
+EndGlobal
