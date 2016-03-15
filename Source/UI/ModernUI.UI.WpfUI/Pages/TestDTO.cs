@@ -5,11 +5,12 @@ using System.Text;
 
 namespace NugetWorkflow.UI.WpfUI.Pages
 {
-    public class TestDTO
+    public class GitRepoViewModelDTO
     {
-        public string Name { get; set; }
-        public int ID { get; set; }
-        public TestDTO()
+        public string Url { get; set; }
+        public int Username { get; set; }
+        public int Password { get; set; }
+        public GitRepoViewModelDTO()
         {
 
         }

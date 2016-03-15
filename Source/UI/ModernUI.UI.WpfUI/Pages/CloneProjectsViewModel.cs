@@ -8,9 +8,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages
 {
     public class CloneProjectsViewModel : NotifyPropertyChanged
     {
-        private List<TestDTO> testList;
+        private List<GitRepoViewModelDTO> testList;
 
-        public List<TestDTO> TestList
+        public List<GitRepoViewModelDTO> TestList
         {
             get
             {
@@ -25,8 +25,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages
 
         public CloneProjectsViewModel()
         {
-            testList = new List<TestDTO>();
-            testList.Add(new TestDTO() { Name = "test", ID=5 });
+            testList = new List<GitRepoViewModelDTO>();
+            testList.Add(new GitRepoViewModelDTO() { Url = "test" });
         }
     }
 }

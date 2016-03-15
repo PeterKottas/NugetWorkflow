@@ -27,5 +27,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings
             InitializeComponent();
             this.DataContext = new CloneProjectsViewModel();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var viewmodel = this.DataContext as CloneProjectsViewModel;
+        }
     }
 }

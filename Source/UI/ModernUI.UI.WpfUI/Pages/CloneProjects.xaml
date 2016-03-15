@@ -17,11 +17,31 @@
                     <TextBlock Text="CLONE PROJECTS" Style="{StaticResource Heading2}" />
 
 
-                    <DataGrid 
-                      AutoGenerateColumns="True"
-                      CanUserAddRows="True"
-                      CanUserDeleteRows="True"
-                      ItemsSource="{Binding TestList, Mode=TwoWay}"/>
+                <DataGrid 
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="True"
+                    CanUserDeleteRows="True"
+                    SelectionMode="Extended"
+                    SelectionUnit="Cell"
+                    ItemsSource="{Binding TestList, Mode=TwoWay}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Repo url" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Username" Binding="{Binding Username}" />
+                        <DataGridTemplateColumn Header="Password">
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <PasswordBox Name="PasswordBoxPass" Password="{Binding Password}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Click="Button_Click" Content="Test" Margin="5"></Button>
                 </StackPanel>
             </ScrollViewer>
         </Grid>
