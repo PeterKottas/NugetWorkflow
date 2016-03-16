@@ -14,14 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.Settings
+namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings
 {
     /// <summary>
     /// Interaction logic for General.xaml
     /// </summary>
-    public partial class General : UserControl
+    public partial class GeneralPage : UserControl
     {
-        public General()
+        public GeneralPage()
         {
             InitializeComponent();
         }

@@ -70,55 +70,56 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Controls\CustomPasswordBox.cs" />
+    <Compile Include="Pages\CloneProjects\Models\GitRepoStatusEnum.cs" />
+    <Compile Include="Utils\PasswordBoxHelper.cs" />
     <Compile Include="Extensions\SecureStringExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\Settings\General.xaml">
+    <Page Include="Pages\Settings\SubSettings\GeneralPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Settings\About.xaml">
+    <Page Include="Pages\Settings\SubSettings\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="Pages\CloneProjectsViewModel.cs" />
-    <Compile Include="Pages\Settings\General.xaml.cs">
-      <DependentUpon>General.xaml</DependentUpon>
+    <Compile Include="Pages\CloneProjects\CloneProjectsViewModel.cs" />
+    <Compile Include="Pages\Settings\SubSettings\GeneralPage.xaml.cs">
+      <DependentUpon>GeneralPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Settings\About.xaml.cs">
-      <DependentUpon>About.xaml</DependentUpon>
+    <Compile Include="Pages\Settings\SubSettings\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="Pages\Settings\Appearance.xaml">
+    <Page Include="Pages\Settings\SubSettings\AppearancePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="Pages\Settings\Appearance.xaml.cs">
-      <DependentUpon>Appearance.xaml</DependentUpon>
+    <Compile Include="Pages\Settings\SubSettings\AppearancePage.xaml.cs">
+      <DependentUpon>AppearancePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Settings\AppearanceViewModel.cs" />
-    <Page Include="Pages\Home.xaml">
+    <Compile Include="Pages\Settings\SubSettings\AppearanceViewModel.cs" />
+    <Page Include="Pages\Home\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\SettingsPage.xaml">
+    <Page Include="Pages\Settings\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="Pages\Home.xaml.cs">
-      <DependentUpon>Home.xaml</DependentUpon>
+    <Compile Include="Pages\Home\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SettingsPage.xaml.cs">
+    <Compile Include="Pages\Settings\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\CloneProjects.xaml.cs">
-      <DependentUpon>CloneProjects.xaml</DependentUpon>
+    <Compile Include="Pages\CloneProjects\CloneProjectsPage.xaml.cs">
+      <DependentUpon>CloneProjectsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TestDTO.cs" />
+    <Compile Include="Pages\CloneProjects\Models\GitRepoViewModelDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Page Include="Pages\CloneProjects.xaml">
+    <Page Include="Pages\CloneProjects\CloneProjectsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

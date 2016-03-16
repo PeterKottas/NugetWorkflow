@@ -17,13 +17,15 @@ using NugetWorkflow.UI.WpfUI.Pages;
 using NugetWorkflow.UI.WpfUI.Extensions;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Data;
+using NugetWorkflow.UI.WpfUI.Pages.CLoneProjects;
+using NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.Settings
+namespace NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects
 {
     /// <summary>
     /// Interaction logic for CloneProjects.xaml
     /// </summary>
-    public partial class CloneProjects : UserControl
+    public partial class CloneProjectsPage : UserControl
     {
         private CloneProjectsViewModel viewModel
         {
@@ -32,7 +34,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings
                 return this.DataContext as CloneProjectsViewModel;
             }
         }
-        public CloneProjects()
+
+        public CloneProjectsPage()
         {
             InitializeComponent();
             this.DataContext = new CloneProjectsViewModel();
@@ -42,7 +45,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings
         {
 
             var dlg = new CommonOpenFileDialog();
-            dlg.Title = "My Title";
+            dlg.Title = "Choose base path for your nuget solutions";
             dlg.IsFolderPicker = true;
 
             dlg.AddToMostRecentlyUsedList = false;
@@ -56,21 +59,20 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings
 
             if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                var folder = dlg.FileName;
-                // Do something with selected folder string
+                viewModel.BasePath = dlg.FileName;
             }
         }
 
         private void RemoveRow(object sender, RoutedEventArgs e)
         {
             var ID = (string)((Button)sender).CommandParameter;
-            var row = viewModel.TestList.Where(dto=>dto.Hash==ID).FirstOrDefault();
-            viewModel.TestList.Remove(row);
+            var row = viewModel.GitRepos.Where(dto => dto.Hash == ID).FirstOrDefault();
+            viewModel.GitRepos.Remove(row);
         }
 
         private void AddRow(object sender, RoutedEventArgs e)
         {
-            viewModel.TestList.Add(new GitRepoViewModelDTO());
+            viewModel.GitRepos.Add(new GitRepoViewModelDTO());
         }
     }
 }

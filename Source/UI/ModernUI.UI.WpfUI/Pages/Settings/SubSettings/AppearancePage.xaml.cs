@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.Settings
+namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings
 {
     /// <summary>
     /// Interaction logic for Appearance.xaml
     /// </summary>
-    public partial class Appearance : UserControl
+    public partial class AppearancePage : UserControl
     {
-        public Appearance()
+        public AppearancePage()
         {
             InitializeComponent();
 

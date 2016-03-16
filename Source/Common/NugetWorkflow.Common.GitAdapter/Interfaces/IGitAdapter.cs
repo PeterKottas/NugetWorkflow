@@ -9,6 +9,6 @@ namespace NugetWorkflow.Common.GitAdapter.Interfaces
 {
     public interface IGitAdapter
     {
-        public void CloneProjects(CloneProjectsRequestDTO request);
+        void CloneProjects(CloneProjectsRequestDTO request);
     }
 }

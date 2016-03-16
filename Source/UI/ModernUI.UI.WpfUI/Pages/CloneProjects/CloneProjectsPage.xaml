@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects"
+﻿<UserControl x:Class="NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects.CloneProjectsPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
-             xmlns:controls="clr-namespace:NugetWorkflow.UI.WpfUI.Controls"
+             xmlns:utils="clr-namespace:NugetWorkflow.UI.WpfUI.Utils"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -27,7 +27,7 @@
                     AutoGenerateColumns="False"
                     CanUserAddRows="false"
                     CanUserDeleteRows="false"
-                    ItemsSource="{Binding TestList, Mode=TwoWay}" >
+                    ItemsSource="{Binding GitRepos, Mode=TwoWay}" >
                     <DataGrid.Resources>
                         <ResourceDictionary>
                             <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
@@ -53,24 +53,24 @@
                         </ResourceDictionary>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Repo url">
+                        <DataGridTemplateColumn Header="Git repo url">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                    <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Username">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                    <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Password">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <PasswordBox Margin="{StaticResource DataGridCellMargin}" controls:PasswordBoxHelper.SecurePassword="{Binding LogonPassword, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                    <PasswordBox Margin="{StaticResource DataGridCellMargin}" utils:PasswordBoxHelper.SecurePassword="{Binding LogonPassword, UpdateSourceTrigger=PropertyChanged}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -81,8 +81,17 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Status">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Status, Mode=OneWay}" IsReadOnly="True"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
+                <TextBox Text="{Binding BasePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBlock Text="{Binding BasePath}"></TextBlock>
             </StackPanel>
         </ScrollViewer>
     </Grid>

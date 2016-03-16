@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using NugetWorkflow.UI.WpfUI.Extensions;
 
-namespace NugetWorkflow.UI.WpfUI.Controls
+namespace NugetWorkflow.UI.WpfUI.Utils
 {
 
     /// <summary>

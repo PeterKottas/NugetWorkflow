@@ -14,14 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NugetWorkflow.UI.WpfUI.Pages
+namespace NugetWorkflow.UI.WpfUI.Pages.Home
 {
     /// <summary>
     /// Interaction logic for Home.xaml
     /// </summary>
-    public partial class Home : UserControl
+    public partial class HomePage : UserControl
     {
-        public Home()
+        public HomePage()
         {
             InitializeComponent();
         }
@@ -41,12 +41,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages
 
         private void cloneButtonClick(object sender, RoutedEventArgs e)
         {
-            navigateToPage("/Pages/CloneProjects.xaml");
+            navigateToPage("/Pages/CloneProjects/CloneProjectsPage.xaml");
         }
 
         private void updatePackageClick(object sender, RoutedEventArgs e)
         {
-            navigateToPage("/Pages/UpdatePackage.xaml");
+            navigateToPage("/Pages/UpdatePackage/UpdatePackagePage.xaml");
         }
     }
 }

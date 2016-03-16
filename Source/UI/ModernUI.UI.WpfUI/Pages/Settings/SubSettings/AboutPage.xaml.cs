@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirstFloor.ModernUI.Windows.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,14 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NugetWorkflow.UI.WpfUI.Pages
+namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings
 {
     /// <summary>
-    /// Interaction logic for SettingsPage.xaml
+    /// Interaction logic for About.xaml
     /// </summary>
-    public partial class SettingsPage : UserControl
+    public partial class AboutPage : UserControl
     {
-        public SettingsPage()
+        public AboutPage()
         {
             InitializeComponent();
         }
