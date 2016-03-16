@@ -4,45 +4,86 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:controls="clr-namespace:NugetWorkflow.UI.WpfUI.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="MyItems" Source="{Binding Path=AllItems}"/>
+        <Thickness x:Key="ButtonMargin" >5</Thickness>
+        <Thickness x:Key="DataGridCellMargin" >3</Thickness>
     </UserControl.Resources>
-        
-        <Grid Style="{StaticResource ContentRoot}">
-            
-            <ScrollViewer>
-                <StackPanel MinWidth="200">
-                    <TextBlock Text="CLONE PROJECTS" Style="{StaticResource Heading2}" />
 
+    <Grid Style="{StaticResource ContentRoot}">
 
+        <ScrollViewer>
+            <StackPanel MinWidth="200">
+                <WrapPanel>
+                    <Button Content="Base folder" Click="ChooseBaseFolder" Margin="{StaticResource ButtonMargin}"/>
+                    <Button Content="Add repo" Margin="{StaticResource ButtonMargin}" Click="AddRow"/>
+                    <Button Content="Json" Margin="{StaticResource ButtonMargin}"/>
+                    <Button Content="Json clipboard" Margin="{StaticResource ButtonMargin}"/>
+                    <Button Content="Clone" Margin="{StaticResource ButtonMargin}"/>
+                </WrapPanel>
                 <DataGrid 
                     AutoGenerateColumns="False"
-                    CanUserAddRows="True"
-                    CanUserDeleteRows="True"
-                    SelectionMode="Extended"
-                    SelectionUnit="Cell"
-                    ItemsSource="{Binding TestList, Mode=TwoWay}">
+                    CanUserAddRows="false"
+                    CanUserDeleteRows="false"
+                    ItemsSource="{Binding TestList, Mode=TwoWay}" >
+                    <DataGrid.Resources>
+                        <ResourceDictionary>
+                            <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Background" Value="{x:Null}" />
+                                <Setter Property="BorderBrush" Value="{x:Null}" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{x:Null}" />
+                                        <Setter Property="BorderBrush" Value="{x:Null}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="{x:Null}" />
+                                <Setter Property="BorderBrush" Value="{x:Null}" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{x:Null}" />
+                                        <Setter Property="BorderBrush" Value="{x:Null}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ResourceDictionary>
+                    </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Repo url" Binding="{Binding Name}" />
-                        <DataGridTextColumn Header="Username" Binding="{Binding Username}" />
-                        <DataGridTemplateColumn Header="Password">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn Header="Repo url">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <PasswordBox Name="PasswordBoxPass" Password="{Binding Password}"/>
+                                    <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Url, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Username">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Password">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <PasswordBox Margin="{StaticResource DataGridCellMargin}" controls:PasswordBoxHelper.SecurePassword="{Binding LogonPassword, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Margin="{StaticResource DataGridCellMargin}" Content="Remove" Click="RemoveRow" CommandParameter="{Binding Hash}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button Click="Button_Click" Content="Test" Margin="5"></Button>
-                </StackPanel>
-            </ScrollViewer>
-        </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </UserControl>
