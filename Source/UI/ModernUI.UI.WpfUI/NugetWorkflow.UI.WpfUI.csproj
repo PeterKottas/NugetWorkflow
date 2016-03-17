@@ -70,7 +70,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Pages\CloneProjects\Models\GitRepoStatusEnum.cs" />
+    <Compile Include="Pages\CloneProjects\Converters\CloneStatusTextBoxStyleConverter.cs" />
+    <Compile Include="Pages\CloneProjects\Extensions\CloneStatusEnumExtensions.cs" />
+    <Compile Include="Pages\CloneProjects\Converters\CloneStatusConverter.cs" />
+    <Compile Include="Pages\CloneProjects\Models\CloneStatusEnum.cs" />
     <Compile Include="Utils\PasswordBoxHelper.cs" />
     <Compile Include="Extensions\SecureStringExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">

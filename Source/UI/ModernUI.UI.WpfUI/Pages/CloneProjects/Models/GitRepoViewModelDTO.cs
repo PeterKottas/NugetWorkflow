@@ -33,7 +33,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models
             {
                 url = value;
                 OnPropertyChanged("Url");
-                OnPropertyChanged("Status");
             }
         }
         
@@ -60,32 +59,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models
             {
                 password = value;
                 OnPropertyChanged("Password");
-            }
-        }
-
-        public string Status
-        {
-            get 
-            {
-                Uri uriResult;
-                bool result = Uri.TryCreate(Url, UriKind.Absolute, out uriResult);
-                if(result)
-                {
-                    var matchGroups = Regex.Match(Url, @"(?'protocol'git@|https?:\/\/)(?'domain'[a-zA-Z0-9\.\-_]+)(\/|:)(?'group'[a-zA-Z0-9\-]+)\/(?'project'[a-zA-Z0-9\-]+)\.git").Groups;
-                    if (matchGroups != null && matchGroups.Count>0)
-                    {
-                        var folderName = matchGroups[matchGroups.Count - 1].Value;
-                        return folderName;
-                    }
-                    else
-                    {
-                        return "Can't get repo name";
-                    }
-                }
-                else
-                {
-                    return "Wrong url format";
-                }
             }
         }
 

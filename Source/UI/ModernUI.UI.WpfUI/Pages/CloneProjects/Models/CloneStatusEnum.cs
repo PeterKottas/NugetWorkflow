@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models
 {
-    public enum GitRepoStatusEnum
+    public enum CloneStatusEnum
     {
-        WrongFormat,
+        WrongUrlFormat,
         BasePathUndefined,
-        AlreadyExists
+        AlreadyExists,
+        OK
     }
 }
