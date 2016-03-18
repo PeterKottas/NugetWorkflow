@@ -16,7 +16,7 @@
         <SolidColorBrush x:Key="StatusTextBoxWarning" Color="Yellow" />
     </UserControl.Resources>
 
-    <Grid Style="{StaticResource ContentRoot}" Margin="5,0,5,5">
+    <Grid Style="{StaticResource ContentRoot}" Margin="0,0,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -47,8 +47,10 @@
                     <WrapPanel>
                         <Button Content="Add one" Margin="{StaticResource ButtonMargin}" Click="AddRow"/>
                         <Button Content="Import Json" Margin="{StaticResource ButtonMargin}" Click="ImportJson"/>
-                        <Button Content="Export Json" Margin="{StaticResource ButtonMargin}" Click="ExportJson"/>
                         <Button Content="Json from clipboard" Margin="{StaticResource ButtonMargin}" Click="JsonFromClipboard"/>
+                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                        <Button Content="Export Json" Margin="{StaticResource ButtonMargin}" Click="ExportJson"/>
+                        <CheckBox Content="Include password" Margin="{StaticResource ButtonMargin}"></CheckBox>
                     </WrapPanel>
                 </GroupBox>
                 <GroupBox Header="Clone projects" Margin="5">
