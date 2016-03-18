@@ -10,6 +10,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models
     {
         WrongUrlFormat,
         BasePathUndefined,
+        BasePathWrongFormat,
         AlreadyExists,
         OK
     }

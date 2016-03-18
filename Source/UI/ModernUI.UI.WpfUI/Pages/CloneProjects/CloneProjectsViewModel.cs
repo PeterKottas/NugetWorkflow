@@ -12,8 +12,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.CLoneProjects
 {
     public class CloneProjectsViewModel : NotifyPropertyChanged
     {
+        static Func<string> BasePathFunc = () => basePath;
         private ObservableCollection<GitRepoViewModelDTO> gitRepos;
-        private string basePath;
+        private static string basePath;
 
         public string BasePath
         {

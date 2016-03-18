@@ -6,8 +6,7 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:utils="clr-namespace:NugetWorkflow.UI.WpfUI.Utils"
              xmlns:converters="clr-namespace:NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Converters"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="ButtonMargin" >5</Thickness>
         <Thickness x:Key="DataGridCellMargin" >3</Thickness>
@@ -17,22 +16,56 @@
         <SolidColorBrush x:Key="StatusTextBoxWarning" Color="Yellow" />
     </UserControl.Resources>
 
-    <Grid Style="{StaticResource ContentRoot}">
+    <Grid Style="{StaticResource ContentRoot}" Margin="5,0,5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel MinWidth="200">
+            <StackPanel>
+                <GroupBox Header="Base project path" Margin="5">
+                    <WrapPanel>
+                        <Button Content="Base folder" Click="ChooseBaseFolder" Margin="{StaticResource ButtonMargin}"/>
+                        <Grid Margin="{StaticResource ButtonMargin}">
+                            <TextBox Text="{Binding BasePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="BasePathTextBox" VerticalAlignment="Center"/>
+                            <TextBlock IsHitTestVisible="False" Text="Specify base path for nuget solution" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0" Foreground="DarkGray">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=BasePathTextBox}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Git repositories" Margin="5">
+                    <WrapPanel>
+                        <Button Content="Add one" Margin="{StaticResource ButtonMargin}" Click="AddRow"/>
+                        <Button Content="Import Json" Margin="{StaticResource ButtonMargin}" Click="ImportJson"/>
+                        <Button Content="Export Json" Margin="{StaticResource ButtonMargin}" Click="ExportJson"/>
+                        <Button Content="Json from clipboard" Margin="{StaticResource ButtonMargin}" Click="JsonFromClipboard"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Clone projects" Margin="5">
+                    <WrapPanel>
+                        <Button Content="Clone" Margin="{StaticResource ButtonMargin}"/>
+                    </WrapPanel>
+                </GroupBox>
 
-        <ScrollViewer>
-            <StackPanel MinWidth="200">
-                <WrapPanel>
-                    <Button Content="Base folder" Click="ChooseBaseFolder" Margin="{StaticResource ButtonMargin}"/>
-                    <Button Content="Add repo" Margin="{StaticResource ButtonMargin}" Click="AddRow"/>
-                    <Button Content="Json" Margin="{StaticResource ButtonMargin}"/>
-                    <Button Content="Json clipboard" Margin="{StaticResource ButtonMargin}"/>
-                    <Button Content="Clone" Margin="{StaticResource ButtonMargin}"/>
-                </WrapPanel>
+            </StackPanel>
+        </StackPanel>
+        <GroupBox Grid.Row="2" Header="Git repos to clone from" Margin="5">
+            <ScrollViewer Grid.Row="1" Margin="5">
                 <DataGrid 
                     AutoGenerateColumns="False"
                     CanUserAddRows="false"
                     CanUserDeleteRows="false"
-                    ItemsSource="{Binding GitRepos, Mode=TwoWay}" >
+                    ItemsSource="{Binding GitRepos, Mode=TwoWay}" Margin="5" >
                     <DataGrid.Resources>
                         <ResourceDictionary>
                             <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
@@ -79,6 +112,18 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Status">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Margin="{StaticResource DataGridCellMargin}" IsReadOnly="True" TextAlignment="Center">
+                                        <MultiBinding Converter="{StaticResource CloneStatusConverter}">
+                                            <Binding Path="Url" UpdateSourceTrigger="PropertyChanged"/>
+                                            <Binding Path="DataContext.BasePath" UpdateSourceTrigger="PropertyChanged" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
+                                        </MultiBinding>
+                                    </TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -86,33 +131,9 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Status">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Margin="{StaticResource DataGridCellMargin}" IsReadOnly="True">
-                                        <TextBox.Text>
-                                            <MultiBinding Converter="{StaticResource CloneStatusConverter}">
-                                                <Binding Path="Url" UpdateSourceTrigger="PropertyChanged"/>
-                                                <Binding Path="DataContext.BasePath" UpdateSourceTrigger="PropertyChanged" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
-                                            </MultiBinding>
-                                        </TextBox.Text>
-                                        <TextBox.Foreground>
-                                            <MultiBinding Converter="{StaticResource CloneStatusTextBoxStyleConverter}">
-                                                <Binding Path="Url" UpdateSourceTrigger="PropertyChanged"/>
-                                                <Binding Path="DataContext.BasePath" UpdateSourceTrigger="PropertyChanged" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
-                                                <Binding Source="{StaticResource StatusTextBoxOK}"/>
-                                                <Binding Source="{StaticResource StatusTextBoxWarning}"/>
-                                            </MultiBinding>
-                                        </TextBox.Foreground>
-                                    </TextBox>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <TextBox Text="{Binding BasePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                <TextBlock Text="{Binding BasePath}"></TextBlock>
-            </StackPanel>
-        </ScrollViewer>
+            </ScrollViewer>
+        </GroupBox>
     </Grid>
 </UserControl>

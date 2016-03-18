@@ -21,6 +21,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Extensions
                     return "Already exists";
                 case CloneStatusEnum.OK:
                     return "Ok";
+                case CloneStatusEnum.BasePathWrongFormat:
+                    return "Base path incorrect";
                 default:
                     return "Unknown";
             }

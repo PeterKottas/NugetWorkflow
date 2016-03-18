@@ -23,6 +23,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Converters
             {
                 return CloneStatusEnum.BasePathUndefined.ToUserFriendlyMessage();
             }
+            try 
+	        {
+                Path.GetFullPath(basePath);
+	        }
+	        catch (Exception)
+	        {
+                return CloneStatusEnum.BasePathWrongFormat.ToUserFriendlyMessage();
+	        }
 
             Uri uriResult;
             bool result = Uri.TryCreate(repoUrl, UriKind.Absolute, out uriResult);

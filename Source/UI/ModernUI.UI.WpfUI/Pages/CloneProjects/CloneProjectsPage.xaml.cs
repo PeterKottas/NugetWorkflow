@@ -74,5 +74,19 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects
         {
             viewModel.GitRepos.Add(new GitRepoViewModelDTO());
         }
+
+        private void ImportJson(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExportJson(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void JsonFromClipboard(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }
