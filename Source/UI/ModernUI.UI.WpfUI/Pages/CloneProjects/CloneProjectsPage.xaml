@@ -23,34 +23,22 @@
         </Grid.RowDefinitions>
         <StackPanel MinWidth="200">
             <StackPanel>
-                <GroupBox Header="Base project path" Margin="5">
-                    <WrapPanel>
-                        <Button Content="Base folder" Click="ChooseBaseFolder" Margin="{StaticResource ButtonMargin}"/>
-                        <Grid Margin="{StaticResource ButtonMargin}">
-                            <TextBox Text="{Binding BasePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="BasePathTextBox" VerticalAlignment="Center"/>
-                            <TextBlock IsHitTestVisible="False" Text="Specify base path for nuget solution" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0" Foreground="DarkGray">
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Text, ElementName=BasePathTextBox}" Value="">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </Grid>
-                    </WrapPanel>
-                </GroupBox>
                 <GroupBox Header="Git repositories" Margin="5">
                     <WrapPanel>
-                        <Button Content="Add one" Margin="{StaticResource ButtonMargin}" Click="AddRow"/>
-                        <Button Content="Import Json" Margin="{StaticResource ButtonMargin}" Click="ImportJson"/>
-                        <Button Content="Json from clipboard" Margin="{StaticResource ButtonMargin}" Click="JsonFromClipboard"/>
-                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                        <Button Content="Export Json" Margin="{StaticResource ButtonMargin}" Click="ExportJson"/>
-                        <CheckBox Content="Include password" Margin="{StaticResource ButtonMargin}"></CheckBox>
+                        <GroupBox Header="Edit" Margin="5">
+                            <WrapPanel>
+                                <Button Content="Add one" Margin="{StaticResource ButtonMargin}" Click="AddRow"/>
+                                <Button Content="Import Json" Margin="{StaticResource ButtonMargin}"/>
+                                <Button Content="Json from clipboard" Margin="{StaticResource ButtonMargin}"/>
+                            </WrapPanel>
+                        </GroupBox>
+                        <GroupBox Header="{Binding ExportHeader}" Margin="5">
+                            <WrapPanel>
+                                <Button Content="Export Json" Margin="{StaticResource ButtonMargin}" Command="{Binding ExportJsonCommand}"/>
+                                <Button Content="Json to clipboard" Margin="{StaticResource ButtonMargin}" Command="{Binding ExportJsonClipboardCommand}"/>
+                                <CheckBox Content="Include password" IsChecked="{Binding IncludePassword, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource ButtonMargin}"/>
+                            </WrapPanel>
+                        </GroupBox>
                     </WrapPanel>
                 </GroupBox>
                 <GroupBox Header="Clone projects" Margin="5">
@@ -110,7 +98,7 @@
                         <DataGridTemplateColumn Header="Password">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <PasswordBox Margin="{StaticResource DataGridCellMargin}" utils:PasswordBoxHelper.SecurePassword="{Binding LogonPassword, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <PasswordBox Margin="{StaticResource DataGridCellMargin}" utils:PasswordBoxHelper.SecurePassword="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -120,7 +108,7 @@
                                     <TextBox Margin="{StaticResource DataGridCellMargin}" IsReadOnly="True" TextAlignment="Center">
                                         <MultiBinding Converter="{StaticResource CloneStatusConverter}">
                                             <Binding Path="Url" UpdateSourceTrigger="PropertyChanged"/>
-                                            <Binding Path="DataContext.BasePath" UpdateSourceTrigger="PropertyChanged" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
+                                            <Binding Path="DataContext.homeViewModel.BasePath" UpdateSourceTrigger="PropertyChanged" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
                                         </MultiBinding>
                                     </TextBox>
                                 </DataTemplate>

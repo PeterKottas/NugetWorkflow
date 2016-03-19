@@ -5,13 +5,39 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
+             xmlns:autofac="clr-namespace:Autofac;assembly=Autofac"
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Thickness x:Key="ButtonMargin" >5</Thickness>
+    </UserControl.Resources>
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
-            <WrapPanel MinWidth="200">
-                <mui:ModernButton Click="cloneButtonClick" Margin="5,5,5,5">Clone projects</mui:ModernButton>
-                <mui:ModernButton Click="updatePackageClick" Margin="5,5,5,5">Update packages</mui:ModernButton>
-            </WrapPanel>
+            <StackPanel>
+                <GroupBox Header="Base project path" Margin="5">
+                    <WrapPanel>
+                        <Button Content="Base folder" Click="ChooseBaseFolder" Margin="{StaticResource ButtonMargin}"/>
+                        <Grid Margin="{StaticResource ButtonMargin}">
+                            <TextBox Text="{Binding BasePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="BasePathTextBox" VerticalAlignment="Center"/>
+                            <TextBlock IsHitTestVisible="False" Text="Specify base path for nuget solution" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0" Foreground="DarkGray">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=BasePathTextBox}" Value="">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </WrapPanel>
+                </GroupBox>
+                <WrapPanel MinWidth="200">
+                    <mui:ModernButton Click="cloneButtonClick" Margin="5,5,5,5">Clone projects</mui:ModernButton>
+                    <mui:ModernButton Click="updatePackageClick" Margin="5,5,5,5">Update packages</mui:ModernButton>
+                </WrapPanel>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </UserControl>

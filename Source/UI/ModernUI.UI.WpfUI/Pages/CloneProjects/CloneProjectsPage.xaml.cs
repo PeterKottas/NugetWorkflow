@@ -19,6 +19,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Data;
 using NugetWorkflow.UI.WpfUI.Pages.CLoneProjects;
 using NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models;
+using Autofac;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects
 {
@@ -27,6 +28,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects
     /// </summary>
     public partial class CloneProjectsPage : UserControl
     {
+        private IContainer container;
         private CloneProjectsViewModel viewModel
         {
             get
@@ -35,32 +37,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects
             }
         }
 
+
         public CloneProjectsPage()
         {
             InitializeComponent();
-            this.DataContext = new CloneProjectsViewModel();
-        }
-
-        private void ChooseBaseFolder(object sender, RoutedEventArgs e)
-        {
-
-            var dlg = new CommonOpenFileDialog();
-            dlg.Title = "Choose base path for your nuget solutions";
-            dlg.IsFolderPicker = true;
-
-            dlg.AddToMostRecentlyUsedList = false;
-            dlg.AllowNonFileSystemItems = false;
-            dlg.EnsureFileExists = true;
-            dlg.EnsurePathExists = true;
-            dlg.EnsureReadOnly = false;
-            dlg.EnsureValidNames = true;
-            dlg.Multiselect = false;
-            dlg.ShowPlacesList = true;
-
-            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                viewModel.BasePath = dlg.FileName;
-            }
+            container = ((App)Application.Current).Container;
+            this.DataContext = container.Resolve<CloneProjectsViewModel>();
         }
 
         private void RemoveRow(object sender, RoutedEventArgs e)
@@ -73,20 +55,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects
         private void AddRow(object sender, RoutedEventArgs e)
         {
             viewModel.GitRepos.Add(new GitRepoViewModelDTO());
-        }
-
-        private void ImportJson(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ExportJson(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void JsonFromClipboard(object sender, RoutedEventArgs e)
-        {
         }
     }
 }
