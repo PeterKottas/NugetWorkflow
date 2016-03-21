@@ -1,6 +1,6 @@
-﻿using Autofac;
-using FirstFloor.ModernUI.Presentation;
+﻿using FirstFloor.ModernUI.Presentation;
 using Microsoft.Win32;
+using NugetWorkflow.UI.WpfUI.Common.Interfaces;
 using NugetWorkflow.UI.WpfUI.Extensions;
 using NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models;
 using NugetWorkflow.UI.WpfUI.Pages.Home;
@@ -17,7 +17,7 @@ using System.Windows;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.CLoneProjects
 {
-    public class CloneProjectsViewModel : NotifyPropertyChanged
+    public class CloneProjectsViewModel : NotifyPropertyChanged, IView
     {
         private JavaScriptSerializer serializer;
         private ObservableCollection<GitRepoViewModelDTO> gitRepos;
@@ -113,9 +113,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.CLoneProjects
 
         public HomePageViewModel homeViewModel { get; set; }
 
-        public CloneProjectsViewModel(HomePageViewModel homeViewModel)
+        public CloneProjectsViewModel()
         {
-            this.homeViewModel = homeViewModel;
+            this.homeViewModel = ViewModelService.GetViewModel<HomePageViewModel>();
             gitRepos = new ObservableCollection<GitRepoViewModelDTO>();
             gitRepos.Add(new GitRepoViewModelDTO() { Url = "https://github.com/cloudera/repository-example.git", });
             ExportJsonCommand = new RelayCommand(ExportJsonExecute, ExportJsonCanExecute);

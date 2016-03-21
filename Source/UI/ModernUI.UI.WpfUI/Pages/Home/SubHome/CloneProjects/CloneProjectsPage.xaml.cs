@@ -19,7 +19,8 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Data;
 using NugetWorkflow.UI.WpfUI.Pages.CLoneProjects;
 using NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models;
-using Autofac;
+using NugetWorkflow.UI.WpfUI.Common.Base;
+using NugetWorkflow.UI.WpfUI.Utils;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects
 {
@@ -28,7 +29,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects
     /// </summary>
     public partial class CloneProjectsPage : UserControl
     {
-        private IContainer container;
         private CloneProjectsViewModel viewModel
         {
             get
@@ -41,8 +41,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects
         public CloneProjectsPage()
         {
             InitializeComponent();
-            container = ((App)Application.Current).Container;
-            this.DataContext = container.Resolve<CloneProjectsViewModel>();
+            //container = ((App)Application.Current).Container;
+            this.DataContext = ViewModelService.GetViewModel<CloneProjectsViewModel>();
         }
 
         private void RemoveRow(object sender, RoutedEventArgs e)

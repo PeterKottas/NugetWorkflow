@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using NugetWorkflow.UI.WpfUI.Common.Exceptions;
+using NugetWorkflow.UI.WpfUI.Common.Interfaces;
 using NugetWorkflow.UI.WpfUI.Pages.CLoneProjects;
 using NugetWorkflow.UI.WpfUI.Pages.Home;
 using System;
@@ -16,14 +17,33 @@ namespace NugetWorkflow.UI.WpfUI
     /// </summary>
     public partial class App : Application
     {
-        public IContainer Container { get; private set; }
+        private Dictionary<Type, object> viewDictionary;
+        public RET GetView<RET>()
+        {
+            var contains = viewDictionary.Keys.Contains(typeof(RET));
+            if (!contains)
+            {
+                throw new MissingViewException(string.Format("{0} is missing or does not implement {1} interface.", typeof(RET).FullName, typeof(IView).FullName));
+            }
+            return (RET)viewDictionary[typeof(RET)];
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
-            var builder = new ContainerBuilder();
-            builder.RegisterType<HomePageViewModel>().SingleInstance();
-            builder.RegisterType<CloneProjectsViewModel>().SingleInstance();
-            Container = builder.Build();
+            SetupViewDictionary();
+        }
+
+        private void SetupViewDictionary()
+        {
+            viewDictionary = new Dictionary<Type, object>();
+            var viewInterface = typeof(IView);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => viewInterface.IsAssignableFrom(p) && p != viewInterface);
+            foreach (var type in types)
+            {
+                viewDictionary.Add(type, Activator.CreateInstance(type));
+            }
         }
     }
 }

@@ -31,10 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Solution\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="FirstFloor.ModernUI, Version=1.0.8.0, Culture=neutral, PublicKeyToken=bc9b0c37bf06c6a9, processorArchitecture=MSIL">
       <HintPath>..\..\..\Solution\packages\ModernUI.WPF.1.0.8\lib\net45\FirstFloor.ModernUI.dll</HintPath>
       <Private>True</Private>
@@ -71,21 +67,32 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Pages\Home\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ViewModelService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Pages\CloneProjects\Converters\CloneStatusTextBoxStyleConverter.cs" />
-    <Compile Include="Pages\CloneProjects\Extensions\CloneStatusEnumExtensions.cs" />
-    <Compile Include="Pages\CloneProjects\Converters\CloneStatusConverter.cs" />
-    <Compile Include="Pages\CloneProjects\Models\CloneStatusEnum.cs" />
-    <Compile Include="Pages\Home\HomePageViewModel.cs" />
+    <Compile Include="Common\Base\BaseException.cs" />
+    <Compile Include="Common\Exceptions\MissingViewException.cs" />
+    <Compile Include="Common\Interfaces\IView.cs" />
+    <Compile Include="Pages\Home\SubHome\CloneProjects\Converters\CloneStatusTextBoxStyleConverter.cs" />
+    <Compile Include="Pages\Home\SubHome\CloneProjects\Extensions\CloneStatusEnumExtensions.cs" />
+    <Compile Include="Pages\Home\SubHome\CloneProjects\Converters\CloneStatusConverter.cs" />
+    <Compile Include="Pages\Home\SubHome\CloneProjects\Models\CloneStatusEnum.cs" />
+    <Compile Include="Pages\Home\SubHome\BaseSetup\HomePageViewModel.cs" />
     <Compile Include="Utils\PasswordBoxHelper.cs" />
     <Compile Include="Extensions\SecureStringExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\Home\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\Settings\SubSettings\GeneralPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -94,7 +101,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="Pages\CloneProjects\CloneProjectsViewModel.cs" />
+    <Compile Include="Pages\Home\SubHome\CloneProjects\CloneProjectsViewModel.cs" />
     <Compile Include="Pages\Settings\SubSettings\GeneralPage.xaml.cs">
       <DependentUpon>GeneralPage.xaml</DependentUpon>
     </Compile>
@@ -109,7 +116,7 @@
       <DependentUpon>AppearancePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Settings\SubSettings\AppearanceViewModel.cs" />
-    <Page Include="Pages\Home\HomePage.xaml">
+    <Page Include="Pages\Home\SubHome\BaseSetup\BaseSetupPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -117,24 +124,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="Pages\Home\HomePage.xaml.cs">
-      <DependentUpon>HomePage.xaml</DependentUpon>
+    <Compile Include="Pages\Home\SubHome\BaseSetup\BaseSetupPage.xaml.cs">
+      <DependentUpon>BaseSetupPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Settings\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\CloneProjects\CloneProjectsPage.xaml.cs">
+    <Compile Include="Pages\Home\SubHome\CloneProjects\CloneProjectsPage.xaml.cs">
       <DependentUpon>CloneProjectsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\CloneProjects\Models\GitRepoViewModelDTO.cs" />
+    <Compile Include="Pages\Home\SubHome\CloneProjects\Models\GitRepoViewModelDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Page Include="Pages\CloneProjects\CloneProjectsPage.xaml">
+    <Page Include="Pages\Home\SubHome\CloneProjects\CloneProjectsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Controls\TextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Controls\TabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\NuggetWorkflow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
