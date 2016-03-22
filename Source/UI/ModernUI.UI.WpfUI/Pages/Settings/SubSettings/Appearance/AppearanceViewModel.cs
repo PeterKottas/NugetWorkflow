@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings
+namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
 {
     /// <summary>
     /// A simple view model for configuring theme, font and accent colors.

@@ -1,5 +1,4 @@
-﻿using NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Extensions;
-using NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models;
+﻿using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,8 +8,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Extensions;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Converters
+namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Converters
 {
     public class CloneStatusConverter : IMultiValueConverter
     {

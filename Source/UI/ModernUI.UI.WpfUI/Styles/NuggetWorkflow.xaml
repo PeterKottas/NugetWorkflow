@@ -6,6 +6,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Controls/TabControl.xaml" />
         <ResourceDictionary Source="Controls/TextBlock.xaml" />
+        <ResourceDictionary Source="Controls/DataGrid.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <Thickness x:Key="ContentMargin">0</Thickness>
     <Style x:Key="ContentRoot" TargetType="FrameworkElement">

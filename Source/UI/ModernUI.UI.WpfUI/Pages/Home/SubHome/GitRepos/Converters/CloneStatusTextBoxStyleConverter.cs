@@ -1,7 +1,4 @@
-﻿using NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Extensions;
-using NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models;
-using NugetWorkflow.UI.WpfUI.Pages.CLoneProjects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -13,7 +10,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Converters
+namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Converters
 {
     public class CloneStatusTextBoxStyleConverter : IMultiValueConverter
     {

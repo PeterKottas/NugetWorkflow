@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="NugetWorkflow.UI.WpfUI.Pages.Settings.CloneProjects.CloneProjectsPage"
+﻿<UserControl x:Class="NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone.ClonePage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:utils="clr-namespace:NugetWorkflow.UI.WpfUI.Utils"
-             xmlns:converters="clr-namespace:NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Converters"
+             xmlns:converters="clr-namespace:NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Converters"
              mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="ButtonMargin" >5</Thickness>
@@ -20,30 +20,23 @@
         </Grid.RowDefinitions>
         <StackPanel MinWidth="200">
             <StackPanel>
-                <GroupBox Header="Git repositories" Margin="5">
-                    <WrapPanel>
-                        <GroupBox Header="Edit" Margin="5">
-                            <WrapPanel>
-                                <Button Content="Add one" Margin="{StaticResource ButtonMargin}" Click="AddRow"/>
-                                <Button Content="Import Json" Margin="{StaticResource ButtonMargin}"/>
-                                <Button Content="Json from clipboard" Margin="{StaticResource ButtonMargin}"/>
-                            </WrapPanel>
-                        </GroupBox>
-                        <GroupBox Header="{Binding ExportHeader,FallbackValue=Export json}" Margin="5">
-                            <WrapPanel>
-                                <Button Content="Export Json" Margin="{StaticResource ButtonMargin}" Command="{Binding ExportJsonCommand}"/>
-                                <Button Content="Json to clipboard" Margin="{StaticResource ButtonMargin}" Command="{Binding ExportJsonClipboardCommand}"/>
-                                <CheckBox Content="Include password" IsChecked="{Binding IncludePassword, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource ButtonMargin}"/>
-                            </WrapPanel>
-                        </GroupBox>
-                    </WrapPanel>
-                </GroupBox>
-                <GroupBox Header="Clone projects" Margin="5">
-                    <WrapPanel>
-                        <Button Content="Clone" Margin="{StaticResource ButtonMargin}"/>
-                    </WrapPanel>
-                </GroupBox>
-
+                <TextBlock Text="Git repos" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
+                <WrapPanel>
+                    <GroupBox Header="Edit" Margin="5">
+                        <WrapPanel>
+                            <Button Content="Add one" Margin="{StaticResource ButtonMargin}"/>
+                            <Button Content="Import Json" Margin="{StaticResource ButtonMargin}"/>
+                            <Button Content="Json from clipboard" Margin="{StaticResource ButtonMargin}"/>
+                        </WrapPanel>
+                    </GroupBox>
+                    <GroupBox Header="{Binding ExportHeader,FallbackValue=Export json}" Margin="5">
+                        <WrapPanel>
+                            <Button Content="Export Json" Margin="{StaticResource ButtonMargin}" Command="{Binding ExportJsonCommand}"/>
+                            <Button Content="Json to clipboard" Margin="{StaticResource ButtonMargin}" Command="{Binding ExportJsonClipboardCommand}"/>
+                            <CheckBox Content="Include password" IsChecked="{Binding IncludePassword, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource ButtonMargin}"/>
+                        </WrapPanel>
+                    </GroupBox>
+                </WrapPanel>
             </StackPanel>
         </StackPanel>
         <GroupBox Grid.Row="2" Header="Git repos to clone from" Margin="5">
@@ -52,31 +45,14 @@
                     CanUserAddRows="false"
                     CanUserDeleteRows="false"
                     ItemsSource="{Binding GitRepos, Mode=TwoWay}" Margin="5" >
-                <DataGrid.Resources>
-                    <ResourceDictionary>
-                        <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Background" Value="{x:Null}" />
-                            <Setter Property="BorderBrush" Value="{x:Null}" />
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="{x:Null}" />
-                                    <Setter Property="BorderBrush" Value="{x:Null}" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style TargetType="{x:Type DataGridRow}">
-                            <Setter Property="Background" Value="{x:Null}" />
-                            <Setter Property="BorderBrush" Value="{x:Null}" />
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="{x:Null}" />
-                                    <Setter Property="BorderBrush" Value="{x:Null}" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ResourceDictionary>
-                </DataGrid.Resources>
                 <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Margin="{StaticResource DataGridCellMargin}" Content="X" Command="{Binding RelativeSource = {RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=RemoveRowCommand}" CommandParameter="{Binding Hash}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Git repo url">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -98,6 +74,13 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Cred. override">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Margin="{StaticResource DataGridCellMargin}" IsChecked="{Binding UseOverrideCredentials}" HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Status">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -107,13 +90,6 @@
                                         <Binding Path="DataContext.homeViewModel.BasePath" UpdateSourceTrigger="PropertyChanged" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
                                     </MultiBinding>
                                 </TextBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Margin="{StaticResource DataGridCellMargin}" Content="Remove" Click="RemoveRow" CommandParameter="{Binding Hash}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

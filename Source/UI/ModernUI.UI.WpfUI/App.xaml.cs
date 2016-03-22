@@ -1,6 +1,5 @@
 ﻿using NugetWorkflow.UI.WpfUI.Common.Exceptions;
 using NugetWorkflow.UI.WpfUI.Common.Interfaces;
-using NugetWorkflow.UI.WpfUI.Pages.CLoneProjects;
 using NugetWorkflow.UI.WpfUI.Pages.Home;
 using System;
 using System.Collections.Generic;

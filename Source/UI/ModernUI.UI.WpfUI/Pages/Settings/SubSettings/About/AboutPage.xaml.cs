@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings
+namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.About
 {
     /// <summary>
     /// Interaction logic for About.xaml

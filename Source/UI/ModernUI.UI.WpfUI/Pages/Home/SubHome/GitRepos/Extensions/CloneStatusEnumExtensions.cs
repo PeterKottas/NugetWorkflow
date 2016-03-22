@@ -1,11 +1,11 @@
-﻿using NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models;
+﻿using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Extensions
+namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Extensions
 {
     public static class CloneStatusEnumExtensions
     {

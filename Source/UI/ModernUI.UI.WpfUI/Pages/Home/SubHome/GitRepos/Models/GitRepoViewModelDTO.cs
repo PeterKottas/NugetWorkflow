@@ -6,7 +6,7 @@ using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models
+namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 {
     public class GitRepoViewModelDTO : NotifyPropertyChanged
     {
@@ -14,6 +14,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models
         private string url;
         private string username;
         private string hash;
+        private bool useOverrideCredentials;
         
         public string Hash
         {
@@ -62,9 +63,23 @@ namespace NugetWorkflow.UI.WpfUI.Pages.CloneProjects.Models
             }
         }
 
+        public bool UseOverrideCredentials
+        {
+            get
+            {
+                return useOverrideCredentials;
+            }
+            set
+            {
+                useOverrideCredentials = value;
+                OnPropertyChanged("UseOverrideCredentials");
+            }
+        }
+
         public GitRepoViewModelDTO()
         {
             hash = Guid.NewGuid().ToString();
+            useOverrideCredentials = true;
         }
     }
 }

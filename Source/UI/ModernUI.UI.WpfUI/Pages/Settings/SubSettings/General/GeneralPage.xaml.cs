@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirstFloor.ModernUI.Windows.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +14,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings
+namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
 {
     /// <summary>
-    /// Interaction logic for Appearance.xaml
+    /// Interaction logic for General.xaml
     /// </summary>
-    public partial class AppearancePage : UserControl
+    public partial class GeneralPage : UserControl
     {
-        public AppearancePage()
+        public GeneralPage()
         {
             InitializeComponent();
-
-            // create and assign the appearance view model
-            this.DataContext = new AppearanceViewModel();
         }
     }
 }
