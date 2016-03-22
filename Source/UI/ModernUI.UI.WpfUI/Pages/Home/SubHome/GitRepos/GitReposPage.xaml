@@ -36,6 +36,26 @@
                             <CheckBox Content="Include password" IsChecked="{Binding IncludePassword, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource ButtonMargin}"/>
                         </WrapPanel>
                     </GroupBox>
+                    <GroupBox Header="Credentials override" Margin="5">
+                        <WrapPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="5,10" Text="Username :" VerticalAlignment="Center"/>
+                                <TextBox Margin="{StaticResource ButtonMargin}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="5,10" Text="Password :" VerticalAlignment="Center"/>
+                                <PasswordBox Margin="{StaticResource ButtonMargin}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
+                            </Grid>
+                        </WrapPanel>
+                    </GroupBox>
                 </WrapPanel>
             </StackPanel>
         </StackPanel>
