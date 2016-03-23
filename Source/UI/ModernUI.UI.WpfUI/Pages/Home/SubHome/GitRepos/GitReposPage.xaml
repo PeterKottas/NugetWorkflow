@@ -6,11 +6,14 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:utils="clr-namespace:NugetWorkflow.UI.WpfUI.Utils"
              xmlns:converters="clr-namespace:NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Converters"
+             xmlns:DTOs="clr-namespace:NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Shared.DTOs"
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="ButtonMargin" >5</Thickness>
         <Thickness x:Key="DataGridCellMargin" >3</Thickness>
         <converters:CloneStatusConverter x:Key="CloneStatusConverter" />
+        <converters:CredentialsOverrideConverter x:Key="CredentialsOverrideConverter" />
     </UserControl.Resources>
 
     <Grid Style="{StaticResource ContentRoot}" >
@@ -44,7 +47,7 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Margin="5,10" Text="Username :" VerticalAlignment="Center"/>
-                                <TextBox Margin="{StaticResource ButtonMargin}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
+                                <TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding OveridenUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -83,21 +86,21 @@
                     <DataGridTemplateColumn Header="Username">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Username}" Visibility="{Binding UseOverrideCredentials, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Password">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <PasswordBox Margin="{StaticResource DataGridCellMargin}" utils:PasswordBoxHelper.SecurePassword="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
+                                <PasswordBox Margin="{StaticResource DataGridCellMargin}" utils:PasswordBoxHelper.SecurePassword="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding UseOverrideCredentials, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Cred. override">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox Margin="{StaticResource DataGridCellMargin}" IsChecked="{Binding UseOverrideCredentials}" HorizontalAlignment="Center"/>
+                                <CheckBox Margin="{StaticResource DataGridCellMargin}" IsChecked="{Binding UseOverrideCredentials, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

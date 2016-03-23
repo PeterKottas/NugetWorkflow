@@ -1,10 +1,10 @@
 ﻿using FirstFloor.ModernUI.Presentation;
 using Microsoft.Win32;
 using NugetWorkflow.UI.WpfUI.Common.Interfaces;
-using NugetWorkflow.UI.WpfUI.Extensions;
+using NugetWorkflow.UI.WpfUI.Common.Extensions;
 using NugetWorkflow.UI.WpfUI.Pages.Home;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup;
-using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
+using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Shared.DTOs;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Collections.Generic;
@@ -18,18 +18,34 @@ using System.Windows;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 {
-    public class GitReposModel : NotifyPropertyChanged, IView
+    public class GitReposViewModel : NotifyPropertyChanged, IView
     {
         private JavaScriptSerializer serializer;
-        private ObservableCollection<GitRepoViewModelDTO> gitRepos;
+        private ObservableCollection<GitRepoDTO> gitRepos;
         private bool includePassword = false;
+        private string overidenUsername = string.Empty;
         public RelayCommand ExportJsonCommand { get; set; }
         public RelayCommand ExportJsonClipboardCommand { get; set; }
         public RelayCommand ImportJsonCommand { get; set; }
         public RelayCommand ImportJsonClipboardCommand { get; set; }
         public RelayCommand AddRowCommand { get; set; }
         public RelayCommand RemoveRowCommand { get; set; }
-
+        
+        public string OveridenUsername
+        {
+            get
+            {
+                return overidenUsername;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    overidenUsername = value;
+                    OnPropertyChanged("OveridenUsername");
+                }
+            }
+        }
 
         public bool IncludePassword
         {
@@ -49,11 +65,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         {
             get
             {
-                return !IncludePassword ? "Export Json" : "Export Json - Passwords are unencrypted!";
+                return !IncludePassword ? "Export Json" : "Export Json - Encryption isn't perfect for now!";
             }
         }
 
-        public ObservableCollection<GitRepoViewModelDTO> GitRepos
+        public ObservableCollection<GitRepoDTO> GitRepos
         {
             get
             {
@@ -70,42 +86,35 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         {
             if (gitRepos != null && gitRepos.Count > 0)
             {
-                var list = new List<dynamic>();
-                foreach (var item in gitRepos)
-                {
-                    var password = item.Password.ToUnsecuredString();
-                    if (IncludePassword)
-                    {
-                        list.Add(new { item.Url, item.Username, password, item.UseOverrideCredentials});
-                    }
-                    else
-                    {
-                        list.Add(new { item.Url, item.Username, item.UseOverrideCredentials });
-                    }
-                }
-                var Json = serializer.Serialize(list);
+                var Json = GetJson();
                 Clipboard.SetText(Json);
             }
+        }
+
+        private string GetJson()
+        {
+            var list = new List<dynamic>();
+            foreach (var item in gitRepos)
+            {
+                var password = item.Password.ToUnsecuredString().Protect();
+                if (IncludePassword)
+                {
+                    list.Add(new { item.Url, item.Username, password, item.UseOverrideCredentials });
+                }
+                else
+                {
+                    list.Add(new { item.Url, item.Username, item.UseOverrideCredentials });
+                }
+            }
+            var Json = serializer.Serialize(list);
+            return Json;
         }
 
         private void ExportJsonExecute(object parameter)
         {
             if (gitRepos != null && gitRepos.Count > 0)
             {
-                var list = new List<dynamic>();
-                foreach (var item in gitRepos)
-	            {
-                    var password = item.Password.ToUnsecuredString();
-                    if (IncludePassword)
-                    {
-                        list.Add(new { item.Url, item.Username, password, item.UseOverrideCredentials });
-                    }
-                    else
-                    {
-                        list.Add(new { item.Url, item.Username, item.UseOverrideCredentials });
-                    }
-	            }
-                var Json = serializer.Serialize(list);
+                var Json = GetJson();
                 var saveFileDialog = new SaveFileDialog();
                 saveFileDialog.FileName = "GitReposJson"; // Default file name
                 saveFileDialog.DefaultExt = ".txt"; // Default file extension
@@ -129,11 +138,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 
         public BaseSetupViewModel homeViewModel { get; set; }
 
-        public GitReposModel()
+        public GitReposViewModel()
         {
             this.homeViewModel = ViewModelService.GetViewModel<BaseSetupViewModel>();
-            gitRepos = new ObservableCollection<GitRepoViewModelDTO>();
-            gitRepos.Add(new GitRepoViewModelDTO() { Url = "https://github.com/cloudera/repository-example.git", });
+            gitRepos = new ObservableCollection<GitRepoDTO>();
+            gitRepos.Add(new GitRepoDTO() { Url = "https://github.com/cloudera/repository-example.git", });
             ExportJsonCommand = new RelayCommand(ExportJsonExecute, ExportJsonCanExecute);
             ExportJsonClipboardCommand = new RelayCommand(ExportJsonClipboardExecute, ExportJsonCanExecute);
             RemoveRowCommand = new RelayCommand(RemoveRowExecute);
@@ -143,7 +152,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 
         private void AddRowExectue(object obj)
         {
-            GitRepos.Add(new GitRepoViewModelDTO());
+            GitRepos.Add(new GitRepoDTO());
         }
 
         private void RemoveRowExecute(object obj)

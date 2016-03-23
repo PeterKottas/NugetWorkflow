@@ -1,9 +1,4 @@
-﻿using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Shared.Enums;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Extensions
 {

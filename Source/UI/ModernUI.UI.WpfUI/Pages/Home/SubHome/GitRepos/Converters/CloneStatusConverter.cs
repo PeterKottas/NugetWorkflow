@@ -1,5 +1,4 @@
-﻿using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -9,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Extensions;
+using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Shared.Enums;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Converters
 {

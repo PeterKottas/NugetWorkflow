@@ -6,9 +6,9 @@ using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
+namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Shared.DTOs
 {
-    public class GitRepoViewModelDTO : NotifyPropertyChanged
+    public class GitRepoDTO : NotifyPropertyChanged
     {
         private SecureString password;
         private string url;
@@ -76,10 +76,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
-        public GitRepoViewModelDTO()
+        public GitRepoDTO()
         {
             hash = Guid.NewGuid().ToString();
-            useOverrideCredentials = true;
+            useOverrideCredentials = false;
+            username = string.Empty;
         }
     }
 }
