@@ -1,4 +1,5 @@
-﻿using NugetWorkflow.UI.WpfUI.Common.Exceptions;
+﻿using NugetWorkflow.UI.WpfUI.Common.Base;
+using NugetWorkflow.UI.WpfUI.Common.Exceptions;
 using NugetWorkflow.UI.WpfUI.Common.Interfaces;
 using NugetWorkflow.UI.WpfUI.Pages.Home;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -36,8 +38,8 @@ namespace NugetWorkflow.UI.WpfUI
         {
             viewDictionary = new Dictionary<Type, object>();
             var viewInterface = typeof(IView);
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
+            var assembly = typeof(BaseException).Assembly;//only to get a hook for the current assembly
+            var types = assembly.GetTypes()
                 .Where(p => viewInterface.IsAssignableFrom(p) && p != viewInterface);
             foreach (var type in types)
             {

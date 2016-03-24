@@ -28,8 +28,8 @@
                     <GroupBox Header="Edit" Margin="5">
                         <WrapPanel>
                             <Button Content="Add one" Margin="{StaticResource ButtonMargin}" Command="{Binding AddRowCommand}"/>
-                            <Button Content="Import Json" Margin="{StaticResource ButtonMargin}"/>
-                            <Button Content="Json from clipboard" Margin="{StaticResource ButtonMargin}"/>
+                            <Button Content="Import Json" Margin="{StaticResource ButtonMargin}" Command="{Binding ImportJsonCommand}"/>
+                            <Button Content="Json from clipboard" Margin="{StaticResource ButtonMargin}" Command="{Binding ImportJsonClipboardCommand}"/>
                         </WrapPanel>
                     </GroupBox>
                     <GroupBox Header="{Binding ExportHeader,FallbackValue=Export json}" Margin="5">
@@ -55,7 +55,7 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Margin="5,10" Text="Password :" VerticalAlignment="Center"/>
-                                <PasswordBox Margin="{StaticResource ButtonMargin}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
+                                <PasswordBox Margin="{StaticResource ButtonMargin}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2" utils:PasswordBoxHelper.SecurePassword="{Binding OverridenPassword, UpdateSourceTrigger=PropertyChanged}"/>
                             </Grid>
                         </WrapPanel>
                     </GroupBox>
@@ -86,7 +86,7 @@
                     <DataGridTemplateColumn Header="Username">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Username}" Visibility="{Binding UseOverrideCredentials, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding UseOverrideCredentials, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

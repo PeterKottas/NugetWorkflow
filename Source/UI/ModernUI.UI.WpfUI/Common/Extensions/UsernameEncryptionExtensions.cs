@@ -20,6 +20,10 @@ namespace NugetWorkflow.UI.WpfUI.Common.Extensions
 
         public static string Unprotect(this string str)
         {
+            if(str==string.Empty)
+            {
+                return String.Empty;
+            }
             byte[] protectedData = Convert.FromBase64String(str);
             byte[] entropy = Encoding.ASCII.GetBytes(Assembly.GetExecutingAssembly().FullName);
             string data = Encoding.ASCII.GetString(ProtectedData.Unprotect(protectedData, entropy, DataProtectionScope.CurrentUser));
