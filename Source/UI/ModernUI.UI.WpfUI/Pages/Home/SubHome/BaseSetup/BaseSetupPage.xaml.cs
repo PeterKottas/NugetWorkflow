@@ -1,6 +1,5 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using NugetWorkflow.UI.WpfUI.Common.Base;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Collections.Generic;
@@ -36,6 +35,15 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
         {
             InitializeComponent();
             this.DataContext = ViewModelService.GetViewModel<BaseSetupViewModel>();
+            this.IsVisibleChanged += BaseSetupPage_IsVisibleChanged;
+        }
+
+        void BaseSetupPage_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if((bool)e.NewValue)
+            {
+                ViewModelService.GetViewModel<HomePageViewModel>().Header = "Setup your workspace";
+            }
         }
     }
 }

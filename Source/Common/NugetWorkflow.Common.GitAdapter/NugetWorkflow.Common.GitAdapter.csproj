@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="DTOs\Requests\CloneProjectsRequestDTO.cs" />
     <Compile Include="DTOs\Data\GitRepoDTO.cs" />
+    <Compile Include="DTOs\Requests\UpdateProjectsDependenciesRequestDTO.cs" />
     <Compile Include="Interfaces\IGitAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

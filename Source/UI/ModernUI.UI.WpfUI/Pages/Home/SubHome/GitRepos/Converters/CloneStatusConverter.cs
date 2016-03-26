@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Extensions;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Shared.Enums;
+using NugetWorkflow.Common.Base.Extensions;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Converters
 {
@@ -37,9 +38,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Converters
             if (result)
             {
                 var matchGroups = Regex.Match(repoUrl, @"([^/]+)\.git").Groups;
-                if (matchGroups != null && matchGroups.Count > 0)
+                string repoName = string.Empty;
+                if (repoUrl.GetFolderFromUrl(ref repoName))
                 {
-                    var repoName = matchGroups[matchGroups.Count - 1].Value;
                     if(string.IsNullOrEmpty(repoName))
                     {
                         return CloneStatusEnum.WrongUrlFormat.ToUserFriendlyMessage();

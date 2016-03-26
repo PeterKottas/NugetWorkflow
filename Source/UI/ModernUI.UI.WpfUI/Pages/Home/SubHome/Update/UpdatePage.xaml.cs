@@ -3,12 +3,12 @@ using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System.Windows.Controls;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
+namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 {
     /// <summary>
     /// Interaction logic for GitRepos.xaml
     /// </summary>
-    public partial class ClonePage : UserControl
+    public partial class UpdatePage : UserControl
     {
         public GitReposViewModel GitReposVM
         {
@@ -26,11 +26,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
             }
         }
 
-        public ClonePage()
+        public UpdatePage()
         {
             InitializeComponent();
             //container = ((App)Application.Current).Container;
-            this.DataContext = ViewModelService.GetViewModel<CloneViewModel>();
+            this.DataContext = ViewModelService.GetViewModel<UpdateViewModel>();
             this.IsVisibleChanged += ClonePage_IsVisibleChanged;
         }
 
@@ -38,7 +38,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
         {
             if ((bool)e.NewValue)
             {
-                ViewModelService.GetViewModel<HomePageViewModel>().Header = "Now lets clone some serious code!";
+                ViewModelService.GetViewModel<HomePageViewModel>().Header = "Update your NuGet dependencies here";
             }
         }
     }

@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using NugetWorkflow.UI.WpfUI.Utils;
+using System;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home
 {
@@ -23,6 +12,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
         public HomePage()
         {
             InitializeComponent();
+            try
+            {
+                this.DataContext = ViewModelService.GetViewModel<HomePageViewModel>();
+            }
+            catch (Exception)
+            {
+                this.DataContext = new HomePageViewModel();
+            }
         }
     }
 }

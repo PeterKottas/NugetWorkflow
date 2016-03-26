@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NugetWorkflow.UI.WpfUI.Common.Base
+namespace NugetWorkflow.Common.Base.BaseClasses
 {
     public abstract class BaseException : Exception
     {

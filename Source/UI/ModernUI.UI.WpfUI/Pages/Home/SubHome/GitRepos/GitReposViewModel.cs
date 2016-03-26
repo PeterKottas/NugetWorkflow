@@ -1,10 +1,12 @@
 ﻿using FirstFloor.ModernUI.Presentation;
+using FirstFloor.ModernUI.Windows.Controls;
 using Microsoft.Win32;
-using NugetWorkflow.UI.WpfUI.Common.Interfaces;
-using NugetWorkflow.UI.WpfUI.Common.Extensions;
-using NugetWorkflow.UI.WpfUI.Pages.Home;
+using NugetWorkflow.Common.Base.Converters.JavaScriptConverters;
+using NugetWorkflow.Common.Base.Converters.JavaScriptConverters;
+using NugetWorkflow.Common.Base.Extensions;
+using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup;
-using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Shared.DTOs;
+using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Collections.Generic;
@@ -12,22 +14,19 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Security;
-using System.Text;
 using System.Web.Script.Serialization;
 using System.Windows;
-using FirstFloor.ModernUI.Windows.Controls;
-using NugetWorkflow.UI.WpfUI.Common.Converters.JavaScriptConverters;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 {
-    public class GitReposViewModel : NotifyPropertyChanged, IView
+    public class GitReposViewModel : NotifyPropertyChanged, IViewModel
     {
         private JavaScriptSerializer serializer;
         private JavaScriptSerializer deSerializer;
-        private ObservableCollection<GitRepoDTO> gitRepos;
+        private ObservableCollection<GitRepoModel> gitRepos;
         private bool includePassword = false;
-        private string overidenUsername = string.Empty;
-        private SecureString overridenPassword;
+        private string overidenUsername = "admin";
+        private SecureString overridenPassword = "Betfred1".ToSecuredString();
         public RelayCommand ExportJsonCommand { get; set; }
         public RelayCommand ExportJsonClipboardCommand { get; set; }
         public RelayCommand ImportJsonCommand { get; set; }
@@ -86,7 +85,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             }
         }
 
-        public ObservableCollection<GitRepoDTO> GitRepos
+        public ObservableCollection<GitRepoModel> GitRepos
         {
             get
             {
@@ -127,12 +126,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
                 new
                 {
                     GitReposJson = list,
-                    DefaultCredJson =
+                    /*DefaultCredJson =
                     new
                     {
                         Username = OveridenUsername,
                         Password = IncludePassword ? overridenPassword.ToUnsecuredString().Protect() : string.Empty
-                    }
+                    }*/
                 });
             return Json;
         }
@@ -174,8 +173,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         public GitReposViewModel()
         {
             this.homeViewModel = ViewModelService.GetViewModel<BaseSetupViewModel>();
-            gitRepos = new ObservableCollection<GitRepoDTO>();
-            gitRepos.Add(new GitRepoDTO());
+            gitRepos = new ObservableCollection<GitRepoModel>();
+            gitRepos.Add(new GitRepoModel() { Url = "http://git-bonobo:8083/test-api.git" });
             ImportJsonClipboardCommand = new RelayCommand(ImportJsonClipboardExecute, ImportJsonClipboardCanExecute);
             ImportJsonCommand = new RelayCommand(ImportJsonExecute);
             ExportJsonCommand = new RelayCommand(ExportJsonExecute, ExportJsonCanExecute);
@@ -208,10 +207,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
                 try
                 {
                     var jsonObject = GetObject(Json);
-                    var GitReposLocal = new ObservableCollection<GitRepoDTO>();
+                    var GitReposLocal = new ObservableCollection<GitRepoModel>();
                     foreach (dynamic repo in jsonObject["GitReposJson"])
                     {
-                        GitReposLocal.Add(new GitRepoDTO()
+                        GitReposLocal.Add(new GitRepoModel()
                         {
                             Url = repo.Url,
                             UseOverrideCredentials = repo.UseOverrideCredentials,
@@ -219,11 +218,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
                             Password = string.IsNullOrEmpty(repo.Password) ? string.Empty.ToSecuredString() : ((string)repo.Password).Unprotect().ToSecuredString()
                         });
                     }
-                    var username = jsonObject["DefaultCredJson"]["Username"];
-                    var password = ((string)jsonObject["DefaultCredJson"]["Password"]).Unprotect().ToSecuredString();
                     GitRepos = GitReposLocal;
+
+                    /*var username = jsonObject["DefaultCredJson"]["Username"];
+                    var password = ((string)jsonObject["DefaultCredJson"]["Password"]).Unprotect().ToSecuredString();
                     OveridenUsername = username;
-                    OverridenPassword = password;
+                    OverridenPassword = password;*/
                 }
                 catch (Exception)
                 {
@@ -245,7 +245,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 
         private void AddRowExectue(object obj)
         {
-            GitRepos.Add(new GitRepoDTO());
+            GitRepos.Add(new GitRepoModel());
         }
 
         private void RemoveRowExecute(object obj)
@@ -255,5 +255,17 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             GitRepos.Remove(row);
         }
 
+        public void RefreshBindings()
+        {
+            OnPropertyChanged(string.Empty);
+        }
+
+        public void UpdateBasePath()
+        {
+            foreach (var repo in GitRepos)
+            {
+                repo.UpdateStatus();
+            }
+        }
     }
 }

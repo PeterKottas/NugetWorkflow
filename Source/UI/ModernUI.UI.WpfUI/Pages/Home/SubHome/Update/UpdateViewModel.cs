@@ -12,26 +12,25 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
+namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 {
-    public class CloneViewModel : NotifyPropertyChanged, IViewModel
+    public class UpdateViewModel : NotifyPropertyChanged, IViewModel
     {
+        private bool calcRunning = false;
         private IGitAdapter gitAdapter;
         private int progressValue = 0;
         private int progressMaximum = 1;
         private bool scrollConsole = false;
         private string consoleInput = string.Empty;
         private ObservableCollection<string> consoleOutput = new ObservableCollection<string>() { "This is how you emulate a freaking console in WPF :p" };
-        private bool calcRunning;
 
-        public RelayCommand CloneAllCommand { get; set; }
-        public RelayCommand CloneSelectedCommand { get; set; }
+        public RelayCommand UpdateAllCommand { get; set; }
+        public RelayCommand UpdateSelectedCommand { get; set; }
         public RelayCommand ConsoleReturn { get; set; }
 
         public bool ScrollConsole
@@ -99,13 +98,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
             }
         }
 
-        public CloneViewModel()
+        public UpdateViewModel()
         {
-            CloneAllCommand = new RelayCommand(CloneAllExecute, CloneAllCanExecute);
-            CloneSelectedCommand = new RelayCommand(CloneSelectedExecute, CloneSelectedCanExecute);
+            UpdateAllCommand = new RelayCommand(UpdateAllExecute, UpdateAllCanExecute);
+            UpdateSelectedCommand = new RelayCommand(UpdateSelectedExecute, UpdateSelectedCanExecute);
             ConsoleReturn = new RelayCommand(ConsoleReturnExecute, ConsoleReturnCanExecute);
             gitAdapter = new GitAdapterCore();
-            calcRunning = false;
         }
 
         private bool ConsoleReturnCanExecute(object arg)
@@ -128,7 +126,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
             ScrollConsole = true;
         }
 
-        private bool CloneSelectedCanExecute(object arg)
+        private bool UpdateSelectedCanExecute(object arg)
         {
             if (calcRunning)
             {
@@ -139,29 +137,29 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
             {
                 return false;
             }
-            if (reposVM.GitRepos.Where(a => a.CloneToggle).Count() < 1)
+            if (reposVM.GitRepos.Where(a => a.UpdateToggle).Count() < 1)
             {
                 return false;
             }
             return true;
         }
 
-        private void CloneSelectedExecute(object obj)
+        private void UpdateSelectedExecute(object obj)
         {
             var reposVM = ViewModelService.GetViewModel<GitReposViewModel>();
             if (reposVM.GitRepos.Count > 0)
             {
-                var reposToClone = reposVM.GitRepos.Where(a => a.CloneToggle);
-                if (reposToClone.Count() > 0)
+                var reposToUpdate = reposVM.GitRepos.Where(a => a.UpdateToggle);
+                if (reposToUpdate.Count() > 0)
                 {
-                    new Task(() => { CloneRepos(reposToClone); }).Start();
+                    new Task(() => { UpdateRepos(reposToUpdate); }).Start();
                 }
             }
         }
 
-        private bool CloneAllCanExecute(object arg)
+        private bool UpdateAllCanExecute(object arg)
         {
-            if(calcRunning)
+            if (calcRunning)
             {
                 return false;
             }
@@ -173,7 +171,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
             return true;
         }
 
-        public void CloneRepos(IEnumerable<GitRepoModel> gitReposModel)
+        public void UpdateRepos(IEnumerable<GitRepoModel> gitReposModel)
         {
             calcRunning = true;
             ProgressValue = 0;
@@ -188,36 +186,30 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
                         Username = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Username : ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername
                     });
             }
-            gitAdapter.CloneProjects(new CloneProjectsRequestDTO()
+            gitAdapter.UpdateProjectsDependencies(new UpdateProjectsDependenciesRequestDTO()
                 {
                     BasePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath,
                     ListOfRepos = gitReposList,
-                    ProgressAction = ProgressCallback,
-                    FinishedAction = FinishedCallback
+                    ProgressAction = ProgressCallback
                 });
-        }
-
-        private void CloneAllExecute(object obj)
-        {
-            var reposVM = ViewModelService.GetViewModel<GitReposViewModel>();
-            if (reposVM.GitRepos.Count > 0)
-            {
-                new Task(() => { CloneRepos(reposVM.GitRepos); }).Start();
-            }
-        }
-
-        public void FinishedCallback(string consoleMessage)
-        {
+            calcRunning = false;
             Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Normal,
                 (Action)(() =>
                 {
-                    ConsoleOutput.Add(consoleMessage);
                     ScrollConsole = true;
-                    calcRunning = false;
                     ViewModelService.GetViewModel<GitReposViewModel>().RefreshBindings();
                     CommandManager.InvalidateRequerySuggested();
                 }));
+        }
+
+        private void UpdateAllExecute(object obj)
+        {
+            var reposVM = ViewModelService.GetViewModel<GitReposViewModel>();
+            if (reposVM.GitRepos.Count > 0)
+            {
+                new Task(() => { UpdateRepos(reposVM.GitRepos); }).Start();
+            }
         }
 
         public void ProgressCallback(bool success, string consoleMessage)

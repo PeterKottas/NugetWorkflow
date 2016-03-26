@@ -72,31 +72,29 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Common\Converters\JavaScriptConverters\DynamicJsonConverter.cs" />
-    <Compile Include="Common\Extensions\UsernameEncryptionExtensions.cs" />
     <Compile Include="Pages\Home\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Home\HomePageViewModel.cs" />
     <Compile Include="Pages\Home\SubHome\Clone\ClonePage.xaml.cs">
       <DependentUpon>ClonePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Home\SubHome\Clone\CloneViewModel.cs" />
-    <Compile Include="Pages\Home\SubHome\GitRepos\Converters\CredentialsOverrideConverter.cs" />
+    <Compile Include="Pages\Home\SubHome\Update\UpdatePage.xaml.cs">
+      <DependentUpon>UpdatePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Home\SubHome\Update\UpdateViewModel.cs" />
+    <Compile Include="Utils\AutoScrollHelper.cs" />
     <Compile Include="Utils\ViewModelService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Common\Base\BaseException.cs" />
-    <Compile Include="Common\Exceptions\MissingViewException.cs" />
-    <Compile Include="Common\Interfaces\IView.cs" />
-    <Compile Include="Pages\Home\SubHome\GitRepos\Converters\CloneStatusTextBoxStyleConverter.cs" />
     <Compile Include="Pages\Home\SubHome\GitRepos\Extensions\CloneStatusEnumExtensions.cs" />
     <Compile Include="Pages\Home\SubHome\GitRepos\Converters\CloneStatusConverter.cs" />
     <Compile Include="Pages\Home\SubHome\GitRepos\Shared\Enums\CloneStatusEnum.cs" />
     <Compile Include="Pages\Home\SubHome\BaseSetup\BaseSetupViewModel.cs" />
     <Compile Include="Utils\PasswordBoxHelper.cs" />
-    <Compile Include="Common\Extensions\SecureStringExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -106,6 +104,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Home\SubHome\Clone\ClonePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Home\SubHome\Update\UpdatePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -149,13 +151,29 @@
     <Compile Include="Pages\Home\SubHome\GitRepos\GitReposPage.xaml.cs">
       <DependentUpon>GitReposPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Home\SubHome\GitRepos\Shared\DTOs\GitRepoDTO.cs" />
+    <Compile Include="Pages\Home\SubHome\GitRepos\Models\GitRepoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Page Include="Pages\Home\SubHome\GitRepos\GitReposPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Controls\DataGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Controls\NugetWorkflow.Light.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Controls\Separator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Controls\MenuItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Controls\Menu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -175,9 +193,20 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Pages\Home\SubHome\GitRepos\Models\" />
-    <Folder Include="Pages\Home\SubHome\Update\" />
+    <ProjectReference Include="..\..\Common\NugetWorkflow.Common.Base\NugetWorkflow.Common.Base.csproj">
+      <Project>{c7bc1a33-2f34-418b-b067-d8ce27fee7b1}</Project>
+      <Name>NugetWorkflow.Common.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\NugetWorkflow.Common.GitAdapter\NugetWorkflow.Common.GitAdapter.csproj">
+      <Project>{ee3dbe23-af0c-41b6-bb80-fe9b2c619b0b}</Project>
+      <Name>NugetWorkflow.Common.GitAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\NugetWorkflow.Plugins.GitAdapter\NugetWorkflow.Plugins.GitAdapter.csproj">
+      <Project>{bea72e20-b3a6-44a0-9f8d-95eda63c0d29}</Project>
+      <Name>NugetWorkflow.Plugins.GitAdapter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -52,6 +52,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\NugetWorkflow.Common.Base\NugetWorkflow.Common.Base.csproj">
+      <Project>{c7bc1a33-2f34-418b-b067-d8ce27fee7b1}</Project>
+      <Name>NugetWorkflow.Common.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\NugetWorkflow.Common.GitAdapter\NugetWorkflow.Common.GitAdapter.csproj">
       <Project>{ee3dbe23-af0c-41b6-bb80-fe9b2c619b0b}</Project>
       <Name>NugetWorkflow.Common.GitAdapter</Name>

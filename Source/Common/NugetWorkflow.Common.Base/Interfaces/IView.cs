@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NugetWorkflow.UI.WpfUI.Common.Interfaces
+namespace NugetWorkflow.Common.Base.Interfaces
 {
-    public interface IView
+    public interface IViewModel
     {
     }
 }

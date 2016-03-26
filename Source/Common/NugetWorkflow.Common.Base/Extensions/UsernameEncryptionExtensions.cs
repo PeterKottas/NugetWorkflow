@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NugetWorkflow.UI.WpfUI.Common.Extensions
+namespace NugetWorkflow.Common.Base.Extensions
 {
     public static class UsernameEncryptionExtensions
     {

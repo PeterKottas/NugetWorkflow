@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
-namespace NugetWorkflow.UI.WpfUI.Common.Converters.JavaScriptConverters
+namespace NugetWorkflow.Common.Base.Converters.JavaScriptConverters
 {
     public sealed class DynamicJsonConverter : JavaScriptConverter
     {

@@ -1,11 +1,11 @@
-﻿using NugetWorkflow.UI.WpfUI.Common.Base;
+﻿using NugetWorkflow.Common.Base.BaseClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NugetWorkflow.UI.WpfUI.Common.Exceptions
+namespace NugetWorkflow.Common.Base.Exceptions
 {
     public class MissingViewException : BaseException
     {

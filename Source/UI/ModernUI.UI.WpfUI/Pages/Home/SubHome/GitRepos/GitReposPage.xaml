@@ -6,14 +6,11 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:utils="clr-namespace:NugetWorkflow.UI.WpfUI.Utils"
              xmlns:converters="clr-namespace:NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Converters"
-             xmlns:DTOs="clr-namespace:NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Shared.DTOs"
-             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="ButtonMargin" >5</Thickness>
         <Thickness x:Key="DataGridCellMargin" >3</Thickness>
         <converters:CloneStatusConverter x:Key="CloneStatusConverter" />
-        <converters:CredentialsOverrideConverter x:Key="CredentialsOverrideConverter" />
     </UserControl.Resources>
 
     <Grid Style="{StaticResource ContentRoot}" >
@@ -107,12 +104,7 @@
                     <DataGridTemplateColumn Header="Status">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Margin="{StaticResource DataGridCellMargin}" IsReadOnly="True" TextAlignment="Center" IsHitTestVisible="False">
-                                    <MultiBinding Converter="{StaticResource CloneStatusConverter}">
-                                        <Binding Path="Url" UpdateSourceTrigger="PropertyChanged"/>
-                                        <Binding Path="DataContext.homeViewModel.BasePath" UpdateSourceTrigger="PropertyChanged" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
-                                    </MultiBinding>
-                                </TextBox>
+                                <TextBox Text="{Binding CloneStatusMessage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource DataGridCellMargin}" IsReadOnly="True" TextAlignment="Center" IsHitTestVisible="False"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

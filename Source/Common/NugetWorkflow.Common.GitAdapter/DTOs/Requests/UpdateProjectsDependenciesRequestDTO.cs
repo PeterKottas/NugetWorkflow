@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace NugetWorkflow.Common.GitAdapter.DTOs.Requests
 {
-    public class CloneProjectsRequestDTO
+    public class UpdateProjectsDependenciesRequestDTO
     {
         public string BasePath { get; set; }
         public List<GitRepoDTO> ListOfRepos { get; set; }
+        public string NugetID { get; set; }
+        public string Version { get; set; }
         public Action<bool, string> ProgressAction { get; set; }
-        public Action<string> FinishedAction { get; set; }
-
     }
 }

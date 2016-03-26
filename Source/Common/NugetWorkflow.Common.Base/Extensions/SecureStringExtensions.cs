@@ -6,7 +6,7 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NugetWorkflow.UI.WpfUI.Common.Extensions
+namespace NugetWorkflow.Common.Base.Extensions
 {
     /// <summary>
     /// Provides unsafe temporary operations on secured strings.

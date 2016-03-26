@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone.ClonePage"
+﻿<UserControl x:Class="NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update.UpdatePage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -23,18 +23,38 @@
         </Grid.RowDefinitions>
         <StackPanel MinWidth="200">
             <StackPanel>
-                <TextBlock Text="Git repos" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Update NuGet versions" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
                 <WrapPanel>
                     <GroupBox Header="Edit" Margin="5">
                         <WrapPanel>
-                            <Button Content="Clone all" Margin="{StaticResource ButtonMargin}" Command="{Binding CloneAllCommand}"/>
-                            <Button Content="Clone selected" Margin="{StaticResource ButtonMargin}" Command="{Binding CloneSelectedCommand}"/>
+                            <Button Content="Update all" Margin="{StaticResource ButtonMargin}" Command="{Binding UpdateAllCommand}"/>
+                            <Button Content="Update selected" Margin="{StaticResource ButtonMargin}" Command="{Binding UpdateSelectedCommand}"/>
+                        </WrapPanel>
+                    </GroupBox>
+                    <GroupBox Header="Package" Margin="5">
+                        <WrapPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="5,10" Text="NuGet ID :" VerticalAlignment="Center"/>
+                                <TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding OveridenUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="5,10" Text="Version :" VerticalAlignment="Center"/>
+                                <TextBox Margin="{StaticResource ButtonMargin}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
+                            </Grid>
                         </WrapPanel>
                     </GroupBox>
                 </WrapPanel>
             </StackPanel>
         </StackPanel>
-        <GroupBox Grid.Row="1" Header="Git repos to clone from" Margin="5">
+        <GroupBox Grid.Row="1" Header="Git repos to Update from" Margin="5">
             <DataGrid 
                     AutoGenerateColumns="False"
                     CanUserAddRows="false"
@@ -48,10 +68,10 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Clone">
+                    <DataGridTemplateColumn Header="Update">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox Margin="{StaticResource DataGridCellMargin}" IsChecked="{Binding CloneToggle, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                <CheckBox Margin="{StaticResource DataGridCellMargin}" IsChecked="{Binding UpdateToggle, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
