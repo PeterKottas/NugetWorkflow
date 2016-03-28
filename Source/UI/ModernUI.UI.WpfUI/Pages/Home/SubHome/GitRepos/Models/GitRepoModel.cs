@@ -27,6 +27,60 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         private bool cloneToogle;
         private bool updateToogle;
         private CloneStatusEnum cloneStatus;
+        private bool isValidUrl = false;
+        private string repoName = null;
+        private string repoNameCustom = null;
+        private bool useCustomRepoName = false;
+
+        public bool UseDefaultRepoName
+        {
+            get 
+            { 
+                return !useCustomRepoName; 
+            }
+        }
+
+        public bool UseCustomRepoName
+        {
+            get
+            {
+                return useCustomRepoName;
+            }
+            set
+            {
+                useCustomRepoName = value;
+                OnPropertyChanged("UseCustomRepoName");
+                OnPropertyChanged("UseDefaultRepoName");
+                OnPropertyChanged("RepoName");
+            }
+        }
+
+        public string RepoName
+        {
+            get
+            {
+                if (UseCustomRepoName)
+                {
+                    return repoNameCustom;
+                }
+                else
+                {
+                    return repoName;
+                }
+            }
+            set
+            {
+                if (UseCustomRepoName)
+                {
+                    repoNameCustom = value;
+                }
+                else
+                {
+                    repoName = value;
+                }
+                OnPropertyChanged("RepoName");
+            }
+        }
 
         public bool UpdateToggle
         {
@@ -40,7 +94,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                 OnPropertyChanged("UpdateToggle");
             }
         }
-        
+
         public bool CloneToggle
         {
             get
@@ -62,8 +116,16 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
-        public string Url 
-        { 
+        public bool IsValidUrl
+        {
+            get
+            {
+                return isValidUrl;
+            }
+        }
+
+        public string Url
+        {
             get
             {
                 return url;
@@ -71,11 +133,23 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 url = value;
-                CloneStatus = GetStatus();
+                Uri uriResult;
+                bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult);
+                if (result)
+                {
+                    string repoFolder = string.Empty;
+                    url.GetFolderFromUrl(ref repoFolder);
+                    RepoName = repoFolder;
+                }
+                else
+                {
+                    RepoName = null;
+                }
+                UpdateStatus();
                 OnPropertyChanged("Url");
             }
         }
-        
+
         public string Username
         {
             get
@@ -137,56 +211,40 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
-        public void UpdateStatus()
+        public void UpdateStatus(string basePath)
         {
-            CloneStatus = GetStatus();
+            CloneStatus = GetStatus(basePath);
         }
 
-        private CloneStatusEnum GetStatus()
+        public void UpdateStatus()
         {
-            string repoUrl = Url;
-            string basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
+            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
+            UpdateStatus(basePath);
+        }
 
-            if(string.IsNullOrEmpty(basePath))
+        private CloneStatusEnum GetStatus(string basePath)
+        {
+            if (string.IsNullOrEmpty(basePath))
             {
                 return CloneStatusEnum.BasePathUndefined;
             }
-            try 
-	        {
-                Path.GetFullPath(basePath);
-	        }
-	        catch (Exception)
-	        {
-                return CloneStatusEnum.BasePathWrongFormat;
-	        }
-
-            Uri uriResult;
-            bool result = Uri.TryCreate(repoUrl, UriKind.Absolute, out uriResult);
-            if (result)
+            try
             {
-                var matchGroups = Regex.Match(repoUrl, @"([^/]+)\.git").Groups;
-                string repoName = string.Empty;
-                if (repoUrl.GetFolderFromUrl(ref repoName))
-                {
-                    if(string.IsNullOrEmpty(repoName))
-                    {
-                        return CloneStatusEnum.WrongUrlFormat;
-                    }
-                    if (!Directory.Exists(Path.Combine(basePath, repoName)))
-                    {
-                        return CloneStatusEnum.OK;
-                    }
-                    return CloneStatusEnum.AlreadyExists;
-                }
-                else
-                {
-                    return CloneStatusEnum.WrongUrlFormat;
-                }
+                Path.GetFullPath(basePath);
             }
-            else
+            catch (Exception)
+            {
+                return CloneStatusEnum.BasePathWrongFormat;
+            }
+            if (string.IsNullOrEmpty(RepoName))
             {
                 return CloneStatusEnum.WrongUrlFormat;
             }
+            if (!Directory.Exists(Path.Combine(basePath, RepoName)))
+            {
+                return CloneStatusEnum.OK;
+            }
+            return CloneStatusEnum.AlreadyExists;
         }
 
         public GitRepoModel()

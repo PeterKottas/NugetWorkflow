@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetWorkflow.Common.GitAda
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetWorkflow.Common.Base", "..\Source\Common\NugetWorkflow.Common.Base\NugetWorkflow.Common.Base.csproj", "{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetWorkflow.Plugins.FilePatcher", "..\Source\Plugins\NugetWorkflow.Plugins.FilePatcher\NugetWorkflow.Plugins.FilePatcher.csproj", "{0412C7DF-351D-4FCC-863B-7CDB1CA4A5E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetWorkflow.Common.FilePatcher", "..\Source\Common\NugetWorkflow.Common.FilePatcher\NugetWorkflow.Common.FilePatcher.csproj", "{FBB4AA5C-39B1-40E6-A91D-155E6F846E9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0412C7DF-351D-4FCC-863B-7CDB1CA4A5E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0412C7DF-351D-4FCC-863B-7CDB1CA4A5E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0412C7DF-351D-4FCC-863B-7CDB1CA4A5E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0412C7DF-351D-4FCC-863B-7CDB1CA4A5E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBB4AA5C-39B1-40E6-A91D-155E6F846E9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBB4AA5C-39B1-40E6-A91D-155E6F846E9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBB4AA5C-39B1-40E6-A91D-155E6F846E9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBB4AA5C-39B1-40E6-A91D-155E6F846E9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +60,7 @@ Global
 		{BEA72E20-B3A6-44A0-9F8D-95EDA63C0D29} = {0AFA52AB-919F-4385-91B3-E69C96B1D4A0}
 		{EE3DBE23-AF0C-41B6-BB80-FE9B2C619B0B} = {0092D9C9-E65B-487D-9674-6884249931D7}
 		{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1} = {0092D9C9-E65B-487D-9674-6884249931D7}
+		{0412C7DF-351D-4FCC-863B-7CDB1CA4A5E6} = {0AFA52AB-919F-4385-91B3-E69C96B1D4A0}
+		{FBB4AA5C-39B1-40E6-A91D-155E6F846E9C} = {0092D9C9-E65B-487D-9674-6884249931D7}
 	EndGlobalSection
 EndGlobal

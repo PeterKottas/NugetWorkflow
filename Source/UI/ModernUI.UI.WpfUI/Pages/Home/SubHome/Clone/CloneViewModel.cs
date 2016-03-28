@@ -1,6 +1,7 @@
 ﻿using FirstFloor.ModernUI.Presentation;
+using NugetWorkflow.Common.Base.DTOs.GitRepos;
+using NugetWorkflow.Common.Base.Extensions;
 using NugetWorkflow.Common.Base.Interfaces;
-using NugetWorkflow.Common.GitAdapter.DTOs.Data;
 using NugetWorkflow.Common.GitAdapter.DTOs.Requests;
 using NugetWorkflow.Common.GitAdapter.Interfaces;
 using NugetWorkflow.Plugins.GitAdapter;
@@ -11,6 +12,7 @@ using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -175,22 +177,28 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
 
         public void CloneRepos(IEnumerable<GitRepoModel> gitReposModel)
         {
-            calcRunning = true;
-            ProgressValue = 0;
-            ProgressMaximum = gitReposModel.Count();
+            
             var gitReposList = new List<GitRepoDTO>();
+            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
+
             foreach (var gitRepoViewModel in gitReposModel)
             {
-                gitReposList.Add(new GitRepoDTO()
-                    {
-                        Password = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Password : ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword,
-                        URL = gitRepoViewModel.Url,
-                        Username = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Username : ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername
-                    });
+                if (gitRepoViewModel.CloneStatus == GitRepos.Shared.Enums.CloneStatusEnum.OK)
+                {
+                    gitReposList.Add(new GitRepoDTO()
+                        {
+                            Password = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Password : ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword,
+                            URL = gitRepoViewModel.Url,
+                            Username = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Username : ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername,
+                            Path = Path.Combine(basePath, gitRepoViewModel.RepoName)
+                        });
+                }
             }
+            calcRunning = true;
+            ProgressValue = 0;
+            ProgressMaximum = gitReposList.Count();
             gitAdapter.CloneProjects(new CloneProjectsRequestDTO()
                 {
-                    BasePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath,
                     ListOfRepos = gitReposList,
                     ProgressAction = ProgressCallback,
                     FinishedAction = FinishedCallback

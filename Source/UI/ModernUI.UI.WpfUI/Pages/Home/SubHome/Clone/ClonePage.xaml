@@ -17,9 +17,9 @@
     <Grid Style="{StaticResource ContentRoot}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <StackPanel MinWidth="200">
             <StackPanel>
@@ -29,6 +29,8 @@
                         <WrapPanel>
                             <Button Content="Clone all" Margin="{StaticResource ButtonMargin}" Command="{Binding CloneAllCommand}"/>
                             <Button Content="Clone selected" Margin="{StaticResource ButtonMargin}" Command="{Binding CloneSelectedCommand}"/>
+                            <TextBlock Margin="5,10" Text=" to : " VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding BaseSetupVM.BasePath, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Margin="{StaticResource ButtonMargin}" IsReadOnly="True"/>
                         </WrapPanel>
                     </GroupBox>
                 </WrapPanel>
@@ -48,22 +50,31 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Folder">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding RepoName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="{StaticResource DataGridCellMargin}" IsReadOnly="{Binding UseDefaultRepoName, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Custom folder">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding UseCustomRepoName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="{StaticResource DataGridCellMargin}" HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Clone">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox Margin="{StaticResource DataGridCellMargin}" IsChecked="{Binding CloneToggle, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                <CheckBox IsChecked="{Binding CloneToggle, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource DataGridCellMargin}" HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Status">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Margin="{StaticResource DataGridCellMargin}" IsReadOnly="True" TextAlignment="Center" IsHitTestVisible="False">
-                                    <MultiBinding Converter="{StaticResource CloneStatusConverter}">
-                                        <Binding Path="Url" UpdateSourceTrigger="PropertyChanged"/>
-                                        <Binding Path="BaseSetupVM.BasePath" UpdateSourceTrigger="PropertyChanged" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
-                                    </MultiBinding>
-                                </TextBox>
+                                <TextBox Text="{Binding CloneStatusMessage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Margin="{StaticResource DataGridCellMargin}" IsReadOnly="True" TextAlignment="Center" IsHitTestVisible="False"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -87,7 +98,7 @@
                             <ItemsControl ItemsSource="{Binding ConsoleOutput, Mode=OneWay}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Path=., UpdateSourceTrigger=PropertyChanged}" FontFamily="Consolas" DockPanel.Dock="Top" TextWrapping="Wrap"/>
+                                        <TextBox Text="{Binding Path=., UpdateSourceTrigger=PropertyChanged}"  FontFamily="Consolas" DockPanel.Dock="Top" TextWrapping="Wrap" IsReadOnly="True" BorderBrush="{x:Null}" Foreground="Black"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

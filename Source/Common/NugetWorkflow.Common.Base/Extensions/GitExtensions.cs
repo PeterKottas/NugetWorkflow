@@ -17,6 +17,7 @@ namespace NugetWorkflow.Common.Base.Extensions
                 FolderName = matchGroups[matchGroups.Count - 1].Value;
                 return true;
             }
+            FolderName = null;
             return false;
         }
     }

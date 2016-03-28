@@ -1,6 +1,6 @@
 ﻿using FirstFloor.ModernUI.Presentation;
+using NugetWorkflow.Common.Base.DTOs.GitRepos;
 using NugetWorkflow.Common.Base.Interfaces;
-using NugetWorkflow.Common.GitAdapter.DTOs.Data;
 using NugetWorkflow.Common.GitAdapter.DTOs.Requests;
 using NugetWorkflow.Common.GitAdapter.Interfaces;
 using NugetWorkflow.Plugins.GitAdapter;

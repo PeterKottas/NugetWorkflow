@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C7BC1A33-2F34-418B-B067-D8CE27FEE7B1}</ProjectGuid>
+    <ProjectGuid>{FBB4AA5C-39B1-40E6-A91D-155E6F846E9C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NugetWorkflow.Common.Base</RootNamespace>
-    <AssemblyName>NugetWorkflow.Common.Base</AssemblyName>
+    <RootNamespace>NugetWorkflow.Common.FilePatcher</RootNamespace>
+    <AssemblyName>NugetWorkflow.Common.FilePatcher</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,8 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,17 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\BaseException.cs" />
-    <Compile Include="Converters\JavaScriptConverters\DynamicJsonConverter.cs" />
-    <Compile Include="DTOs\GitRepos\GitRepoDTO.cs" />
-    <Compile Include="Exceptions\MissingViewException.cs" />
-    <Compile Include="Extensions\GitExtensions.cs" />
-    <Compile Include="Extensions\SecureStringExtensions.cs" />
-    <Compile Include="Extensions\UsernameEncryptionExtensions.cs" />
-    <Compile Include="Interfaces\IView.cs" />
+    <Compile Include="DTOs\Requests\UpdateDependenciesVersionRequestDTO.cs" />
+    <Compile Include="Interfaces\IFilePatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DTOs\Responses\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

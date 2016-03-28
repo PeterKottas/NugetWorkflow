@@ -30,6 +30,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>appbar.diagram.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FirstFloor.ModernUI, Version=1.0.8.0, Culture=neutral, PublicKeyToken=bc9b0c37bf06c6a9, processorArchitecture=MSIL">
       <HintPath>..\..\..\Solution\packages\ModernUI.WPF.1.0.8\lib\net45\FirstFloor.ModernUI.dll</HintPath>
@@ -193,7 +196,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="appbar.diagram.ico" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\NugetWorkflow.Common.Base\NugetWorkflow.Common.Base.csproj">
       <Project>{c7bc1a33-2f34-418b-b067-d8ce27fee7b1}</Project>

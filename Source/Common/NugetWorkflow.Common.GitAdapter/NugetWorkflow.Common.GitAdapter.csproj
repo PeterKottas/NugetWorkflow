@@ -40,13 +40,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs\Requests\CloneProjectsRequestDTO.cs" />
-    <Compile Include="DTOs\Data\GitRepoDTO.cs" />
     <Compile Include="DTOs\Requests\UpdateProjectsDependenciesRequestDTO.cs" />
     <Compile Include="Interfaces\IGitAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTOs\Responses\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NugetWorkflow.Common.Base\NugetWorkflow.Common.Base.csproj">
+      <Project>{c7bc1a33-2f34-418b-b067-d8ce27fee7b1}</Project>
+      <Name>NugetWorkflow.Common.Base</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -28,58 +28,36 @@ namespace NugetWorkflow.Plugins.GitAdapter
         }
         public void CloneProjects(CloneProjectsRequestDTO request)
         {
-            if (request.ProgressAction==null)
-            {
-                request.ProgressAction = (a, b) => { };
-            }
-            if (request.FinishedAction == null)
-            {
-                request.FinishedAction = (a) => { };
-            }
             foreach (var repo in request.ListOfRepos)
             {
-                Thread.Sleep(500);
-                if (string.IsNullOrEmpty(request.BasePath))
+                Thread.Sleep(500);//TODO : Remove
+                if (string.IsNullOrEmpty(repo.Path))
                 {
-                    request.ProgressAction(false, string.Format("Base path is undefined."));
+                    request.ProgressAction(false, string.Format("Path is undefined."));
+                }
+                else if (string.IsNullOrEmpty(repo.URL))
+                {
+                    request.ProgressAction(false, string.Format("Path is undefined."));
                 }
                 else
                 {
-                    try
+                    Uri uriResult;
+                    bool result = Uri.TryCreate(repo.URL, UriKind.Absolute, out uriResult);
+                    if (!result)
                     {
-                        Path.GetFullPath(request.BasePath);
-
-                        Uri uriResult;
-                        bool result = Uri.TryCreate(repo.URL, UriKind.Absolute, out uriResult);
-                        if (!result)
-                        {
-                            request.ProgressAction(false, string.Format("URL : [{0}] is invalid", repo.URL));
-                        }
-                        else
-                        {
-                            string repoFolder = string.Empty;
-                            if (repo.URL.GetFolderFromUrl(ref repoFolder))
-                            {
-                                try
-                                {
-                                    Clone(repo.URL, Path.Combine(request.BasePath, repoFolder), repo.Username, repo.Password);
-                                    request.ProgressAction(true, string.Format("Successfully cloned repo from URL : [{0}] to [{1}]", repo.URL, Path.Combine(request.BasePath, repoFolder)));
-                                }
-                                catch (Exception e)
-                                {
-                                    request.ProgressAction(false, string.Format("Exception while cloning from Url : [{0}], Exception : [{1}]", repo.URL, e.Message));
-                                }
-
-                            }
-                            else
-                            {
-                                request.ProgressAction(false, string.Format("Cannot parse folder name from Url : [{0}]", repo.URL));
-                            }
-                        }
+                        request.ProgressAction(false, string.Format("URL : [{0}] is invalid", repo.URL));
                     }
-                    catch (Exception)
+                    else
                     {
-                        request.ProgressAction(false, string.Format("Base path : [{0}] is invalid", request.BasePath));
+                        try
+                        {
+                            Clone(repo.URL, repo.Path, repo.Username, repo.Password);
+                            request.ProgressAction(true, string.Format("Successfully cloned repo from URL : [{0}] to [{1}]", repo.URL, repo.Path));
+                        }
+                        catch (Exception e)
+                        {
+                            request.ProgressAction(false, string.Format("Exception while cloning from Url : [{0}], Exception : [{1}]", repo.URL, e.Message));
+                        }
                     }
                 }
             }
