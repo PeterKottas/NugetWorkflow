@@ -12,6 +12,7 @@ using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -184,32 +185,25 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
         {
             calcRunning = true;
             ProgressValue = 0;
-            ProgressMaximum = gitReposModel.Count();
             var gitReposList = new List<GitRepoDTO>();
+            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
             foreach (var gitRepoViewModel in gitReposModel)
             {
                 gitReposList.Add(new GitRepoDTO()
                     {
                         Password = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Password : ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword,
                         URL = gitRepoViewModel.Url,
-                        Username = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Username : ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername
+                        Username = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Username : ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername,
+                        Path = Path.Combine(basePath, gitRepoViewModel.RepoName)
                     });
             }
+            ProgressMaximum = gitReposModel.Count();
             gitAdapter.UpdateProjectsDependencies(new UpdateProjectsDependenciesRequestDTO()
                 {
-                    BasePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath,
                     ListOfRepos = gitReposList,
                     ProgressAction = ProgressCallback
                 });
             calcRunning = false;
-            Application.Current.Dispatcher.BeginInvoke(
-                DispatcherPriority.Normal,
-                (Action)(() =>
-                {
-                    ScrollConsole = true;
-                    ViewModelService.GetViewModel<GitReposViewModel>().RefreshBindings();
-                    CommandManager.InvalidateRequerySuggested();
-                }));
         }
 
         private void UpdateAllExecute(object obj)
@@ -219,6 +213,19 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             {
                 new Task(() => { UpdateRepos(reposVM.GitRepos); }).Start();
             }
+        }
+
+        public void FinishedCallback(string consoleMessage)
+        {
+            Application.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Normal,
+                (Action)(() =>
+                {
+                    ConsoleOutput.Add(consoleMessage);
+                    ScrollConsole = true;
+                    ViewModelService.GetViewModel<GitReposViewModel>().RefreshBindings();
+                    CommandManager.InvalidateRequerySuggested();
+                }));
         }
 
         public void ProgressCallback(bool success, string consoleMessage)

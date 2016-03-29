@@ -212,6 +212,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
                     ProgressAction = ProgressCallback,
                     FinishedAction = FinishedCallback
                 });
+            calcRunning = false;
         }
 
         private void CloneAllExecute(object obj)
@@ -231,7 +232,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
                 {
                     ConsoleOutput.Add(consoleMessage);
                     ScrollConsole = true;
-                    calcRunning = false;
                     ViewModelService.GetViewModel<GitReposViewModel>().RefreshBindings();
                     CommandManager.InvalidateRequerySuggested();
                 }));

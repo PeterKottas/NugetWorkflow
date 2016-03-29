@@ -39,7 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FilePatcherCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\NugetWorkflow.Common.Base\NugetWorkflow.Common.Base.csproj">
+      <Project>{c7bc1a33-2f34-418b-b067-d8ce27fee7b1}</Project>
+      <Name>NugetWorkflow.Common.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\NugetWorkflow.Common.FilePatcher\NugetWorkflow.Common.FilePatcher.csproj">
+      <Project>{fbb4aa5c-39b1-40e6-a91d-155e6f846e9c}</Project>
+      <Name>NugetWorkflow.Common.FilePatcher</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

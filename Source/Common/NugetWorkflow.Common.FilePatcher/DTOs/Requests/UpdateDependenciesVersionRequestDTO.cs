@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NugetWorkflow.Common.Base.DTOs.GitRepos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,10 @@ namespace NugetWorkflow.Common.FilePatcher.DTOs.Requests
 {
     public class UpdateDependenciesVersionRequestDTO
     {
+        public List<string> GitReposPaths { get; set; }
+
+        public string NuGetID { get; set; }
+
+        public string NewVersion { get; set; }
     }
 }

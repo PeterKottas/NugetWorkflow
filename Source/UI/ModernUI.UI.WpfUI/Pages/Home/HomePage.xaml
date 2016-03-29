@@ -12,7 +12,7 @@
            VerticalAlignment="Stretch" 
            ClipToBounds="True">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="{StaticResource WindowBackgroundBrush}" Panel.ZIndex="2">
-                <TextBlock Text="{Binding Header, FallbackValue='This is where you do your basic setup fallback'}"  Style="{StaticResource Heading2}" Margin="5" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Header, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource Heading2}" Margin="5" VerticalAlignment="Center" />
                 <StackPanel.RenderTransform>
                     <TranslateTransform x:Name="translateTransform"
                                 Y="-48" />

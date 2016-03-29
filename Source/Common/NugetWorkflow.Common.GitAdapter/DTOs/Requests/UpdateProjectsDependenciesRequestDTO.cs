@@ -9,14 +9,46 @@ namespace NugetWorkflow.Common.GitAdapter.DTOs.Requests
 {
     public class UpdateProjectsDependenciesRequestDTO
     {
-        public string BasePath { get; set; }
+        private Action<bool, string> progressAction;
 
-        public List<GitRepoDTO> ListOfRepos { get; set; }
+        private Action<string> finishedAction;
 
         public string NugetID { get; set; }
 
         public string Version { get; set; }
 
-        public Action<bool, string> ProgressAction { get; set; }
+        public List<GitRepoDTO> ListOfRepos { get; set; }
+
+        public Action<bool, string> ProgressAction
+        {
+            get
+            {
+                if (progressAction == null)
+                {
+                    return (e, b) => { };
+                }
+                return progressAction;
+            }
+            set
+            {
+                progressAction = value;
+            }
+        }
+
+        public Action<string> FinishedAction
+        {
+            get
+            {
+                if (finishedAction == null)
+                {
+                    return (e) => { };
+                }
+                return finishedAction;
+            }
+            set
+            {
+                finishedAction = value;
+            }
+        }
     }
 }
