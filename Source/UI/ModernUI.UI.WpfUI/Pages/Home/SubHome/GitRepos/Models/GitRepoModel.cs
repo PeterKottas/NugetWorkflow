@@ -14,6 +14,8 @@ using System.Windows;
 using System.Windows.Data;
 using NugetWorkflow.Common.Base.Extensions;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Extensions;
+using NugetWorkflow.Common.Base.Utils;
+using System.Linq.Expressions;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 {
@@ -32,6 +34,20 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         private string repoNameCustom = null;
         private bool useCustomRepoName = false;
 
+        #region Properties names
+        public static readonly string UseCustomRepoNamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseCustomRepoName);
+        public static readonly string UseDefaultRepoNamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseDefaultRepoName);
+        public static readonly string RepoNamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.RepoName);
+        public static readonly string UpdateTooglePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UpdateToggle);
+        public static readonly string CloneTooglePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneToggle);
+        public static readonly string UrlPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.Url);
+        public static readonly string UsernamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.Username);
+        public static readonly string PasswordPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.Password);
+        public static readonly string UseOverrideCredentialsPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseOverrideCredentials);
+        public static readonly string CloneStatusPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneStatus);
+        public static readonly string CloneStatusMessagePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneStatusMessage);        
+        #endregion
+
         public bool UseDefaultRepoName
         {
             get 
@@ -49,9 +65,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 useCustomRepoName = value;
-                OnPropertyChanged("UseCustomRepoName");
-                OnPropertyChanged("UseDefaultRepoName");
-                OnPropertyChanged("RepoName");
+                OnPropertyChanged(UseCustomRepoNamePropName);
+                OnPropertyChanged(UseDefaultRepoNamePropName);
+                OnPropertyChanged(RepoNamePropName);
             }
         }
 
@@ -78,7 +94,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                 {
                     repoName = value;
                 }
-                OnPropertyChanged("RepoName");
+                OnPropertyChanged(RepoNamePropName);
             }
         }
 
@@ -91,7 +107,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 updateToogle = value;
-                OnPropertyChanged("UpdateToggle");
+                OnPropertyChanged(UpdateTooglePropName);
             }
         }
 
@@ -104,7 +120,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 cloneToogle = value;
-                OnPropertyChanged("CloneSelected");
+                OnPropertyChanged(CloneTooglePropName);
             }
         }
 
@@ -146,7 +162,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                     RepoName = null;
                 }
                 UpdateStatus();
-                OnPropertyChanged("Url");
+                OnPropertyChanged(UrlPropName);
             }
         }
 
@@ -159,7 +175,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 username = value;
-                OnPropertyChanged("Username");
+                OnPropertyChanged(UsernamePropName);
             }
         }
 
@@ -172,7 +188,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 password = value;
-                OnPropertyChanged("Password");
+                OnPropertyChanged(PasswordPropName);
             }
         }
 
@@ -185,7 +201,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 useOverrideCredentials = value;
-                OnPropertyChanged("UseOverrideCredentials");
+                OnPropertyChanged(UseOverrideCredentialsPropName);
             }
         }
 
@@ -206,8 +222,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 cloneStatus = value;
-                OnPropertyChanged("CloneStatus");
-                OnPropertyChanged("CloneStatusMessage");
+                OnPropertyChanged(CloneStatusPropName);
+                OnPropertyChanged(CloneStatusMessagePropName);
             }
         }
 

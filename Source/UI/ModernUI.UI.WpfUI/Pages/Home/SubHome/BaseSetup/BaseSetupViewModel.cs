@@ -1,6 +1,7 @@
 ﻿using FirstFloor.ModernUI.Presentation;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using NugetWorkflow.Common.Base.Interfaces;
+using NugetWorkflow.Common.Base.Utils;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos;
 using NugetWorkflow.UI.WpfUI.Utils;
 
@@ -9,6 +10,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
     public class BaseSetupViewModel : NotifyPropertyChanged, IViewModel
     {
         private string basePath = @"C:\Users\peter.kottas\Desktop\Delete";
+
+        #region Properties names
+        public static readonly string BasePathPropName = ReflectionUtility.GetPropertyName((BaseSetupViewModel s) => s.BasePath);
+        #endregion
 
         public RelayCommand ChooseBasePathCommand { get; set; }
 
@@ -22,7 +27,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
             {
                 basePath = value;
                 ViewModelService.GetViewModel<GitReposViewModel>().UpdateBasePath();
-                OnPropertyChanged("BasePath");
+                OnPropertyChanged(BasePathPropName);
             }
         }
 

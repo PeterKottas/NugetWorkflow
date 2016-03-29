@@ -1,4 +1,5 @@
 ﻿using FirstFloor.ModernUI.Presentation;
+using NugetWorkflow.Common.Base.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -60,6 +61,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
         private Link selectedTheme;
         private string selectedFontSize;
 
+        #region Properties names
+        public static readonly string SelectedAccentColorPropName = ReflectionUtility.GetPropertyName((AppearanceViewModel s) => s.SelectedAccentColor);
+        public static readonly string SelectedThemePropName = ReflectionUtility.GetPropertyName((AppearanceViewModel s) => s.SelectedTheme);
+        #endregion
+
         public AppearanceViewModel()
         {
             // add the default themes
@@ -112,7 +118,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
                 if (this.selectedTheme != value)
                 {
                     this.selectedTheme = value;
-                    OnPropertyChanged("SelectedTheme");
+                    OnPropertyChanged(SelectedThemePropName);
 
                     // and update the actual theme
                     AppearanceManager.Current.ThemeSource = value.Source;
@@ -128,7 +134,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
                 if (this.selectedFontSize != value)
                 {
                     this.selectedFontSize = value;
-                    OnPropertyChanged("SelectedFontSize");
+                    OnPropertyChanged(SelectedAccentColorPropName);
 
                     AppearanceManager.Current.FontSize = value == FontLarge ? FontSize.Large : FontSize.Small;
                 }
@@ -143,7 +149,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
                 if (this.selectedAccentColor != value)
                 {
                     this.selectedAccentColor = value;
-                    OnPropertyChanged("SelectedAccentColor");
+                    OnPropertyChanged(SelectedAccentColorPropName);
 
                     AppearanceManager.Current.AccentColor = value;
                 }

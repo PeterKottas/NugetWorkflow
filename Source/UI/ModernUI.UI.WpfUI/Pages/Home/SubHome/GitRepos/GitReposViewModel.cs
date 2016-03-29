@@ -2,9 +2,9 @@
 using FirstFloor.ModernUI.Windows.Controls;
 using Microsoft.Win32;
 using NugetWorkflow.Common.Base.Converters.JavaScriptConverters;
-using NugetWorkflow.Common.Base.Converters.JavaScriptConverters;
 using NugetWorkflow.Common.Base.Extensions;
 using NugetWorkflow.Common.Base.Interfaces;
+using NugetWorkflow.Common.Base.Utils;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
 using NugetWorkflow.UI.WpfUI.Utils;
@@ -27,6 +27,15 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         private bool includePassword = false;
         private string overidenUsername = "admin";
         private SecureString overridenPassword = "Betfred1".ToSecuredString();
+
+        #region Properties names
+        public static readonly string OverridenPasswordPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.OverridenPassword);
+        public static readonly string OveridenUsernamePropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.OveridenUsername);
+        public static readonly string IncludePasswordPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.IncludePassword);
+        public static readonly string ExportHeaderPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.ExportHeader);
+        public static readonly string GitReposPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.GitRepos);
+        #endregion
+
         public RelayCommand ExportJsonCommand { get; set; }
         public RelayCommand ExportJsonClipboardCommand { get; set; }
         public RelayCommand ImportJsonCommand { get; set; }
@@ -43,7 +52,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             set
             {
                 overridenPassword = value;
-                OnPropertyChanged("OverridenPassword");
+                OnPropertyChanged(OverridenPasswordPropName);
             }
         }
 
@@ -58,7 +67,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
                 if (value != null)
                 {
                     overidenUsername = value;
-                    OnPropertyChanged("OveridenUsername");
+                    OnPropertyChanged(OveridenUsernamePropName);
                 }
             }
         }
@@ -72,8 +81,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             set
             {
                 includePassword = value;
-                OnPropertyChanged("IncludePassword");
-                OnPropertyChanged("ExportHeader");
+                OnPropertyChanged(IncludePasswordPropName);
+                OnPropertyChanged(ExportHeaderPropName);
             }
         }
 
@@ -94,7 +103,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             set
             {
                 gitRepos = value;
-                OnPropertyChanged("GitRepos");
+                OnPropertyChanged(GitReposPropName);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using FirstFloor.ModernUI.Presentation;
 using NugetWorkflow.Common.Base.DTOs.GitRepos;
 using NugetWorkflow.Common.Base.Interfaces;
+using NugetWorkflow.Common.Base.Utils;
 using NugetWorkflow.Common.GitAdapter.DTOs.Requests;
 using NugetWorkflow.Common.GitAdapter.Interfaces;
 using NugetWorkflow.Plugins.GitAdapter;
@@ -29,6 +30,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
         private string consoleInput = string.Empty;
         private ObservableCollection<string> consoleOutput = new ObservableCollection<string>() { "This is how you emulate a freaking console in WPF :p" };
 
+        #region Properties names
+        public static readonly string ScrollConsolePropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ScrollConsole);
+        public static readonly string ProgressValuePropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ProgressValue);
+        public static readonly string ProgressMaximumPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ProgressMaximum);
+        public static readonly string ConsoleInputPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ConsoleInput);
+        public static readonly string ConsoleOutputPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ConsoleOutput);
+        #endregion
+
         public RelayCommand UpdateAllCommand { get; set; }
         public RelayCommand UpdateSelectedCommand { get; set; }
         public RelayCommand ConsoleReturn { get; set; }
@@ -42,7 +51,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             set
             {
                 scrollConsole = value;
-                OnPropertyChanged("ScrollConsole");
+                OnPropertyChanged(ScrollConsolePropName);
             }
         }
 
@@ -55,7 +64,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             set
             {
                 progressValue = value;
-                OnPropertyChanged("ProgressValue");
+                OnPropertyChanged(ProgressValuePropName);
             }
         }
 
@@ -68,7 +77,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             set
             {
                 progressMaximum = value;
-                OnPropertyChanged("ProgressMaximum");
+                OnPropertyChanged(ProgressMaximumPropName);
             }
         }
 
@@ -81,7 +90,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             set
             {
                 consoleInput = value;
-                OnPropertyChanged("ConsoleInput");
+                OnPropertyChanged(ConsoleInputPropName);
             }
         }
 
@@ -94,7 +103,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             set
             {
                 consoleOutput = value;
-                OnPropertyChanged("ConsoleOutput");
+                OnPropertyChanged(ConsoleOutputPropName);
             }
         }
 
