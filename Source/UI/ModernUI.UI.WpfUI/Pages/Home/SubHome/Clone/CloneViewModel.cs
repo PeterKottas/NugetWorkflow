@@ -25,26 +25,45 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
 {
     public class CloneViewModel : NotifyPropertyChanged, IViewModel
     {
+        //Private properties
         private IGitAdapter gitAdapter;
+        //\Private properties
+
+        //Data hiding
         private int progressValue = 0;
+       
         private int progressMaximum = 1;
+        
         private bool scrollConsole = false;
+        
         private string consoleInput = string.Empty;
+        
         private ObservableCollection<string> consoleOutput = new ObservableCollection<string>() { "This is how you emulate a freaking console in WPF :p" };
+        
         private bool calcRunning;
+        //\Data hiding
 
-        #region Properties names
-        public static readonly string ScrollConsolePropName = ReflectionUtility.GetPropertyName((CloneViewModel s) => s.ScrollConsole);
-        public static readonly string ProgressValuePropName = ReflectionUtility.GetPropertyName((CloneViewModel s) => s.ProgressValue);
-        public static readonly string ProgressMaximumPropName = ReflectionUtility.GetPropertyName((CloneViewModel s) => s.ProgressMaximum);
-        public static readonly string ConsoleInputPropName = ReflectionUtility.GetPropertyName((CloneViewModel s) => s.ConsoleInput);
-        public static readonly string ConsoleOutputPropName = ReflectionUtility.GetPropertyName((CloneViewModel s) => s.ConsoleOutput);
-        #endregion
+        //Properties names
+        private static readonly string ScrollConsolePropName = ReflectionUtility.GetPropertyName((CloneViewModel s) => s.ScrollConsole);
+        
+        private static readonly string ProgressValuePropName = ReflectionUtility.GetPropertyName((CloneViewModel s) => s.ProgressValue);
+        
+        private static readonly string ProgressMaximumPropName = ReflectionUtility.GetPropertyName((CloneViewModel s) => s.ProgressMaximum);
+        
+        private static readonly string ConsoleInputPropName = ReflectionUtility.GetPropertyName((CloneViewModel s) => s.ConsoleInput);
+        
+        private static readonly string ConsoleOutputPropName = ReflectionUtility.GetPropertyName((CloneViewModel s) => s.ConsoleOutput);
+        //\Properties names
 
+        //Commands
         public RelayCommand CloneAllCommand { get; set; }
+        
         public RelayCommand CloneSelectedCommand { get; set; }
+        
         public RelayCommand ConsoleReturn { get; set; }
+        //\Commands
 
+        //Bindable properties
         public bool ScrollConsole
         {
             get
@@ -109,7 +128,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
                 OnPropertyChanged(ConsoleOutputPropName);
             }
         }
+        //\Bindable properties
 
+        //Implementation
         public CloneViewModel()
         {
             CloneAllCommand = new RelayCommand(CloneAllExecute, CloneAllCanExecute);
@@ -119,6 +140,38 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
             calcRunning = false;
         }
 
+        public void CloneRepos(IEnumerable<GitRepoModel> gitReposModel)
+        {
+            
+            var gitReposList = new List<GitRepoDTO>();
+            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
+
+            foreach (var gitRepoViewModel in gitReposModel)
+            {
+                if (gitRepoViewModel.CloneStatus == GitRepos.Shared.Enums.CloneStatusEnum.OK)
+                {
+                    gitReposList.Add(new GitRepoDTO()
+                        {
+                            Password = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Password : ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword,
+                            URL = gitRepoViewModel.Url,
+                            Username = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Username : ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername,
+                            Path = Path.Combine(basePath, gitRepoViewModel.RepoName)
+                        });
+                }
+            }
+            calcRunning = true;
+            ProgressValue = 0;
+            ProgressMaximum = gitReposList.Count();
+            gitAdapter.CloneProjects(new CloneProjectsRequestDTO()
+                {
+                    ListOfRepos = gitReposList,
+                    ProgressAction = ProgressCallback,
+                    FinishedAction = FinishedCallback
+                });
+            calcRunning = false;
+        }
+
+        //Commands logic
         private bool ConsoleReturnCanExecute(object arg)
         {
             if (calcRunning)
@@ -172,7 +225,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
 
         private bool CloneAllCanExecute(object arg)
         {
-            if(calcRunning)
+            if (calcRunning)
             {
                 return false;
             }
@@ -184,37 +237,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
             return true;
         }
 
-        public void CloneRepos(IEnumerable<GitRepoModel> gitReposModel)
-        {
-            
-            var gitReposList = new List<GitRepoDTO>();
-            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
-
-            foreach (var gitRepoViewModel in gitReposModel)
-            {
-                if (gitRepoViewModel.CloneStatus == GitRepos.Shared.Enums.CloneStatusEnum.OK)
-                {
-                    gitReposList.Add(new GitRepoDTO()
-                        {
-                            Password = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Password : ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword,
-                            URL = gitRepoViewModel.Url,
-                            Username = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Username : ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername,
-                            Path = Path.Combine(basePath, gitRepoViewModel.RepoName)
-                        });
-                }
-            }
-            calcRunning = true;
-            ProgressValue = 0;
-            ProgressMaximum = gitReposList.Count();
-            gitAdapter.CloneProjects(new CloneProjectsRequestDTO()
-                {
-                    ListOfRepos = gitReposList,
-                    ProgressAction = ProgressCallback,
-                    FinishedAction = FinishedCallback
-                });
-            calcRunning = false;
-        }
-
         private void CloneAllExecute(object obj)
         {
             var reposVM = ViewModelService.GetViewModel<GitReposViewModel>();
@@ -223,7 +245,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
                 new Task(() => { CloneRepos(reposVM.GitRepos); }).Start();
             }
         }
+        //\Commands logic
 
+        //Callbacks
         public void FinishedCallback(string consoleMessage)
         {
             Application.Current.Dispatcher.BeginInvoke(
@@ -249,5 +273,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
                     ViewModelService.GetViewModel<GitReposViewModel>().RefreshBindings();
                 }));
         }
+        //\Callbacks
     }
 }

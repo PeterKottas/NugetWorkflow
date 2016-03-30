@@ -1,6 +1,5 @@
 ﻿using FirstFloor.ModernUI.Presentation;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup;
-using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Converters;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Shared.Enums;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System;
@@ -21,33 +20,57 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 {
     public class GitRepoModel : NotifyPropertyChanged
     {
+        //Data hiding
         private SecureString password;
+        
         private string url;
+        
         private string username;
+        
         private string hash;
+        
         private bool useOverrideCredentials;
+        
         private bool cloneToogle;
+        
         private bool updateToogle;
+        
         private CloneStatusEnum cloneStatus;
+        
         private bool isValidUrl = false;
+        
         private string repoName = null;
+        
         private string repoNameCustom = null;
+        
         private bool useCustomRepoName = false;
+        //\Data hiding
 
-        #region Properties names
+        //Properties names
         public static readonly string UseCustomRepoNamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseCustomRepoName);
+        
         public static readonly string UseDefaultRepoNamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseDefaultRepoName);
+        
         public static readonly string RepoNamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.RepoName);
+        
         public static readonly string UpdateTooglePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UpdateToggle);
+        
         public static readonly string CloneTooglePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneToggle);
+        
         public static readonly string UrlPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.Url);
+        
         public static readonly string UsernamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.Username);
+        
         public static readonly string PasswordPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.Password);
+        
         public static readonly string UseOverrideCredentialsPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseOverrideCredentials);
+        
         public static readonly string CloneStatusPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneStatus);
-        public static readonly string CloneStatusMessagePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneStatusMessage);        
-        #endregion
+        
+        public static readonly string CloneStatusMessagePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneStatusMessage);
+        //\Properties names
 
+        //Bindable properties
         public bool UseDefaultRepoName
         {
             get 
@@ -226,6 +249,17 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                 OnPropertyChanged(CloneStatusMessagePropName);
             }
         }
+        //\Bindable properties
+
+        //Implementation
+        public GitRepoModel()
+        {
+            hash = Guid.NewGuid().ToString();
+            useOverrideCredentials = false;
+            username = string.Empty;
+            cloneToogle = false;
+            url = string.Empty;
+        }
 
         public void UpdateStatus(string basePath)
         {
@@ -262,14 +296,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             return CloneStatusEnum.AlreadyExists;
         }
-
-        public GitRepoModel()
-        {
-            hash = Guid.NewGuid().ToString();
-            useOverrideCredentials = false;
-            username = string.Empty;
-            cloneToogle = false;
-            url = string.Empty;
-        }
+        //\Implementation
     }
 }

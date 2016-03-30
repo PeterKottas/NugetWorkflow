@@ -23,26 +23,51 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 {
     public class UpdateViewModel : NotifyPropertyChanged, IViewModel
     {
-        private bool calcRunning = false;
+        //Dependencies interfaces
         private IGitAdapter gitAdapter;
+        //\Dependencies interfaces
+
+        //Private properties
+        private bool calcRunning = false;
+        //\Private properties
+
+        //Data hiding
         private int progressValue = 0;
+        
         private int progressMaximum = 1;
+        
         private bool scrollConsole = false;
+        
         private string consoleInput = string.Empty;
+        
         private ObservableCollection<string> consoleOutput = new ObservableCollection<string>() { "This is how you emulate a freaking console in WPF :p" };
+        
+        private string NuGetID = string.Empty;
+        
+        private string NuGetVersion = string.Empty;
+        //\Data hiding
 
-        #region Properties names
-        public static readonly string ScrollConsolePropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ScrollConsole);
-        public static readonly string ProgressValuePropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ProgressValue);
-        public static readonly string ProgressMaximumPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ProgressMaximum);
-        public static readonly string ConsoleInputPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ConsoleInput);
-        public static readonly string ConsoleOutputPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ConsoleOutput);
-        #endregion
+        //Properties names
+        private static readonly string ScrollConsolePropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ScrollConsole);
+        
+        private static readonly string ProgressValuePropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ProgressValue);
+        
+        private static readonly string ProgressMaximumPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ProgressMaximum);
+        
+        private static readonly string ConsoleInputPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ConsoleInput);
+        
+        private static readonly string ConsoleOutputPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ConsoleOutput);
+        //\Properties names
 
+        //Commands
         public RelayCommand UpdateAllCommand { get; set; }
-        public RelayCommand UpdateSelectedCommand { get; set; }
-        public RelayCommand ConsoleReturn { get; set; }
 
+        public RelayCommand UpdateSelectedCommand { get; set; }
+
+        public RelayCommand ConsoleReturn { get; set; }
+        //\Commands
+
+        //Bindable properties
         public bool ScrollConsole
         {
             get
@@ -107,7 +132,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                 OnPropertyChanged(ConsoleOutputPropName);
             }
         }
+        //\Bindable properties
 
+        //Implementation
         public UpdateViewModel()
         {
             UpdateAllCommand = new RelayCommand(UpdateAllExecute, UpdateAllCanExecute);
@@ -116,6 +143,33 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             gitAdapter = new GitAdapterCore();
         }
 
+        private void UpdateRepos(IEnumerable<GitRepoModel> gitReposModel)
+        {
+            calcRunning = true;
+            ProgressValue = 0;
+            var gitReposList = new List<GitRepoDTO>();
+            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
+            foreach (var gitRepoViewModel in gitReposModel)
+            {
+                gitReposList.Add(new GitRepoDTO()
+                {
+                    Password = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Password : ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword,
+                    URL = gitRepoViewModel.Url,
+                    Username = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Username : ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername,
+                    Path = Path.Combine(basePath, gitRepoViewModel.RepoName)
+                });
+            }
+            ProgressMaximum = gitReposModel.Count();
+            gitAdapter.UpdateProjectsDependencies(new UpdateProjectsDependenciesRequestDTO()
+            {
+                ListOfRepos = gitReposList,
+                ProgressAction = ProgressCallback
+            });
+            calcRunning = false;
+        }
+        //\Implementation
+
+        //Commands logic
         private bool ConsoleReturnCanExecute(object arg)
         {
             if (calcRunning)
@@ -181,31 +235,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             return true;
         }
 
-        public void UpdateRepos(IEnumerable<GitRepoModel> gitReposModel)
-        {
-            calcRunning = true;
-            ProgressValue = 0;
-            var gitReposList = new List<GitRepoDTO>();
-            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
-            foreach (var gitRepoViewModel in gitReposModel)
-            {
-                gitReposList.Add(new GitRepoDTO()
-                    {
-                        Password = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Password : ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword,
-                        URL = gitRepoViewModel.Url,
-                        Username = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Username : ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername,
-                        Path = Path.Combine(basePath, gitRepoViewModel.RepoName)
-                    });
-            }
-            ProgressMaximum = gitReposModel.Count();
-            gitAdapter.UpdateProjectsDependencies(new UpdateProjectsDependenciesRequestDTO()
-                {
-                    ListOfRepos = gitReposList,
-                    ProgressAction = ProgressCallback
-                });
-            calcRunning = false;
-        }
-
         private void UpdateAllExecute(object obj)
         {
             var reposVM = ViewModelService.GetViewModel<GitReposViewModel>();
@@ -214,7 +243,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                 new Task(() => { UpdateRepos(reposVM.GitRepos); }).Start();
             }
         }
+        //\Commands logic
 
+        //Callbacks
         public void FinishedCallback(string consoleMessage)
         {
             Application.Current.Dispatcher.BeginInvoke(
@@ -240,5 +271,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                     ViewModelService.GetViewModel<GitReposViewModel>().RefreshBindings();
                 }));
         }
+        //\Callbacks
     }
 }

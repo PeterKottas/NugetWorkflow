@@ -11,12 +11,15 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
 {
     public class HomePageViewModel : NotifyPropertyChanged, IViewModel
     {
+        //Private properties
         private string header;
+        //\Private properties
 
-        #region Properties names
+        //Properties names        
         public static readonly string HeaderPropName = ReflectionUtility.GetPropertyName((HomePageViewModel s) => s.Header);
-        #endregion
+        //\Properties names
 
+        //Bindable properties
         public string Header
         {
             get
@@ -29,8 +32,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
                 OnPropertyChanged(HeaderPropName);
             }
         }
+        //\Bindable properties
+
+        //Implementation
         public HomePageViewModel()
         {
         }
+        //\Implementation
     }
 }

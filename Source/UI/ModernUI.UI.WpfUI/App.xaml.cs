@@ -14,6 +14,19 @@ namespace NugetWorkflow.UI.WpfUI
     public partial class App : Application
     {
         private Dictionary<Type, object> viewDictionary;
+
+        private void SetupViewDictionary()
+        {
+            viewDictionary = new Dictionary<Type, object>();
+            var viewInterface = typeof(IViewModel);
+            var types = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("NugetWorkflow.UI.WpfUI")).SelectMany(s => s.GetTypes())
+                .Where(p => viewInterface.IsAssignableFrom(p) && p != viewInterface);
+            foreach (var type in types)
+            {
+                viewDictionary.Add(type, Activator.CreateInstance(type));
+            }
+        }
+
         public RET GetView<RET>()
         {
             var contains = viewDictionary.Keys.Contains(typeof(RET));
@@ -27,18 +40,6 @@ namespace NugetWorkflow.UI.WpfUI
         protected override void OnStartup(StartupEventArgs e)
         {
             SetupViewDictionary();
-        }
-
-        private void SetupViewDictionary()
-        {
-            viewDictionary = new Dictionary<Type, object>();
-            var viewInterface = typeof(IViewModel);
-            var types = AppDomain.CurrentDomain.GetAssemblies().Where(a=>a.FullName.StartsWith("NugetWorkflow")).SelectMany(s=>s.GetTypes())
-                .Where(p => viewInterface.IsAssignableFrom(p) && p != viewInterface);
-            foreach (var type in types)
-            {
-                viewDictionary.Add(type, Activator.CreateInstance(type));
-            }
         }
     }
 }

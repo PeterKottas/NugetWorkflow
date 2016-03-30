@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NugetWorkflow.UI.WpfUI.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
             InitializeComponent();
 
             // create and assign the appearance view model
-            this.DataContext = new AppearanceViewModel();
+            this.DataContext = ViewModelService.GetViewModel<AppearanceViewModel>();
         }
     }
 }

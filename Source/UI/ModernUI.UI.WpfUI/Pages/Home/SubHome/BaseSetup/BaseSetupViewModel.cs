@@ -9,14 +9,19 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
 {
     public class BaseSetupViewModel : NotifyPropertyChanged, IViewModel
     {
+        //Data hiding
         private string basePath = @"C:\Users\peter.kottas\Desktop\Delete";
+        //\Data hiding
 
-        #region Properties names
-        public static readonly string BasePathPropName = ReflectionUtility.GetPropertyName((BaseSetupViewModel s) => s.BasePath);
-        #endregion
+        //Properties names
+        private static readonly string BasePathPropName = ReflectionUtility.GetPropertyName((BaseSetupViewModel s) => s.BasePath);
+        //\Properties names        
 
+        //Commands
         public RelayCommand ChooseBasePathCommand { get; set; }
+        //\Commands
 
+        //Bindable properties
         public string BasePath
         {
             get
@@ -30,12 +35,16 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
                 OnPropertyChanged(BasePathPropName);
             }
         }
+        //\Bindable properties
 
+        //Implementation
         public BaseSetupViewModel()
         {
             ChooseBasePathCommand = new RelayCommand(ChooseBasePathExecute);
         }
+        //Implementation
 
+        //Commands logic
         private void ChooseBasePathExecute(object parameter)
         {
             var dlg = new CommonOpenFileDialog();
@@ -56,5 +65,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
                 BasePath = dlg.FileName;
             }
         }
+        //\Commands logic
     }
 }

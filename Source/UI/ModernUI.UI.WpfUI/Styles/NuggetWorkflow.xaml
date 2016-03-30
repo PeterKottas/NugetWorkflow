@@ -15,4 +15,6 @@
     <Style x:Key="ContentRoot" TargetType="FrameworkElement">
         <Setter Property="Margin" Value="{StaticResource ContentMargin}" />
     </Style>
+    <Thickness x:Key="ButtonMargin" >5</Thickness>
+    <Thickness x:Key="DataGridCellMargin" >3</Thickness>
 </ResourceDictionary>

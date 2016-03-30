@@ -5,15 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:utils="clr-namespace:NugetWorkflow.UI.WpfUI.Utils"
-             xmlns:converters="clr-namespace:NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Converters"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d">
-    <UserControl.Resources>
-        <Thickness x:Key="ButtonMargin" >5</Thickness>
-        <Thickness x:Key="DataGridCellMargin" >3</Thickness>
-        <converters:CloneStatusConverter x:Key="CloneStatusConverter" />
-    </UserControl.Resources>
-
     <Grid Style="{StaticResource ContentRoot}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
