@@ -4,11 +4,16 @@ using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.Common.Base.Utils;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos;
 using NugetWorkflow.UI.WpfUI.Utils;
+using System.IO;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
 {
     public class BaseSetupViewModel : NotifyPropertyChanged, IViewModel
     {
+        //Private properties
+        private FileSystemWatcher basePathWatcher;
+        //\Private properties
+
         //Data hiding
         private string basePath = @"C:\Users\peter.kottas\Desktop\Delete";
         //\Data hiding
@@ -33,6 +38,18 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
                 basePath = value;
                 ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
                 OnPropertyChanged(BasePathPropName);
+                if (Directory.Exists(basePath))
+                {
+                    basePathWatcher.Path = BasePath;
+                    if (!basePathWatcher.EnableRaisingEvents)
+                    {
+                        basePathWatcher.EnableRaisingEvents = true;
+                    }
+                }
+                else
+                {
+                    basePathWatcher.EnableRaisingEvents = false;
+                }
             }
         }
         //\Bindable properties
@@ -41,6 +58,36 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
         public BaseSetupViewModel()
         {
             ChooseBasePathCommand = new RelayCommand(ChooseBasePathExecute);
+            basePathWatcher = new FileSystemWatcher();
+            basePathWatcher.IncludeSubdirectories = true;
+            basePathWatcher.NotifyFilter = NotifyFilters.LastAccess |
+                         NotifyFilters.LastWrite |
+                         NotifyFilters.FileName |
+                         NotifyFilters.DirectoryName;
+            basePathWatcher.Changed += OnChanged;
+            basePathWatcher.Deleted += OnChanged;
+            basePathWatcher.Created += OnChanged;
+            basePathWatcher.Renamed += OnRename;
+            RenameCounter = 0;
+            ChangedCounter = 0;
+        }
+
+        public int RenameCounter { get; set; }
+
+        public int ChangedCounter { get; set; }
+
+        void OnRename(object sender, RenamedEventArgs e)
+        {
+            ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+            RenameCounter++;
+            OnPropertyChanged("RenameCounter");
+        }
+
+        void OnChanged(object sender, FileSystemEventArgs e)
+        {
+            ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+            ChangedCounter++;
+            OnPropertyChanged("ChangedCounter");
         }
         //Implementation
 

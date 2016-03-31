@@ -53,7 +53,7 @@
     <ApplicationIcon>appbar.diagram.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>C7B6673D03F19CC23848D580AD6F29F0CF4CFCE4</ManifestCertificateThumbprint>

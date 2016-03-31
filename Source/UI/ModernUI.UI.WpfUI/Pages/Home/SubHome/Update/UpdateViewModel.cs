@@ -303,6 +303,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                 {
                     ConsoleOutput.Add(consoleMessage);
                     ScrollConsole = true;
+                    ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
                     ViewModelService.GetViewModel<GitReposViewModel>().RefreshBindings();
                     CommandManager.InvalidateRequerySuggested();
                 }));
@@ -317,6 +318,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                     ConsoleOutput.Add(consoleMessage);
                     ProgressValue++;
                     ScrollConsole = true;
+                    ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
                     ViewModelService.GetViewModel<GitReposViewModel>().RefreshBindings();
                 }));
         }

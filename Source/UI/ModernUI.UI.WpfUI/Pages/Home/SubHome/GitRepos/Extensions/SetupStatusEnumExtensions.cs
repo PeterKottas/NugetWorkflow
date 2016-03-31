@@ -18,6 +18,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Extensions
                     return "Base path incorrect";
                 case SetupStatusEnum.OK:
                     return "Ok";
+                case SetupStatusEnum.BasePathNotFound:
+                    return "Base path not found";
                 default:
                     return "Unknown";
             }
