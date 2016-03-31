@@ -148,7 +148,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
 
             foreach (var gitRepoViewModel in gitReposModel)
             {
-                if (gitRepoViewModel.CloneStatus == GitRepos.Shared.Enums.CloneStatusEnum.OK)
+                if (gitRepoViewModel.CloneStatus == GitRepos.Shared.Enums.CloneStatusEnum.CanBeCloned)
                 {
                     gitReposList.Add(new GitRepoDTO()
                         {

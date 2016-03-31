@@ -15,6 +15,7 @@ using NugetWorkflow.Common.Base.Extensions;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Extensions;
 using NugetWorkflow.Common.Base.Utils;
 using System.Linq.Expressions;
+using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 {
@@ -34,8 +35,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         private bool cloneToogle;
         
         private bool updateToogle;
-        
+
+        private SetupStatusEnum setupStatus;
+
         private CloneStatusEnum cloneStatus;
+
+        private UpdateStatusEnum updateStatus;
         
         private bool isValidUrl = false;
         
@@ -66,8 +71,16 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         public static readonly string UseOverrideCredentialsPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseOverrideCredentials);
         
         public static readonly string CloneStatusPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneStatus);
-        
+
         public static readonly string CloneStatusMessagePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneStatusMessage);
+
+        public static readonly string UpdateStatusPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UpdateStatus);
+
+        public static readonly string UpdateStatusMessagePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UpdateStatusMessage);
+
+        public static readonly string SetupStatusPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.SetupStatus);
+
+        public static readonly string SetupStatusMessagePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.SetupStatusMessage);
         //\Properties names
 
         //Bindable properties
@@ -184,7 +197,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                 {
                     RepoName = null;
                 }
-                UpdateStatus();
+                UpdateSetupStatus();
                 OnPropertyChanged(UrlPropName);
             }
         }
@@ -228,11 +241,25 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
-        public string CloneStatusMessage
+        public SetupStatusEnum SetupStatus
         {
             get
             {
-                return CloneStatus.ToUserFriendlyMessage();
+                return setupStatus;
+            }
+            set
+            {
+                setupStatus = value;
+                OnPropertyChanged(SetupStatusPropName);
+                OnPropertyChanged(SetupStatusMessagePropName);
+            }
+        }
+
+        public string SetupStatusMessage
+        {
+            get
+            {
+                return SetupStatus.ToUserFriendlyMessage();
             }
         }
 
@@ -249,6 +276,36 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                 OnPropertyChanged(CloneStatusMessagePropName);
             }
         }
+
+        public string CloneStatusMessage
+        {
+            get
+            {
+                return CloneStatus.ToUserFriendlyMessage();
+            }
+        }
+
+        public UpdateStatusEnum UpdateStatus
+        {
+            get
+            {
+                return updateStatus;
+            }
+            set
+            {
+                updateStatus = value;
+                OnPropertyChanged(UpdateStatusPropName);
+                OnPropertyChanged(UpdateStatusMessagePropName);
+            }
+        }
+
+        public string UpdateStatusMessage
+        {
+            get
+            {
+                return UpdateStatus.ToUserFriendlyMessage();
+            }
+        }
         //\Bindable properties
 
         //Implementation
@@ -261,22 +318,24 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             url = string.Empty;
         }
 
-        public void UpdateStatus(string basePath)
+        public void UpdateSetupStatus(string basePath)
         {
-            CloneStatus = GetStatus(basePath);
+            SetupStatus = GetSetupStatus(basePath);
+            UpdateCloneStatus(basePath);
+            UpdateUpdateStatus();
         }
 
-        public void UpdateStatus()
+        public void UpdateSetupStatus()
         {
             var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
-            UpdateStatus(basePath);
+            UpdateSetupStatus(basePath);
         }
 
-        private CloneStatusEnum GetStatus(string basePath)
+        private SetupStatusEnum GetSetupStatus(string basePath)
         {
             if (string.IsNullOrEmpty(basePath))
             {
-                return CloneStatusEnum.BasePathUndefined;
+                return SetupStatusEnum.BasePathUndefined;
             }
             try
             {
@@ -284,17 +343,79 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             catch (Exception)
             {
-                return CloneStatusEnum.BasePathWrongFormat;
+                return SetupStatusEnum.BasePathWrongFormat;
+            }
+            if (string.IsNullOrEmpty(Url))
+            {
+                return SetupStatusEnum.UrlNotDefined;
             }
             if (string.IsNullOrEmpty(RepoName))
             {
-                return CloneStatusEnum.WrongUrlFormat;
+                return SetupStatusEnum.UrlWrongFormat;
             }
-            if (!Directory.Exists(Path.Combine(basePath, RepoName)))
+            if (!Directory.Exists(basePath))
             {
-                return CloneStatusEnum.OK;
+                return SetupStatusEnum.BasePathNotFound;
             }
-            return CloneStatusEnum.AlreadyExists;
+            return SetupStatusEnum.OK;
+        }
+
+        public void UpdateCloneStatus(string basePath)
+        {
+            CloneStatus = GetCloneStatus(basePath);
+        }
+
+        public void UpdateCloneStatus()
+        {
+            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
+            UpdateCloneStatus(basePath);
+        }
+
+        private CloneStatusEnum GetCloneStatus(string basePath)
+        {
+            if(SetupStatus!=SetupStatusEnum.OK)
+            {
+                return CloneStatusEnum.SetupWrong;
+            }
+            if (Directory.Exists(Path.Combine(basePath,RepoName)))
+            {
+                return CloneStatusEnum.AlreadyCloned;
+            }
+            return CloneStatusEnum.CanBeCloned;
+        }
+
+        public void UpdateUpdateStatus(string basePath, string nuGetID, string nuGetVersion)
+        {
+            UpdateStatus = GetUpdateStatus(basePath, nuGetID, nuGetVersion);
+        }
+
+        public void UpdateUpdateStatus()
+        {
+            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
+            var nuGetID = ViewModelService.GetViewModel<UpdateViewModel>().NuGetID;
+            var nuGetVersion = ViewModelService.GetViewModel<UpdateViewModel>().NuGetVersion;
+            UpdateUpdateStatus(basePath, nuGetID, nuGetVersion);
+        }
+
+        private UpdateStatusEnum GetUpdateStatus(string basePath, string nuGetID, string nuGetVersion)
+        {
+            if (CloneStatus != CloneStatusEnum.AlreadyCloned)
+            {
+                return UpdateStatusEnum.CloneWrong;
+            }
+            if (string.IsNullOrEmpty(nuGetID))
+            {
+                return UpdateStatusEnum.NuGetIDNotSpecified;
+            }
+            if (string.IsNullOrEmpty(nuGetVersion))
+            {
+                return UpdateStatusEnum.NuGetVersionNotSpecified;
+            }
+            if (!Regex.IsMatch(nuGetVersion, @"^(?:[\[\(]?\,?)(?:(\d+)\.)?(?:(\d+)\.)?(?:(\*|\d+)(\-?\w*)\,?)(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)?(\-?\w*)?(?:[\]\)]?)$", RegexOptions.None,new TimeSpan(100)))
+            {
+                return UpdateStatusEnum.NuGetVersionWrongFormat;
+            }
+            return UpdateStatusEnum.Ok;
         }
         //\Implementation
     }

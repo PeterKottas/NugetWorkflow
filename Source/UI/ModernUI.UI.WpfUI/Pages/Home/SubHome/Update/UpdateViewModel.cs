@@ -42,9 +42,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
         
         private ObservableCollection<string> consoleOutput = new ObservableCollection<string>() { "This is how you emulate a freaking console in WPF :p" };
         
-        private string NuGetID = string.Empty;
+        private string nuGetID = string.Empty;
         
-        private string NuGetVersion = string.Empty;
+        private string nuGetVersion = string.Empty;
+
+        private List<string> nuGetIDAutocomplete = new List<string>();
         //\Data hiding
 
         //Properties names
@@ -57,6 +59,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
         private static readonly string ConsoleInputPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ConsoleInput);
         
         private static readonly string ConsoleOutputPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ConsoleOutput);
+
+        private static readonly string NuGetIDAutocompletePropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.NuGetIDAutocomplete);
+
+        private static readonly string NuGetIDPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.NuGetID);
+
+        private static readonly string NuGetVersionPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.NuGetVersion);
         //\Properties names
 
         //Commands
@@ -130,6 +138,47 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             {
                 consoleOutput = value;
                 OnPropertyChanged(ConsoleOutputPropName);
+            }
+        }
+
+        public List<string> NuGetIDAutocomplete
+        {
+            get
+            {
+                return nuGetIDAutocomplete;
+            }
+            set
+            {
+                nuGetIDAutocomplete = value;
+                OnPropertyChanged(NuGetIDAutocompletePropName);
+            }
+        }
+
+        public string NuGetID
+        {
+            get
+            {
+                return nuGetID;
+            }
+            set
+            {
+                nuGetID = value;
+                OnPropertyChanged(NuGetIDPropName);
+                ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+            }
+        }
+
+        public string NuGetVersion
+        {
+            get
+            {
+                return nuGetVersion;
+            }
+            set
+            {
+                nuGetVersion = value;
+                OnPropertyChanged(NuGetVersionPropName);
+                ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
             }
         }
         //\Bindable properties

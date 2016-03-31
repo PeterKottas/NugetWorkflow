@@ -6,6 +6,7 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:utils="clr-namespace:NugetWorkflow.UI.WpfUI.Utils"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             xmlns:behaviors="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
              mc:Ignorable="d">
     <Grid Style="{StaticResource ContentRoot}" >
         <Grid.RowDefinitions>
@@ -32,7 +33,7 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Margin="5,10" Text="NuGet ID :" VerticalAlignment="Center"/>
-                                <TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding OveridenUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
+                                <TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding NuGetID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding NuGetIDAutocomplete}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -40,7 +41,7 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Margin="5,10" Text="Version :" VerticalAlignment="Center"/>
-                                <TextBox Margin="{StaticResource ButtonMargin}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
+                                <TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding NuGetVersion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
                             </Grid>
                         </WrapPanel>
                     </GroupBox>
@@ -71,7 +72,7 @@
                     <DataGridTemplateColumn Header="Status">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding CloneStatusMessage, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource DataGridCellMargin}" IsReadOnly="True" TextAlignment="Center" IsHitTestVisible="False"/>
+                                <TextBox Text="{Binding UpdateStatusMessage, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource DataGridCellMargin}" IsReadOnly="True" TextAlignment="Center" IsHitTestVisible="False"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

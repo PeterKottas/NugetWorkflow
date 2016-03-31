@@ -220,18 +220,18 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             OnPropertyChanged(string.Empty);
         }
 
-        public void UpdateBasePath(string BasePath)
+        public void UpdateStatuses(string BasePath)
         {
             foreach (var repo in GitRepos)
             {
-                repo.UpdateStatus(BasePath);
+                repo.UpdateSetupStatus(BasePath);
             }
         }
 
-        public void UpdateBasePath()
+        public void UpdateStatuses()
         {
             var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
-            UpdateBasePath(basePath);
+            UpdateStatuses(basePath);
         }
         //Implementation
 

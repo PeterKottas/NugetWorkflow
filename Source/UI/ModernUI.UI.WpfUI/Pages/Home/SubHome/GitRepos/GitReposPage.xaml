@@ -97,7 +97,7 @@
                     <DataGridTemplateColumn Header="Status">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding CloneStatusMessage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource DataGridCellMargin}" IsReadOnly="True" TextAlignment="Center" IsHitTestVisible="False"/>
+                                <TextBox Text="{Binding SetupStatusMessage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource DataGridCellMargin}" IsReadOnly="True" TextAlignment="Center" IsHitTestVisible="False"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

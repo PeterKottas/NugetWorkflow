@@ -31,7 +31,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
             set
             {
                 basePath = value;
-                ViewModelService.GetViewModel<GitReposViewModel>().UpdateBasePath();
+                ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
                 OnPropertyChanged(BasePathPropName);
             }
         }

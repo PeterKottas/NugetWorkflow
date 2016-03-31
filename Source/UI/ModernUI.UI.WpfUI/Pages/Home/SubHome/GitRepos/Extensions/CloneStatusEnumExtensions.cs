@@ -8,16 +8,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Extensions
         {
             switch (source)
             {
-                case CloneStatusEnum.WrongUrlFormat:
-                    return "Wrong url format";
-                case CloneStatusEnum.BasePathUndefined:
-                    return "Base path missing";
-                case CloneStatusEnum.AlreadyExists:
-                    return "Already exists";
-                case CloneStatusEnum.OK:
-                    return "Ok";
-                case CloneStatusEnum.BasePathWrongFormat:
-                    return "Base path incorrect";
+                case CloneStatusEnum.AlreadyCloned:
+                    return "Already cloned";
+                case CloneStatusEnum.CanBeCloned:
+                    return "Can be cloned";
+                case CloneStatusEnum.SetupWrong:
+                    return "Repo setup wrong";
                 default:
                     return "Unknown";
             }

@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Shared.Enums
 {
-    public enum CloneStatusEnum
+    public enum UpdateStatusEnum
     {
-        SetupWrong,
-        AlreadyCloned,
-        CanBeCloned
+        CloneWrong,
+        NuGetIDNotSpecified,
+        NuGetVersionNotSpecified,
+        NuGetVersionWrongFormat,
+        NotContainNuGetID,
+        Ok
     }
 }
