@@ -33,7 +33,12 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Margin="5,10" Text="NuGet ID :" VerticalAlignment="Center"/>
-                                <TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding NuGetID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding NuGetIDAutocomplete}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
+                                <!--<TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding NuGetID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding GitReposVM.NuGetPackagesIDsUnion, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+                                         behaviors:AutoCompleteBehavior.AutoCompleteStringComparison="InvariantCultureIgnoreCase"
+                                         FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>-->
+                                <ComboBox Margin="{StaticResource ButtonMargin}" ItemsSource="{Binding GitReposVM.NuGetPackagesIDsUnion, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+                                        SelectedValue="{Binding NuGetID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1"/>
+                                
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>

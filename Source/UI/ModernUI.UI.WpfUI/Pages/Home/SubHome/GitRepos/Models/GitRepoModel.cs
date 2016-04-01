@@ -151,6 +151,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                     repoName = value;
                 }
                 OnPropertyChanged(RepoNamePropName);
+                UpdatePackagesIDs();
             }
         }
 
@@ -365,19 +366,23 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         private List<string> GetPackagesIDs(string basePath)
         {
             var path = Path.Combine(basePath, RepoName);
-            var files = Directory.GetFiles(path, "packages.cofig", SearchOption.AllDirectories);
-            var nuGetIDs = new List<string>();
-            foreach (var file in files)
+            if (Directory.Exists(path))
             {
-                var doc = new XmlDocument();
-                doc.Load(file);
-                var elements = doc.GetElementsByTagName("package");
-                foreach (XmlNode element in elements)
+                var files = Directory.GetFiles(path, "packages.config", SearchOption.AllDirectories);
+                var nuGetIDs = new List<string>();
+                foreach (var file in files)
                 {
-                    nuGetIDs.Add(element.Attributes["id"].Value);
+                    var doc = new XmlDocument();
+                    doc.Load(file);
+                    var elements = doc.GetElementsByTagName("package");
+                    foreach (XmlNode element in elements)
+                    {
+                        nuGetIDs.Add(element.Attributes["id"].Value);
+                    }
                 }
+                return nuGetIDs.Distinct().Where(a => a != null).ToList();
             }
-            return nuGetIDs.Distinct().Where(a => a != null).ToList();
+            return new List<string>();
         }
 
         private SetupStatusEnum GetSetupStatus(string basePath)

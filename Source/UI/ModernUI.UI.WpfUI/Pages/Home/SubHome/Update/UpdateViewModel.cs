@@ -29,7 +29,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 
         //Private properties
         private bool calcRunning = false;
-        private FileSystemWatcher basePathWatcher;
         private TimerUpdater uIRefresher;
         private bool requiresUIUpdate = false;
         //\Private properties
@@ -43,11 +42,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
         
         private string consoleInput = string.Empty;
         
-        private ObservableCollection<string> consoleOutput = new ObservableCollection<string>() { "This is how you emulate a freaking console in WPF :p" };
+        private ObservableCollection<string> consoleOutput = new ObservableCollection<string>();
 
-        private string nuGetID = "Microsoft.AspNet.WebApi";
+        private string nuGetID;
         
-        private string nuGetVersion = "5.2.3";
+        private string nuGetVersion;
 
         private List<string> nuGetIDAutocomplete = new List<string>();
         //\Data hiding
@@ -76,6 +75,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
         public RelayCommand UpdateSelectedCommand { get; set; }
 
         public RelayCommand ConsoleReturn { get; set; }
+
+        public GitReposViewModel GitReposVM { get; set; }
         //\Commands
 
         //Bindable properties
@@ -193,17 +194,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             UpdateSelectedCommand = new RelayCommand(UpdateSelectedExecute, UpdateSelectedCanExecute);
             ConsoleReturn = new RelayCommand(ConsoleReturnExecute, ConsoleReturnCanExecute);
             gitAdapter = new GitAdapterCore();
-
-            basePathWatcher = new FileSystemWatcher();
-            basePathWatcher.IncludeSubdirectories = true;
-            basePathWatcher.NotifyFilter = NotifyFilters.LastAccess |
-                         NotifyFilters.LastWrite |
-                         NotifyFilters.FileName |
-                         NotifyFilters.DirectoryName;
-            basePathWatcher.Changed += OnChanged;
-            basePathWatcher.Deleted += OnChanged;
-            basePathWatcher.Created += OnChanged;
-            basePathWatcher.Renamed += OnRename;
             uIRefresher = new TimerUpdater(new System.TimeSpan(0, 0, 1), () =>
             {
                 if (requiresUIUpdate)
@@ -213,16 +203,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                     OnPropertyChanged("UIUpdateCounter");
                 }
             });
-        }
-
-        void OnRename(object sender, RenamedEventArgs e)
-        {
-            requiresUIUpdate = true;
-        }
-
-        void OnChanged(object sender, FileSystemEventArgs e)
-        {
-            requiresUIUpdate = true;
         }
 
         private void UpdateRepos(IEnumerable<GitRepoModel> gitReposModel)
@@ -253,8 +233,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             calcRunning = false;
         }
 
+        public void UpdatePackages()
+        {
+            requiresUIUpdate = true;
+        }
+
         public void Initialize()
         {
+            GitReposVM = ViewModelService.GetViewModel<GitReposViewModel>();
         }
         //\Implementation
 

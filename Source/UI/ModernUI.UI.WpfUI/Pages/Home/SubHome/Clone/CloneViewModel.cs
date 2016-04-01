@@ -38,7 +38,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
         
         private string consoleInput = string.Empty;
         
-        private ObservableCollection<string> consoleOutput = new ObservableCollection<string>() { "This is how you emulate a freaking console in WPF :p" };
+        private ObservableCollection<string> consoleOutput = new ObservableCollection<string>();
         
         private bool calcRunning;
         //\Data hiding

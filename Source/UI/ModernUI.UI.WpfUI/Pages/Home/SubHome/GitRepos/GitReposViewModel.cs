@@ -35,6 +35,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         private string overidenUsername = "admin";
         
         private SecureString overridenPassword = "Betfred1".ToSecuredString();
+
+        private List<string> nuGetPackagesIDsUnion;
         //\Data hiding
 
         //Properties names
@@ -47,6 +49,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         public static readonly string ExportHeaderPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.ExportHeader);
         
         public static readonly string GitReposPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.GitRepos);
+
+        public static readonly string NuGetPackagesIDsUnionPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.NuGetPackagesIDsUnion);
         //\Properties names
 
         //Commands
@@ -64,6 +68,19 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         //\Commands
 
         //Bindable properties
+        public List<string> NuGetPackagesIDsUnion
+        {
+            get
+            {
+                return nuGetPackagesIDsUnion;
+            }
+            set
+            {
+                nuGetPackagesIDsUnion = value;
+                OnPropertyChanged(NuGetPackagesIDsUnionPropName);
+            }
+        }
+
         public SecureString OverridenPassword
         {
             get
@@ -135,7 +152,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         public GitReposViewModel()
         {
             gitRepos = new ObservableCollection<GitRepoModel>();
-            gitRepos.Add(new GitRepoModel() { Url = "http://git-bonobo:8083/test-api.git" });
+            gitRepos.Add(new GitRepoModel() { Url = "https://github.com/PeterKottas/NugetWorkflow.git" });
             ImportJsonClipboardCommand = new RelayCommand(ImportJsonClipboardExecute, ImportJsonClipboardCanExecute);
             ImportJsonCommand = new RelayCommand(ImportJsonExecute);
             ExportJsonCommand = new RelayCommand(ExportJsonExecute, ExportJsonCanExecute);
@@ -242,8 +259,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         {
             foreach (var repo in GitRepos)
             {
-                repo.UpdateSetupStatus(BasePath);
+                repo.UpdatePackagesIDs(BasePath);
             }
+            InvalidateNuGetPackagesIDsUnion();
+        }
+
+        public void InvalidateNuGetPackagesIDsUnion()
+        {
+            NuGetPackagesIDsUnion = GitRepos.SelectMany(s => s.NuGetVersions).Distinct().ToList();
         }
 
         public void UpdatePackages()

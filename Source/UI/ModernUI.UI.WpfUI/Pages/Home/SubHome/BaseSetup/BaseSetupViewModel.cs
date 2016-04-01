@@ -3,6 +3,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.Common.Base.Utils;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos;
+using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System.IO;
 
@@ -17,7 +18,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
         //\Private properties
 
         //Data hiding
-        private string basePath = @"C:\Users\peter.kottas\Desktop\Delete";
+        private string basePath = @"C:\Users\MasterPC\Desktop\Delete";
         private bool fileWatcherIsEnabled = true;
         //\Data hiding
 
@@ -55,6 +56,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
             {
                 basePath = value;
                 ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+                ViewModelService.GetViewModel<UpdateViewModel>().UpdatePackages();
                 OnPropertyChanged(BasePathPropName);
                 if (FileWatcherIsEnabled)
                 {
@@ -115,16 +117,25 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
 
         void OnRename(object sender, RenamedEventArgs e)
         {
-            requiresUIUpdate = true;
+            FileChanged(e.FullPath);
             RenameCounter++;
             OnPropertyChanged("RenameCounter");
         }
 
         void OnChanged(object sender, FileSystemEventArgs e)
         {
-            requiresUIUpdate = true;
+            FileChanged(e.FullPath);
             ChangedCounter++;
             OnPropertyChanged("ChangedCounter");
+        }
+
+        private void FileChanged(string filename)
+        {
+            requiresUIUpdate = true;
+            if (Path.GetFileName(filename) == "packages.config")
+            {
+                ViewModelService.GetViewModel<UpdateViewModel>().UpdatePackages();
+            }
         }
 
         public void Initialize()
