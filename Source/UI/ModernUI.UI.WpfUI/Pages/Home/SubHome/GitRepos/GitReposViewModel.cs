@@ -134,7 +134,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         //Implementation
         public GitReposViewModel()
         {
-            this.homeViewModel = ViewModelService.GetViewModel<BaseSetupViewModel>();
             gitRepos = new ObservableCollection<GitRepoModel>();
             gitRepos.Add(new GitRepoModel() { Url = "http://git-bonobo:8083/test-api.git" });
             ImportJsonClipboardCommand = new RelayCommand(ImportJsonClipboardExecute, ImportJsonClipboardCanExecute);
@@ -146,6 +145,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             serializer = new JavaScriptSerializer();
             deSerializer = new JavaScriptSerializer();
             deSerializer.RegisterConverters(new[] { new DynamicJsonConverter() });
+        }
+
+        public void Initialize()
+        {
+            this.homeViewModel = ViewModelService.GetViewModel<BaseSetupViewModel>();
         }
 
         private void LoadModelFromJson(string Json)
@@ -232,6 +236,20 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         {
             var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
             UpdateStatuses(basePath);
+        }
+
+        public void UpdatePackages(string BasePath)
+        {
+            foreach (var repo in GitRepos)
+            {
+                repo.UpdateSetupStatus(BasePath);
+            }
+        }
+
+        public void UpdatePackages()
+        {
+            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
+            UpdatePackages(basePath);
         }
         //Implementation
 

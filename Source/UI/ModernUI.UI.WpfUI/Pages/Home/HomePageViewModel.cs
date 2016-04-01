@@ -38,6 +38,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
         public HomePageViewModel()
         {
         }
+
+        public void Initialize()
+        {
+        }
         //\Implementation
     }
 }

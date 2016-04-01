@@ -16,6 +16,7 @@ using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Extensions;
 using NugetWorkflow.Common.Base.Utils;
 using System.Linq.Expressions;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update;
+using System.Xml;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 {
@@ -23,17 +24,17 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
     {
         //Data hiding
         private SecureString password;
-        
+
         private string url;
-        
+
         private string username;
-        
+
         private string hash;
-        
+
         private bool useOverrideCredentials;
-        
+
         private bool cloneToogle;
-        
+
         private bool updateToogle;
 
         private SetupStatusEnum setupStatus;
@@ -41,35 +42,37 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         private CloneStatusEnum cloneStatus;
 
         private UpdateStatusEnum updateStatus;
-        
+
         private bool isValidUrl = false;
-        
+
         private string repoName = null;
-        
+
         private string repoNameCustom = null;
-        
+
         private bool useCustomRepoName = false;
+
+        private List<string> nuGetVersions;
         //\Data hiding
 
         //Properties names
         public static readonly string UseCustomRepoNamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseCustomRepoName);
-        
+
         public static readonly string UseDefaultRepoNamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseDefaultRepoName);
-        
+
         public static readonly string RepoNamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.RepoName);
-        
+
         public static readonly string UpdateTooglePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UpdateToggle);
-        
+
         public static readonly string CloneTooglePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneToggle);
-        
+
         public static readonly string UrlPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.Url);
-        
+
         public static readonly string UsernamePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.Username);
-        
+
         public static readonly string PasswordPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.Password);
-        
+
         public static readonly string UseOverrideCredentialsPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseOverrideCredentials);
-        
+
         public static readonly string CloneStatusPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneStatus);
 
         public static readonly string CloneStatusMessagePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.CloneStatusMessage);
@@ -81,14 +84,29 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         public static readonly string SetupStatusPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.SetupStatus);
 
         public static readonly string SetupStatusMessagePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.SetupStatusMessage);
+
+        public static readonly string NuGetVersionsPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.NuGetVersions);
         //\Properties names
 
         //Bindable properties
+        public List<string> NuGetVersions
+        {
+            get
+            {
+                return nuGetVersions;
+            }
+            set
+            {
+                nuGetVersions = value;
+                OnPropertyChanged(NuGetVersionsPropName);
+            }
+        }
+
         public bool UseDefaultRepoName
         {
-            get 
-            { 
-                return !useCustomRepoName; 
+            get
+            {
+                return !useCustomRepoName;
             }
         }
 
@@ -104,6 +122,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                 OnPropertyChanged(UseCustomRepoNamePropName);
                 OnPropertyChanged(UseDefaultRepoNamePropName);
                 OnPropertyChanged(RepoNamePropName);
+                UpdateSetupStatus();
             }
         }
 
@@ -125,6 +144,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                 if (UseCustomRepoName)
                 {
                     repoNameCustom = value;
+                    UpdateSetupStatus();
                 }
                 else
                 {
@@ -318,6 +338,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             url = string.Empty;
         }
 
+        public void UpdateSetupStatus()
+        {
+            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
+            UpdateSetupStatus(basePath);
+        }
+
         public void UpdateSetupStatus(string basePath)
         {
             SetupStatus = GetSetupStatus(basePath);
@@ -325,10 +351,33 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             UpdateUpdateStatus();
         }
 
-        public void UpdateSetupStatus()
+        public void UpdatePackagesIDs()
         {
             var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
-            UpdateSetupStatus(basePath);
+            UpdatePackagesIDs(basePath);
+        }
+
+        public void UpdatePackagesIDs(string basePath)
+        {
+            NuGetVersions = GetPackagesIDs(basePath);
+        }
+
+        private List<string> GetPackagesIDs(string basePath)
+        {
+            var path = Path.Combine(basePath, RepoName);
+            var files = Directory.GetFiles(path, "packages.cofig", SearchOption.AllDirectories);
+            var nuGetIDs = new List<string>();
+            foreach (var file in files)
+            {
+                var doc = new XmlDocument();
+                doc.Load(file);
+                var elements = doc.GetElementsByTagName("package");
+                foreach (XmlNode element in elements)
+                {
+                    nuGetIDs.Add(element.Attributes["id"].Value);
+                }
+            }
+            return nuGetIDs.Distinct().Where(a => a != null).ToList();
         }
 
         private SetupStatusEnum GetSetupStatus(string basePath)
@@ -373,11 +422,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 
         private CloneStatusEnum GetCloneStatus(string basePath)
         {
-            if(SetupStatus!=SetupStatusEnum.OK)
+            if (SetupStatus != SetupStatusEnum.OK)
             {
                 return CloneStatusEnum.SetupWrong;
             }
-            if (Directory.Exists(Path.Combine(basePath,RepoName)))
+            if (Directory.Exists(Path.Combine(basePath, RepoName)))
             {
                 return CloneStatusEnum.AlreadyCloned;
             }
@@ -411,7 +460,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             {
                 return UpdateStatusEnum.NuGetVersionNotSpecified;
             }
-            if (!Regex.IsMatch(nuGetVersion, @"^(?:[\[\(]?\,?)(?:(\d+)\.)?(?:(\d+)\.)?(?:(\*|\d+)(\-?\w*)\,?)(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)?(\-?\w*)?(?:[\]\)]?)$", RegexOptions.None,new TimeSpan(100)))
+            if (!Regex.IsMatch(nuGetVersion, @"^(?:[\[\(]?\,?)(?:(\d+)\.)?(?:(\d+)\.)?(?:(\*|\d+)(\-?\w*)\,?)(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)?(\-?\w*)?(?:[\]\)]?)$", RegexOptions.None, new TimeSpan(100)))
             {
                 return UpdateStatusEnum.NuGetVersionWrongFormat;
             }

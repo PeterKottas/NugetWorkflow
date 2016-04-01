@@ -150,6 +150,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
                 SyncThemeAndColor();
             }
         }
+
+        public void Initialize()
+        {
+        }
         //\Implementation
     }
 }

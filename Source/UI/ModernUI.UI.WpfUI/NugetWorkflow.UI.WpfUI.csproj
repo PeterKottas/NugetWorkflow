@@ -127,6 +127,7 @@
     </Compile>
     <Compile Include="Pages\Home\SubHome\Update\UpdateViewModel.cs" />
     <Compile Include="Utils\AutoScrollHelper.cs" />
+    <Compile Include="Utils\TimerUpdater.cs" />
     <Compile Include="Utils\ViewModelService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

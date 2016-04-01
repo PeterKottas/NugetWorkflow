@@ -12,14 +12,18 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
     {
         //Private properties
         private FileSystemWatcher basePathWatcher;
+        private TimerUpdater UIRefresher;
+        private bool requiresUIUpdate;
         //\Private properties
 
         //Data hiding
         private string basePath = @"C:\Users\peter.kottas\Desktop\Delete";
+        private bool fileWatcherIsEnabled = true;
         //\Data hiding
 
         //Properties names
         private static readonly string BasePathPropName = ReflectionUtility.GetPropertyName((BaseSetupViewModel s) => s.BasePath);
+        private static readonly string FileWatcherIsEnabledPropName = ReflectionUtility.GetPropertyName((BaseSetupViewModel s) => s.FileWatcherIsEnabled);
         //\Properties names        
 
         //Commands
@@ -27,6 +31,20 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
         //\Commands
 
         //Bindable properties
+        public bool FileWatcherIsEnabled
+        {
+            get
+            {
+                return fileWatcherIsEnabled;
+            }
+            set
+            {
+                fileWatcherIsEnabled = value;
+                OnPropertyChanged(FileWatcherIsEnabledPropName);
+                BasePath = BasePath;
+            }
+        }
+
         public string BasePath
         {
             get
@@ -38,12 +56,19 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
                 basePath = value;
                 ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
                 OnPropertyChanged(BasePathPropName);
-                if (Directory.Exists(basePath))
+                if (FileWatcherIsEnabled)
                 {
-                    basePathWatcher.Path = BasePath;
-                    if (!basePathWatcher.EnableRaisingEvents)
+                    if (Directory.Exists(basePath))
                     {
-                        basePathWatcher.EnableRaisingEvents = true;
+                        basePathWatcher.Path = BasePath;
+                        if (!basePathWatcher.EnableRaisingEvents)
+                        {
+                            basePathWatcher.EnableRaisingEvents = true;
+                        }
+                    }
+                    else
+                    {
+                        basePathWatcher.EnableRaisingEvents = false;
                     }
                 }
                 else
@@ -52,6 +77,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
                 }
             }
         }
+
+        public int RenameCounter { get; set; }
+
+        public int ChangedCounter { get; set; }
+
+        public int UIUpdateCounter { get; set; }
         //\Bindable properties
 
         //Implementation
@@ -70,24 +101,35 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
             basePathWatcher.Renamed += OnRename;
             RenameCounter = 0;
             ChangedCounter = 0;
+            UIRefresher = new TimerUpdater(new System.TimeSpan(0, 0, 1), () =>
+            {
+                if(requiresUIUpdate)
+                {
+                    ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+                    requiresUIUpdate = false;
+                    UIUpdateCounter++;
+                    OnPropertyChanged("UIUpdateCounter");
+                }
+            });
         }
-
-        public int RenameCounter { get; set; }
-
-        public int ChangedCounter { get; set; }
 
         void OnRename(object sender, RenamedEventArgs e)
         {
-            ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+            requiresUIUpdate = true;
             RenameCounter++;
             OnPropertyChanged("RenameCounter");
         }
 
         void OnChanged(object sender, FileSystemEventArgs e)
         {
-            ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+            requiresUIUpdate = true;
             ChangedCounter++;
             OnPropertyChanged("ChangedCounter");
+        }
+
+        public void Initialize()
+        {
+            BasePath = BasePath;
         }
         //Implementation
 

@@ -10,11 +10,21 @@ using NugetWorkflow.Common.Base.Extensions;
 using System.IO;
 using System.Threading;
 using System.Security;
+using NugetWorkflow.Common.FilePatcher.Interfaces;
+using NugetWorkflow.Plugins.FilePatcher;
+using NugetWorkflow.Common.FilePatcher.DTOs.Requests;
 
 namespace NugetWorkflow.Plugins.GitAdapter
 {
     public class GitAdapterCore : IGitAdapter
     {
+        IFilePatcher filePatcher;
+
+        public GitAdapterCore()
+        {
+            filePatcher = new FilePatcherCore();
+        }
+
         private void Clone(string URL, string Path, string Username, SecureString Password)
         {
             Repository.Clone(URL, Path, new CloneOptions()
@@ -30,14 +40,13 @@ namespace NugetWorkflow.Plugins.GitAdapter
         {
             foreach (var repo in request.ListOfRepos)
             {
-                Thread.Sleep(500);//TODO : Remove
                 if (string.IsNullOrEmpty(repo.Path))
                 {
-                    request.ProgressAction(false, string.Format("Path is undefined."));
+                    request.ProgressAction(true, string.Format("Path is undefined."));
                 }
                 else if (string.IsNullOrEmpty(repo.URL))
                 {
-                    request.ProgressAction(false, string.Format("Path is undefined."));
+                    request.ProgressAction(true, string.Format("Path is undefined."));
                 }
                 else
                 {
@@ -45,7 +54,7 @@ namespace NugetWorkflow.Plugins.GitAdapter
                     bool result = Uri.TryCreate(repo.URL, UriKind.Absolute, out uriResult);
                     if (!result)
                     {
-                        request.ProgressAction(false, string.Format("URL : [{0}] is invalid", repo.URL));
+                        request.ProgressAction(true, string.Format("URL : [{0}] is invalid", repo.URL));
                     }
                     else
                     {
@@ -56,7 +65,7 @@ namespace NugetWorkflow.Plugins.GitAdapter
                         }
                         catch (Exception e)
                         {
-                            request.ProgressAction(false, string.Format("Exception while cloning from Url : [{0}], Exception : [{1}]", repo.URL, e.Message));
+                            request.ProgressAction(true, string.Format("Exception while cloning from Url : [{0}], Exception : [{1}]", repo.URL, e.Message));
                         }
                     }
                 }
@@ -71,7 +80,25 @@ namespace NugetWorkflow.Plugins.GitAdapter
 
         public void UpdateProjectsDependencies(UpdateProjectsDependenciesRequestDTO request)
         {
-            
+            var req = new UpdateDependenciesVersionRequestDTO()
+                {
+                    GitReposPaths = new List<string>(),
+                    NewVersion = request.Version,
+                    NuGetID = request.NugetID
+                };
+            foreach (var repo in request.ListOfRepos)
+            {
+                req.GitReposPaths.Add(repo.Path);
+            }
+            try
+            {
+                filePatcher.UpdateDependenciesVersion(req);
+            }
+            catch (Exception e)
+            {
+                request.ProgressAction(false, string.Format("Couldn't update version in package.config due to an Exception : [{0}]", e.Message));
+            }
+            request.FinishedAction(string.Format("Finished updating [{0}] to version [{1}]", request.NugetID, request.Version));
         }
     }
 }

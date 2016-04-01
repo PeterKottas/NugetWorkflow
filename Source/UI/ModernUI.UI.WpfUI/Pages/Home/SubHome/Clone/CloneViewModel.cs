@@ -171,6 +171,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
             calcRunning = false;
         }
 
+        public void Initialize()
+        {
+        }
         //Commands logic
         private bool ConsoleReturnCanExecute(object arg)
         {
@@ -262,14 +265,17 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
                 }));
         }
 
-        public void ProgressCallback(bool success, string consoleMessage)
+        public void ProgressCallback(bool progress, string consoleMessage)
         {
             Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Normal,
                 (Action)(() =>
                 {
                     ConsoleOutput.Add(consoleMessage);
-                    ProgressValue++;
+                    if (progress)
+                    {
+                        ProgressValue++;
+                    }
                     ScrollConsole = true;
                     ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
                     ViewModelService.GetViewModel<GitReposViewModel>().RefreshBindings();

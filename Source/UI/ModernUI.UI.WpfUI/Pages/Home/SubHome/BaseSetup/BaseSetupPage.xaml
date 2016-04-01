@@ -33,10 +33,15 @@
                         </Grid>
                     </WrapPanel>
                 </GroupBox>
-                <GroupBox Header="Base path" Margin="5">
+                <GroupBox Header="Auto UI refresh" Margin="5">
                     <WrapPanel>
-                        <TextBox Text="{Binding RenameCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding ChangedCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
+                        <CheckBox Content="Enabled"  IsChecked="{Binding FileWatcherIsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource ButtonMargin}"/>
+                        <TextBlock Margin="5,10" Text="Renames : " VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding RenameCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
+                        <TextBlock Margin="5,10" Text="Changes : " VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding ChangedCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
+                        <TextBlock Margin="5,10" Text="Updates : " VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding UIUpdateCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
                     </WrapPanel>
                 </GroupBox>
             </StackPanel>

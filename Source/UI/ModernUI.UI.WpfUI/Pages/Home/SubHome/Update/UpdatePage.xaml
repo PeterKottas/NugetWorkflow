@@ -96,7 +96,7 @@
                             <ItemsControl ItemsSource="{Binding ConsoleOutput, Mode=OneWay}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Path=., UpdateSourceTrigger=PropertyChanged}" FontFamily="Consolas" DockPanel.Dock="Top" TextWrapping="Wrap"/>
+                                        <TextBox Text="{Binding Path=., UpdateSourceTrigger=PropertyChanged}"  FontFamily="Consolas" DockPanel.Dock="Top" TextWrapping="Wrap" IsReadOnly="True" BorderBrush="{x:Null}" Foreground="Black"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

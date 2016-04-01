@@ -56,9 +56,17 @@
       <Project>{c7bc1a33-2f34-418b-b067-d8ce27fee7b1}</Project>
       <Name>NugetWorkflow.Common.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\NugetWorkflow.Common.FilePatcher\NugetWorkflow.Common.FilePatcher.csproj">
+      <Project>{fbb4aa5c-39b1-40e6-a91d-155e6f846e9c}</Project>
+      <Name>NugetWorkflow.Common.FilePatcher</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\NugetWorkflow.Common.GitAdapter\NugetWorkflow.Common.GitAdapter.csproj">
       <Project>{ee3dbe23-af0c-41b6-bb80-fe9b2c619b0b}</Project>
       <Name>NugetWorkflow.Common.GitAdapter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NugetWorkflow.Plugins.FilePatcher\NugetWorkflow.Plugins.FilePatcher.csproj">
+      <Project>{0412c7df-351d-4fcc-863b-7cdb1ca4a5e6}</Project>
+      <Name>NugetWorkflow.Plugins.FilePatcher</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

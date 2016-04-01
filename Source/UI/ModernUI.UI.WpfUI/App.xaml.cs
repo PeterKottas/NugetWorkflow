@@ -25,6 +25,10 @@ namespace NugetWorkflow.UI.WpfUI
             {
                 viewDictionary.Add(type, Activator.CreateInstance(type));
             }
+            foreach (IViewModel view in viewDictionary.Values)
+            {
+                view.Initialize();
+            }
         }
 
         public RET GetView<RET>()

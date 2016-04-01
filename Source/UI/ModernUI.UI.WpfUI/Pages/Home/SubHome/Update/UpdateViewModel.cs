@@ -29,6 +29,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 
         //Private properties
         private bool calcRunning = false;
+        private FileSystemWatcher basePathWatcher;
+        private TimerUpdater uIRefresher;
+        private bool requiresUIUpdate = false;
         //\Private properties
 
         //Data hiding
@@ -41,10 +44,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
         private string consoleInput = string.Empty;
         
         private ObservableCollection<string> consoleOutput = new ObservableCollection<string>() { "This is how you emulate a freaking console in WPF :p" };
+
+        private string nuGetID = "Microsoft.AspNet.WebApi";
         
-        private string nuGetID = string.Empty;
-        
-        private string nuGetVersion = string.Empty;
+        private string nuGetVersion = "5.2.3";
 
         private List<string> nuGetIDAutocomplete = new List<string>();
         //\Data hiding
@@ -190,6 +193,36 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             UpdateSelectedCommand = new RelayCommand(UpdateSelectedExecute, UpdateSelectedCanExecute);
             ConsoleReturn = new RelayCommand(ConsoleReturnExecute, ConsoleReturnCanExecute);
             gitAdapter = new GitAdapterCore();
+
+            basePathWatcher = new FileSystemWatcher();
+            basePathWatcher.IncludeSubdirectories = true;
+            basePathWatcher.NotifyFilter = NotifyFilters.LastAccess |
+                         NotifyFilters.LastWrite |
+                         NotifyFilters.FileName |
+                         NotifyFilters.DirectoryName;
+            basePathWatcher.Changed += OnChanged;
+            basePathWatcher.Deleted += OnChanged;
+            basePathWatcher.Created += OnChanged;
+            basePathWatcher.Renamed += OnRename;
+            uIRefresher = new TimerUpdater(new System.TimeSpan(0, 0, 1), () =>
+            {
+                if (requiresUIUpdate)
+                {
+                    ViewModelService.GetViewModel<GitReposViewModel>().UpdatePackages();
+                    requiresUIUpdate = false;
+                    OnPropertyChanged("UIUpdateCounter");
+                }
+            });
+        }
+
+        void OnRename(object sender, RenamedEventArgs e)
+        {
+            requiresUIUpdate = true;
+        }
+
+        void OnChanged(object sender, FileSystemEventArgs e)
+        {
+            requiresUIUpdate = true;
         }
 
         private void UpdateRepos(IEnumerable<GitRepoModel> gitReposModel)
@@ -212,9 +245,16 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             gitAdapter.UpdateProjectsDependencies(new UpdateProjectsDependenciesRequestDTO()
             {
                 ListOfRepos = gitReposList,
-                ProgressAction = ProgressCallback
+                ProgressAction = ProgressCallback,
+                FinishedAction = FinishedCallback,
+                NugetID = NuGetID,
+                Version = NuGetVersion
             });
             calcRunning = false;
+        }
+
+        public void Initialize()
+        {
         }
         //\Implementation
 
@@ -309,15 +349,18 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                 }));
         }
 
-        public void ProgressCallback(bool success, string consoleMessage)
+        public void ProgressCallback(bool progress, string consoleMessage)
         {
             Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Normal,
                 (Action)(() =>
                 {
                     ConsoleOutput.Add(consoleMessage);
-                    ProgressValue++;
-                    ScrollConsole = true;
+                    if (progress)
+                    {
+                        ProgressValue++;
+                        ScrollConsole = true;
+                    }
                     ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
                     ViewModelService.GetViewModel<GitReposViewModel>().RefreshBindings();
                 }));

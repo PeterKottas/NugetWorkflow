@@ -8,5 +8,6 @@ namespace NugetWorkflow.Common.Base.Interfaces
 {
     public interface IViewModel
     {
+        void Initialize();
     }
 }
