@@ -1,4 +1,5 @@
 ﻿using FirstFloor.ModernUI.Presentation;
+using NugetWorkflow.Common.Base.Attributes;
 using NugetWorkflow.Common.Base.DTOs.GitRepos;
 using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.Common.Base.Utils;
@@ -22,6 +23,7 @@ using System.Windows.Threading;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 {
+    [SaveSceneAttribute]
     public class UpdateViewModel : NotifyPropertyChanged, IViewModel
     {
         //Dependencies interfaces
@@ -178,6 +180,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             }
         }
 
+        [SaveSceneAttribute]
         public string NuGetID
         {
             get
@@ -192,6 +195,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             }
         }
 
+        [SaveSceneAttribute]
         public string NuGetVersion
         {
             get

@@ -1,5 +1,6 @@
 ﻿using FirstFloor.ModernUI.Presentation;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using NugetWorkflow.Common.Base.Attributes;
 using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.Common.Base.Utils;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos;
@@ -10,6 +11,7 @@ using System.IO;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
 {
+    [SaveSceneAttribute]
     public class BaseSetupViewModel : NotifyPropertyChanged, IViewModel, IDisposable
     {
         //Private properties
@@ -34,6 +36,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
         //\Commands
 
         //Bindable properties
+        [SaveSceneAttribute]
         public bool FileWatcherIsEnabled
         {
             get
@@ -48,6 +51,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
             }
         }
 
+        [SaveSceneAttribute]
         public string BasePath
         {
             get

@@ -17,12 +17,14 @@ using NugetWorkflow.Common.Base.Utils;
 using System.Linq.Expressions;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update;
 using System.Xml;
+using NugetWorkflow.Common.Base.Attributes;
 using NugetWorkflow.Common.GitAdapter.Interfaces;
 using NugetWorkflow.Plugins.GitAdapter;
 using NugetWorkflow.Common.GitAdapter.DTOs.Requests;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 {
+    [SaveSceneAttribute]
     public class GitRepoModel : NotifyPropertyChanged
     {
         //Dependency interfaces
@@ -52,8 +54,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 
         private bool isValidUrl = false;
 
+        [SaveSceneAttribute]
         private string repoName = null;
 
+        [SaveSceneAttribute]
         private string repoNameCustom = null;
 
         private bool useCustomRepoName = false;
@@ -167,6 +171,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
+        [SaveSceneAttribute]
         public bool UseCustomRepoName
         {
             get
@@ -213,6 +218,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
+        [SaveSceneAttribute]
         public bool UpdateToggle
         {
             get
@@ -226,6 +232,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
+        [SaveSceneAttribute]
         public bool CloneToggle
         {
             get
@@ -239,6 +246,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
+        [SaveSceneAttribute]
         public string Hash
         {
             get
@@ -255,6 +263,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
+        [SaveSceneAttribute]
         public string Url
         {
             get
@@ -281,6 +290,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
+        [SaveSceneAttribute]
         public string Username
         {
             get
@@ -294,6 +304,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
+        [SaveSceneAttribute]
         public SecureString Password
         {
             get
@@ -307,6 +318,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
+        [SaveSceneAttribute]
         public bool UseOverrideCredentials
         {
             get

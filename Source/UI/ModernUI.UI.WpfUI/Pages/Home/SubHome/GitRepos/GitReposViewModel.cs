@@ -1,6 +1,7 @@
 ﻿using FirstFloor.ModernUI.Presentation;
 using FirstFloor.ModernUI.Windows.Controls;
 using Microsoft.Win32;
+using NugetWorkflow.Common.Base.Attributes;
 using NugetWorkflow.Common.Base.Converters.JavaScriptConverters;
 using NugetWorkflow.Common.Base.Extensions;
 using NugetWorkflow.Common.Base.Interfaces;
@@ -19,6 +20,7 @@ using System.Windows;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 {
+    [SaveSceneAttribute]
     public class GitReposViewModel : NotifyPropertyChanged, IViewModel
     {
         //Private properties
@@ -28,7 +30,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         //\Private properties
 
         //Data hiding
-        private ObservableCollection<GitRepoModel> gitRepos;
+        private List<GitRepoModel> gitRepos;
         
         private bool includePassword = false;
         
@@ -98,6 +100,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             }
         }
 
+        [SaveSceneAttribute]
         public SecureString OverridenPassword
         {
             get
@@ -111,6 +114,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             }
         }
 
+        [SaveSceneAttribute]
         public string OveridenUsername
         {
             get
@@ -127,6 +131,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             }
         }
 
+        [SaveSceneAttribute]
         public bool IncludePassword
         {
             get
@@ -149,7 +154,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             }
         }
 
-        public ObservableCollection<GitRepoModel> GitRepos
+        [SaveSceneAttribute]
+        public List<GitRepoModel> GitRepos
         {
             get
             {
@@ -168,7 +174,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         //Implementation
         public GitReposViewModel()
         {
-            gitRepos = new ObservableCollection<GitRepoModel>();
+            gitRepos = new List<GitRepoModel>();
             //gitRepos.Add(new GitRepoModel() { Url = "https://github.com/PeterKottas/NugetWorkflow.git" });
             gitRepos.Add(new GitRepoModel() { Url = "http://git-bonobo:8083/test-api.git" });
             ImportJsonClipboardCommand = new RelayCommand(ImportJsonClipboardExecute, ImportJsonClipboardCanExecute);
@@ -194,7 +200,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
                 try
                 {
                     var jsonObject = GetObject(Json);
-                    var GitReposLocal = new ObservableCollection<GitRepoModel>();
+                    var GitReposLocal = new List<GitRepoModel>();
                     foreach (dynamic repo in jsonObject["GitReposJson"])
                     {
                         GitReposLocal.Add(new GitRepoModel()

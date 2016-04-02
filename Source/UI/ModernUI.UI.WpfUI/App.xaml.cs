@@ -15,6 +15,18 @@ namespace NugetWorkflow.UI.WpfUI
     {
         private Dictionary<Type, object> viewDictionary;
 
+        public Dictionary<Type, object> ViewDictionary
+        {
+            get
+            {
+                return viewDictionary;
+            }
+            set
+            {
+                viewDictionary = value;
+            }
+        }
+
         private void SetupViewDictionary()
         {
             viewDictionary = new Dictionary<Type, object>();
