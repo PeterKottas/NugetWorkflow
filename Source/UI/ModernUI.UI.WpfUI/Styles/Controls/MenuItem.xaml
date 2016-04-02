@@ -14,7 +14,8 @@
             <ContentPresenter 
             Margin="12,3,12,3" 
             ContentSource="Header"
-            RecognizesAccessKey="True" />
+            RecognizesAccessKey="True" 
+            TextBlock.Foreground="{DynamicResource SubMenuText}"/>
             <Popup 
             Name="Popup"
             Placement="Bottom"
@@ -24,16 +25,16 @@
             PopupAnimation="None">
                 <StackPanel>
                     <DockPanel LastChildFill="True">
-                        <Border BorderThickness="1,0,1,0" DockPanel.Dock="Left" BorderBrush="{StaticResource WindowBorderActive}" Width="{Binding ElementName=Border, Path=ActualWidth}"  Background="{StaticResource WindowBackground}">
+                        <Border BorderThickness="1,0,1,0" DockPanel.Dock="Left" BorderBrush="{DynamicResource WindowBorderActive}" Width="{Binding ElementName=Border, Path=ActualWidth}"  Background="{DynamicResource WindowBackground}">
                         </Border>
-                        <Border BorderThickness="0,0,1,1" DockPanel.Dock="Left" BorderBrush="{StaticResource WindowBorderActive}">
+                        <Border BorderThickness="0,0,1,1" DockPanel.Dock="Left" BorderBrush="{DynamicResource WindowBorderActive}">
                         </Border>
                     </DockPanel>
                     <Border
               Name="SubmenuBorder"
               SnapsToDevicePixels="True"
-              Background="{StaticResource WindowBackground}"
-              BorderBrush="{StaticResource WindowBorderActive}"
+              Background="{DynamicResource WindowBackground}"
+              BorderBrush="{DynamicResource WindowBorderActive}"
               BorderThickness="1,0,1,1" >
                         <ScrollViewer CanContentScroll="True">
                             <StackPanel   
@@ -50,7 +51,7 @@
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonBackgroundHover}"/>
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonBackgroundHover}"/>
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/>
@@ -59,7 +60,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
             </Trigger>
             <DataTrigger Binding="{Binding ElementName=Popup, Path=IsOpen}" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource WindowBackground}"/>
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource WindowBackground}"/>
                 <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource WindowBorderActive}"/>
             </DataTrigger>
         </ControlTemplate.Triggers>
@@ -74,12 +75,13 @@
                 <ContentPresenter 
         Margin="6,3,6,3" 
         ContentSource="Header"
-        RecognizesAccessKey="True" />
+        RecognizesAccessKey="True" 
+        TextBlock.Foreground="{DynamicResource SubMenuText}"/>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonBackgroundHover}"/>
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonBackgroundHover}"/>
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
@@ -129,12 +131,14 @@
             Name="HeaderHost"
             Grid.Column="1"
             ContentSource="Header"
-            RecognizesAccessKey="True"/>
+            RecognizesAccessKey="True"
+            TextBlock.Foreground="{DynamicResource SubMenuText}"/>
                     <TextBlock x:Name="InputGestureText"
             Grid.Column="2"
             Text="{TemplateBinding InputGestureText}"
             Margin="10,2,2,2"
-            DockPanel.Dock="Right" />
+            DockPanel.Dock="Right" 
+            TextBlock.Foreground="{DynamicResource SubMenuText}"/>
                 </Grid>
             </Border>
         </Grid>
@@ -181,7 +185,8 @@
         Name="HeaderHost"
         Grid.Column="1"
         ContentSource="Header"
-        RecognizesAccessKey="True"/>
+        RecognizesAccessKey="True"
+        TextBlock.Foreground="{DynamicResource SubMenuText}"/>
                 <TextBlock x:Name="InputGestureText"
         Grid.Column="2"
         Text="{TemplateBinding InputGestureText}"
@@ -205,8 +210,8 @@
                     <Border 
           Name="SubmenuBorder"
           SnapsToDevicePixels="True"
-          Background="{DynamicResource WindowBackgroundBrush}"
-          BorderBrush="{StaticResource WindowBorderActive}"
+          Background="{DynamicResource WindowBackground}"
+          BorderBrush="{DynamicResource WindowBorderActive}"
           BorderThickness="1" >
                         <ScrollViewer CanContentScroll="True">
                             <StackPanel  

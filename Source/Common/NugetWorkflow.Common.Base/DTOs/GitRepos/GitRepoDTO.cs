@@ -16,6 +16,8 @@ namespace NugetWorkflow.Common.Base.DTOs.GitRepos
 
         public SecureString Password { get; set; }
 
+        public string UpdateBranch { get; set; }
+
         public GitRepoDTO()
         {
 

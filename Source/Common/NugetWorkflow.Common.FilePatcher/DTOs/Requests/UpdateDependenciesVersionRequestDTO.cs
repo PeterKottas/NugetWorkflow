@@ -9,7 +9,7 @@ namespace NugetWorkflow.Common.FilePatcher.DTOs.Requests
 {
     public class UpdateDependenciesVersionRequestDTO
     {
-        public List<string> GitReposPaths { get; set; }
+        public string GitReposPath { get; set; }
 
         public string NuGetID { get; set; }
 

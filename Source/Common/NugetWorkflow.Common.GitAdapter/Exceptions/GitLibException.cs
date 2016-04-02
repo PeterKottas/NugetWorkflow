@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NugetWorkflow.Common.Base.Exceptions
+namespace NugetWorkflow.Common.GitAdapter.Exceptions
 {
     [Serializable]
-    public class MissingViewException : BaseException
+    public class GitLibException : BaseException
     {
-        public MissingViewException(string message) : base(message)
+        public GitLibException(string message)
+            : base(message)
         {
 
         }

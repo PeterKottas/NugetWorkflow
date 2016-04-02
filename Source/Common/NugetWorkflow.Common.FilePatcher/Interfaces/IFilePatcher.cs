@@ -9,6 +9,6 @@ namespace NugetWorkflow.Common.FilePatcher.Interfaces
 {
     public interface IFilePatcher
     {
-        void UpdateDependenciesVersion(UpdateDependenciesVersionRequestDTO request);
+        bool UpdateDependenciesVersion(UpdateDependenciesVersionRequestDTO request);
     }
 }

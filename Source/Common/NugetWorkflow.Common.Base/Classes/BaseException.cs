@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace NugetWorkflow.Common.Base.BaseClasses
 {
+    [Serializable]
     public abstract class BaseException : Exception
     {
         public BaseException()

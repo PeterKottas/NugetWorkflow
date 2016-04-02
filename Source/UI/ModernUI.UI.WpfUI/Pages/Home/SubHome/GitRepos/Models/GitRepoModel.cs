@@ -17,11 +17,18 @@ using NugetWorkflow.Common.Base.Utils;
 using System.Linq.Expressions;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update;
 using System.Xml;
+using NugetWorkflow.Common.GitAdapter.Interfaces;
+using NugetWorkflow.Plugins.GitAdapter;
+using NugetWorkflow.Common.GitAdapter.DTOs.Requests;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 {
     public class GitRepoModel : NotifyPropertyChanged
     {
+        //Dependency interfaces
+        IGitAdapter gitAdapter;
+        //\Dependency interfaces
+
         //Data hiding
         private SecureString password;
 
@@ -52,6 +59,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         private bool useCustomRepoName = false;
 
         private List<string> nuGetVersions;
+
+        private List<string> repoBranches;
+
+        private string updateBranch = "master";
+
+        private bool useUpdateBranch = false;
         //\Data hiding
 
         //Properties names
@@ -86,9 +99,53 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         public static readonly string SetupStatusMessagePropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.SetupStatusMessage);
 
         public static readonly string NuGetVersionsPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.NuGetVersions);
+
+        public static readonly string RepoBranchesPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.RepoBranches);
+
+        public static readonly string UpdateBranchPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UpdateBranch);
+
+        public static readonly string UseUpdateBranchPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseUpdateBranch);
         //\Properties names
 
         //Bindable properties
+        public bool UseUpdateBranch
+        {
+            get
+            {
+                return useUpdateBranch;
+            }
+            set
+            {
+                useUpdateBranch = value;
+                OnPropertyChanged(UseUpdateBranchPropName);
+            }
+        }
+        public string UpdateBranch
+        {
+            get
+            {
+                return updateBranch;
+            }
+            set
+            {
+                updateBranch = value;
+                OnPropertyChanged(UpdateBranchPropName);
+            }
+        }
+
+        public List<string> RepoBranches
+        {
+            get
+            {
+                return repoBranches;
+            }
+            set
+            {
+                repoBranches = value;
+                OnPropertyChanged(RepoBranchesPropName);
+            }
+        }
+        
         public List<string> NuGetVersions
         {
             get
@@ -152,6 +209,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                 }
                 OnPropertyChanged(RepoNamePropName);
                 UpdatePackagesIDs();
+                UpdateRepoBranches();
             }
         }
 
@@ -337,6 +395,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             username = string.Empty;
             cloneToogle = false;
             url = string.Empty;
+            gitAdapter = new GitAdapterCore();
         }
 
         public void UpdateSetupStatus()
@@ -350,6 +409,25 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             SetupStatus = GetSetupStatus(basePath);
             UpdateCloneStatus(basePath);
             UpdateUpdateStatus();
+        }
+
+        public void UpdateRepoBranches(string basePath)
+        {
+            RepoBranches = GetRepoBranches(basePath);
+        }
+
+        public void UpdateRepoBranches()
+        {
+            var basePath = ViewModelService.GetViewModel<BaseSetupViewModel>().BasePath;
+            UpdateRepoBranches(basePath);
+        }
+
+        private List<string> GetRepoBranches(string basePath)
+        {
+            return gitAdapter.GetRepoBranches(new RepoBranchesRequestDTO()
+                {
+                    Path = Path.Combine(basePath, repoName)
+                }).RepoBranches;
         }
 
         public void UpdatePackagesIDs()
@@ -373,7 +451,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                 foreach (var file in files)
                 {
                     var doc = new XmlDocument();
-                    doc.Load(file);
+                    try
+                    {
+                        doc.Load(file);
+                    }
+                    catch (Exception)
+                    {
+                        return new List<string>();
+                    }
                     var elements = doc.GetElementsByTagName("package");
                     foreach (XmlNode element in elements)
                     {

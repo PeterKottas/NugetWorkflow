@@ -11,7 +11,7 @@
         <DockPanel HorizontalAlignment="Stretch" 
            VerticalAlignment="Stretch" 
            ClipToBounds="True">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="{StaticResource WindowBackgroundBrush}" Panel.ZIndex="2">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="{DynamicResource WindowBackground}" Panel.ZIndex="2">
                 <TextBlock Text="{Binding Header, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource Heading2}" Margin="5" VerticalAlignment="Center" />
                 <StackPanel.RenderTransform>
                     <TranslateTransform x:Name="translateTransform"

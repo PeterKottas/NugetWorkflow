@@ -74,7 +74,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        <GridSplitter Grid.Row="2" Grid.RowSpan="1" ResizeDirection="Rows" Width="Auto" Height="5" HorizontalAlignment="Stretch" Margin="0" Background="{StaticResource WindowBackgroundBrush}" />
+        <GridSplitter Grid.Row="2" Grid.RowSpan="1" ResizeDirection="Rows" Width="Auto" Height="5" HorizontalAlignment="Stretch" Margin="0"/>
         <GroupBox Grid.Row="3" Header="Progress" Margin="5">
             <Grid Margin="5">
                 <Grid.RowDefinitions>

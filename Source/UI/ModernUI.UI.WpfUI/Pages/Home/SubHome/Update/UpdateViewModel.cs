@@ -8,6 +8,7 @@ using NugetWorkflow.Plugins.GitAdapter;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
+using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Shared.Enums;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Collections.Generic;
@@ -35,31 +36,33 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 
         //Data hiding
         private int progressValue = 0;
-        
+
         private int progressMaximum = 1;
-        
+
         private bool scrollConsole = false;
-        
+
         private string consoleInput = string.Empty;
-        
+
         private ObservableCollection<string> consoleOutput = new ObservableCollection<string>();
 
         private string nuGetID;
-        
+
         private string nuGetVersion;
 
         private List<string> nuGetIDAutocomplete = new List<string>();
+
+        private string updateBranch = "master";
         //\Data hiding
 
         //Properties names
         private static readonly string ScrollConsolePropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ScrollConsole);
-        
+
         private static readonly string ProgressValuePropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ProgressValue);
-        
+
         private static readonly string ProgressMaximumPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ProgressMaximum);
-        
+
         private static readonly string ConsoleInputPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ConsoleInput);
-        
+
         private static readonly string ConsoleOutputPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.ConsoleOutput);
 
         private static readonly string NuGetIDAutocompletePropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.NuGetIDAutocomplete);
@@ -67,6 +70,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
         private static readonly string NuGetIDPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.NuGetID);
 
         private static readonly string NuGetVersionPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.NuGetVersion);
+
+        private static readonly string UpdateBranchPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.UpdateBranch);
         //\Properties names
 
         //Commands
@@ -76,10 +81,25 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 
         public RelayCommand ConsoleReturn { get; set; }
 
-        public GitReposViewModel GitReposVM { get; set; }
+        public RelayCommand RefreshBranchesCommand { get; set; }
         //\Commands
 
         //Bindable properties
+        public GitReposViewModel GitReposVM { get; set; }
+
+        public string UpdateBranch
+        {
+            get
+            {
+                return updateBranch;
+            }
+            set
+            {
+                updateBranch = value;
+                OnPropertyChanged(UpdateBranchPropName);
+            }
+        }
+
         public bool ScrollConsole
         {
             get
@@ -193,12 +213,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             UpdateAllCommand = new RelayCommand(UpdateAllExecute, UpdateAllCanExecute);
             UpdateSelectedCommand = new RelayCommand(UpdateSelectedExecute, UpdateSelectedCanExecute);
             ConsoleReturn = new RelayCommand(ConsoleReturnExecute, ConsoleReturnCanExecute);
+            RefreshBranchesCommand = new RelayCommand(RefreshBranchesExecute, RefreshBranchesCanExecute);
             gitAdapter = new GitAdapterCore();
             uIRefresher = new TimerUpdater(new System.TimeSpan(0, 0, 1), () =>
             {
                 if (requiresUIUpdate)
                 {
                     ViewModelService.GetViewModel<GitReposViewModel>().UpdatePackages();
+                    ViewModelService.GetViewModel<GitReposViewModel>().UpdateRepoBranches();
                     requiresUIUpdate = false;
                     OnPropertyChanged("UIUpdateCounter");
                 }
@@ -218,7 +240,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                     Password = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Password : ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword,
                     URL = gitRepoViewModel.Url,
                     Username = gitRepoViewModel.UseOverrideCredentials ? gitRepoViewModel.Username : ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername,
-                    Path = Path.Combine(basePath, gitRepoViewModel.RepoName)
+                    Path = Path.Combine(basePath, gitRepoViewModel.RepoName),
+                    UpdateBranch = gitRepoViewModel.UseUpdateBranch ? gitRepoViewModel.UpdateBranch : UpdateBranch
                 });
             }
             ProgressMaximum = gitReposModel.Count();
@@ -317,6 +340,25 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             {
                 new Task(() => { UpdateRepos(reposVM.GitRepos); }).Start();
             }
+        }
+
+        private bool RefreshBranchesCanExecute(object arg)
+        {
+            var reposVM = ViewModelService.GetViewModel<GitReposViewModel>();
+            if (reposVM.GitRepos.Count > 0)
+            {
+                var updateAbleRepos = reposVM.GitRepos.Select(a=>a.CloneStatus==CloneStatusEnum.AlreadyCloned);
+                if (updateAbleRepos.Count() > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void RefreshBranchesExecute(object obj)
+        {
+            ViewModelService.GetViewModel<GitReposViewModel>().UpdateRepoBranches();
         }
         //\Commands logic
 

@@ -50,6 +50,21 @@
                             </Grid>
                         </WrapPanel>
                     </GroupBox>
+                    <GroupBox Header="Branch override" Margin="5">
+                        <WrapPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="5,10" Text="Branch :" VerticalAlignment="Center"/>
+                                <ComboBox Margin="{StaticResource ButtonMargin}" ItemsSource="{Binding GitReposVM.RepoBranchesUnion, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+                                        SelectedValue="{Binding UpdateBranch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1"/>
+                                <Button Margin="{StaticResource ButtonMargin}" Command="{Binding RefreshBranchesCommand}" Content="Refresh" Grid.Column="2"/>
+                            </Grid>
+                        </WrapPanel>
+                    </GroupBox>
                 </WrapPanel>
             </StackPanel>
         </StackPanel>
@@ -64,6 +79,21 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Branch">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox Margin="{StaticResource DataGridCellMargin}" ItemsSource="{Binding RepoBranches, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+                                        SelectedValue="{Binding UpdateBranch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Visibility="{Binding UseUpdateBranch, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Custom branch">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Margin="{StaticResource DataGridCellMargin}" IsChecked="{Binding UseUpdateBranch, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -84,7 +114,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        <GridSplitter Grid.Row="2" Grid.RowSpan="1" ResizeDirection="Rows" Width="Auto" Height="5" HorizontalAlignment="Stretch" Margin="0" Background="{StaticResource WindowBackgroundBrush}" />
+        <GridSplitter Grid.Row="2" Grid.RowSpan="1" ResizeDirection="Rows" Width="Auto" Height="5" HorizontalAlignment="Stretch" Margin="0"/>
         <GroupBox Grid.Row="3" Header="Progress" Margin="5">
             <Grid Margin="5">
                 <Grid.RowDefinitions>

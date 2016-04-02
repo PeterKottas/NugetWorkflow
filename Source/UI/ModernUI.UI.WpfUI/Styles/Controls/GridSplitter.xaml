@@ -3,18 +3,8 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:mui="http://firstfloorsoftware.com/ModernUI">
 
-    <Style TargetType="{x:Type Separator}">
-        <Setter Property="Height"
-                Value="1" />
+    <Style TargetType="{x:Type GridSplitter}">
         <Setter Property="Background"
                 Value="{DynamicResource WindowBackground}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Separator}">
-                    <Rectangle Height="{TemplateBinding Height}"
-                               Fill="White" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 </ResourceDictionary>

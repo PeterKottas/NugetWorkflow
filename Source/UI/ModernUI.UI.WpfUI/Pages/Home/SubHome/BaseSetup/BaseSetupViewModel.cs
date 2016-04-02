@@ -5,11 +5,12 @@ using NugetWorkflow.Common.Base.Utils;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update;
 using NugetWorkflow.UI.WpfUI.Utils;
+using System;
 using System.IO;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
 {
-    public class BaseSetupViewModel : NotifyPropertyChanged, IViewModel
+    public class BaseSetupViewModel : NotifyPropertyChanged, IViewModel, IDisposable
     {
         //Private properties
         private FileSystemWatcher basePathWatcher;
@@ -18,7 +19,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
         //\Private properties
 
         //Data hiding
-        private string basePath = @"C:\Users\MasterPC\Desktop\Delete";
+        private string basePath = @"C:\Users\peter.kottas\Desktop\Delete";
+        //private string basePath = @"C:\Users\MasterPC\Desktop\Delete";
         private bool fileWatcherIsEnabled = true;
         //\Data hiding
 
@@ -141,6 +143,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
         public void Initialize()
         {
             BasePath = BasePath;
+        }
+
+        public void Dispose()
+        {
+            basePathWatcher.Dispose();
         }
         //Implementation
 

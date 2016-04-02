@@ -1,4 +1,5 @@
 ﻿using NugetWorkflow.Common.GitAdapter.DTOs.Requests;
+using NugetWorkflow.Common.GitAdapter.DTOs.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace NugetWorkflow.Common.GitAdapter.Interfaces
         void CloneProjects(CloneProjectsRequestDTO request);
 
         void UpdateProjectsDependencies(UpdateProjectsDependenciesRequestDTO request);
+
+        RepoBranchesResponseDTO GetRepoBranches(RepoBranchesRequestDTO request);
     }
 }

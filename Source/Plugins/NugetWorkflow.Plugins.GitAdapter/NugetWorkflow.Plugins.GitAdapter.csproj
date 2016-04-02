@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\StashDTO.cs" />
+    <Compile Include="DTOs\SwitchBranchResponseDTO.cs" />
     <Compile Include="GitAdapterCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
