@@ -62,7 +62,7 @@
                     <DataGridTemplateColumn Header="">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Margin="{StaticResource DataGridCellMargin}" Content="X" Command="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl} ,Path=DataContext.RemoveRowCommand}" CommandParameter="{Binding Hash}"/>
+                                <Button Margin="{StaticResource DataGridCellMargin}" Content="X" Command="{Binding RemoveRowCommand}" CommandParameter="{Binding Hash}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

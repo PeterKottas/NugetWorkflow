@@ -6,6 +6,7 @@ using NugetWorkflow.Common.Base.Utils;
 using NugetWorkflow.Common.GitAdapter.DTOs.Requests;
 using NugetWorkflow.Common.GitAdapter.Interfaces;
 using NugetWorkflow.Plugins.GitAdapter;
+using NugetWorkflow.UI.WpfUI.Base;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
@@ -23,7 +24,7 @@ using System.Windows.Threading;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
 {
-    public class CloneViewModel : NotifyPropertyChanged, IViewModel
+    public class CloneViewModel : BaseViewModel, IViewModel
     {
         //Private properties
         private IGitAdapter gitAdapter;
@@ -126,6 +127,22 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
             {
                 consoleOutput = value;
                 OnPropertyChanged(ConsoleOutputPropName);
+            }
+        }
+
+        public BaseSetupViewModel BaseSetupVM
+        {
+            get
+            {
+                return ViewModelService.GetViewModel<BaseSetupViewModel>();
+            }
+        }
+
+        public GitReposViewModel GitReposVM
+        {
+            get
+            {
+                return ViewModelService.GetViewModel<GitReposViewModel>();
             }
         }
         //\Bindable properties

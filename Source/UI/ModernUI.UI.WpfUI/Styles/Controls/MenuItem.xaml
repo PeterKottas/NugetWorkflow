@@ -15,7 +15,7 @@
             Margin="12,3,12,3" 
             ContentSource="Header"
             RecognizesAccessKey="True" 
-            TextBlock.Foreground="{DynamicResource SubMenuText}"/>
+            TextBlock.Foreground="{DynamicResource ModernButtonText}"/>
             <Popup 
             Name="Popup"
             Placement="Bottom"
@@ -57,7 +57,7 @@
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ModernButtonTextDisabled}"/>
             </Trigger>
             <DataTrigger Binding="{Binding ElementName=Popup, Path=IsOpen}" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource WindowBackground}"/>
@@ -76,7 +76,7 @@
         Margin="6,3,6,3" 
         ContentSource="Header"
         RecognizesAccessKey="True" 
-        TextBlock.Foreground="{DynamicResource SubMenuText}"/>
+        TextBlock.Foreground="{DynamicResource ModernButtonText}"/>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
@@ -85,7 +85,7 @@
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ModernButtonTextDisabled}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -132,13 +132,13 @@
             Grid.Column="1"
             ContentSource="Header"
             RecognizesAccessKey="True"
-            TextBlock.Foreground="{DynamicResource SubMenuText}"/>
+            TextBlock.Foreground="{DynamicResource ModernButtonText}"/>
                     <TextBlock x:Name="InputGestureText"
             Grid.Column="2"
             Text="{TemplateBinding InputGestureText}"
             Margin="10,2,2,2"
             DockPanel.Dock="Right" 
-            TextBlock.Foreground="{DynamicResource SubMenuText}"/>
+            TextBlock.Foreground="{DynamicResource ModernButtonText}"/>
                 </Grid>
             </Border>
         </Grid>
@@ -154,10 +154,12 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource SelectedBackgroundBrush}"/>
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonBackgroundHover}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ModernButtonTextDisabled}"/>
+                <Setter TargetName="HeaderHost" Property="TextElement.Foreground" Value="{DynamicResource ModernButtonTextDisabled}"/>
+                <Setter TargetName="InputGestureText" Property="TextElement.Foreground" Value="{DynamicResource ModernButtonTextDisabled}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -186,7 +188,7 @@
         Grid.Column="1"
         ContentSource="Header"
         RecognizesAccessKey="True"
-        TextBlock.Foreground="{DynamicResource SubMenuText}"/>
+        TextBlock.Foreground="{DynamicResource ModernButtonText}"/>
                 <TextBlock x:Name="InputGestureText"
         Grid.Column="2"
         Text="{TemplateBinding InputGestureText}"
@@ -235,7 +237,7 @@
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ModernButtonTextDisabled}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

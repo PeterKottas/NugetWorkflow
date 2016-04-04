@@ -23,7 +23,7 @@
                             <Button Content="Clone all" Margin="{StaticResource ButtonMargin}" Command="{Binding CloneAllCommand}"/>
                             <Button Content="Clone selected" Margin="{StaticResource ButtonMargin}" Command="{Binding CloneSelectedCommand}"/>
                             <TextBlock Margin="5,10" Text=" to : " VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding BaseSetupVM.BasePath, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Margin="{StaticResource ButtonMargin}" IsReadOnly="True"/>
+                            <TextBox Text="{Binding BaseSetupVM.BasePath, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource ButtonMargin}" IsReadOnly="True"/>
                         </WrapPanel>
                     </GroupBox>
                 </WrapPanel>
@@ -34,7 +34,7 @@
                     AutoGenerateColumns="False"
                     CanUserAddRows="false"
                     CanUserDeleteRows="false"
-                    ItemsSource="{Binding Path=GitReposVM.GitRepos, Mode=TwoWay, diag:PresentationTraceSources.TraceLevel=High, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Margin="5" >
+                    ItemsSource="{Binding Path=GitReposVM.GitRepos, Mode=TwoWay}" Margin="5" >
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Git repo url">
                         <DataGridTemplateColumn.CellTemplate>

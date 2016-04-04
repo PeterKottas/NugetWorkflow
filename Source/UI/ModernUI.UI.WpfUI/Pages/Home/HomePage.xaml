@@ -36,34 +36,13 @@
             </StackPanel>
             <Menu DockPanel.Dock="Top" Panel.ZIndex="1">
                 <MenuItem Header="_File" Icon="" Margin="0">
-                    <MenuItem Header="_New bla bla bla" InputGestureText="Ctrl+N">
-                        <MenuItem Header="_New" InputGestureText="Ctrl+N"/>
-                        <MenuItem Header="_Open" InputGestureText="Ctrl+O"/>
-                        <MenuItem Header="_Save" InputGestureText="Alt+N"/>
-                        <MenuItem Header="_Save" />
-                        <Separator />
-                        <MenuItem Header="_Exit" />
-                    </MenuItem>
-                    <MenuItem Header="_Open" InputGestureText="Ctrl+O"/>
-                    <MenuItem Header="_Save" />
+                    <MenuItem Header="_New" InputGestureText="Ctrl+N" Command="{Binding NewFileCommand}"/>
+                    <MenuItem Header="_Open" InputGestureText="Ctrl+O" Command="{Binding OpenFileCommand}"/>
+                    <MenuItem Header="_Save" InputGestureText="Alt+S" Command="{Binding SaveFileCommand}"/>
+                    <MenuItem Header="_Save as" Command="{Binding SaveAsFileCommand}"/>
                     <Separator />
                     <MenuItem Header="_Exit" />
                 </MenuItem>
-                <MenuItem Header="_Edit">
-                    <MenuItem Header="_New" />
-                    <MenuItem Header="_Open">
-                        <MenuItem Header="_New" InputGestureText="Ctrl+N"/>
-                        <MenuItem Header="_Open" InputGestureText="Ctrl+O"/>
-                        <MenuItem Header="_Save" InputGestureText="Alt+N"/>
-                        <MenuItem Header="_Save" />
-                        <Separator />
-                        <MenuItem Header="_Exit" />
-                    </MenuItem>
-                    <MenuItem Header="_Save" />
-                    <Separator />
-                    <MenuItem Header="_Exit" />
-                </MenuItem>
-
                 <Menu.RenderTransform>
                     <TranslateTransform x:Name="translateTransform2"
                                 Y="-48" />

@@ -8,8 +8,18 @@
     <Grid>
         <ScrollViewer>
             <StackPanel MinWidth="200">
-                <TextBlock Text="ABOUT" Style="{StaticResource Heading2}" />
-                <TextBlock Text="This software was intended to help people work with the new proposed nuget architecture for visual studio solutions." Margin="0,0,0,8" TextWrapping="Wrap" />
+                <TextBlock Text="General settings" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
+                <GroupBox Header="Auto UI refresh" Margin="5">
+                    <WrapPanel>
+                        <CheckBox Content="Enabled"  IsChecked="{Binding FileWatcherIsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource ButtonMargin}"/>
+                        <TextBlock Margin="5,10" Text="Renames : " VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding RenameCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
+                        <TextBlock Margin="5,10" Text="Changes : " VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding ChangedCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
+                        <TextBlock Margin="5,10" Text="Updates : " VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding UIUpdateCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
+                    </WrapPanel>
+                </GroupBox>
             </StackPanel>
         </ScrollViewer>
     </Grid>

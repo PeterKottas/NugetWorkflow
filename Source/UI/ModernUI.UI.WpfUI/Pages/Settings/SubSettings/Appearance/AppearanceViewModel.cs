@@ -1,6 +1,10 @@
 ﻿using FirstFloor.ModernUI.Presentation;
 using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.Common.Base.Utils;
+using NugetWorkflow.UI.WpfUI.Attributes;
+using NugetWorkflow.UI.WpfUI.Base;
+using NugetWorkflow.UI.WpfUI.Pages.Home;
+using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +18,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
     /// <summary>
     /// A simple view model for configuring theme, font and accent colors.
     /// </summary>
-    public class AppearanceViewModel : NotifyPropertyChanged, IViewModel
+    public class AppearanceViewModel : BaseViewModel, IViewModel
     {
         //Data hiding
         private const string FontSmall = "small";
@@ -153,6 +157,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
 
         public void Initialize()
         {
+
         }
         //\Implementation
     }

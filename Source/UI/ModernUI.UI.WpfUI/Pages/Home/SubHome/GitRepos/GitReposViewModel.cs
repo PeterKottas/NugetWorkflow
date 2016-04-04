@@ -1,11 +1,12 @@
 ﻿using FirstFloor.ModernUI.Presentation;
 using FirstFloor.ModernUI.Windows.Controls;
 using Microsoft.Win32;
-using NugetWorkflow.Common.Base.Attributes;
 using NugetWorkflow.Common.Base.Converters.JavaScriptConverters;
 using NugetWorkflow.Common.Base.Extensions;
 using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.Common.Base.Utils;
+using NugetWorkflow.UI.WpfUI.Attributes;
+using NugetWorkflow.UI.WpfUI.Base;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
 using NugetWorkflow.UI.WpfUI.Utils;
@@ -21,22 +22,24 @@ using System.Windows;
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 {
     [SaveSceneAttribute]
-    public class GitReposViewModel : NotifyPropertyChanged, IViewModel
+    public class GitReposViewModel : BaseViewModel, IViewModel
     {
         //Private properties
         private JavaScriptSerializer serializer;
-        
+
         private JavaScriptSerializer deSerializer;
         //\Private properties
 
         //Data hiding
         private List<GitRepoModel> gitRepos;
-        
+
         private bool includePassword = false;
-        
-        private string overidenUsername = "admin";
-        
-        private SecureString overridenPassword = "Betfred1".ToSecuredString();
+
+        //private string overidenUsername = "admin";
+        private string overidenUsername = "peterkottas";
+
+        //private SecureString overridenPassword = "Betfred1".ToSecuredString();
+        private SecureString overridenPassword = "test".ToSecuredString();
 
         private List<string> nuGetPackagesIDsUnion;
 
@@ -45,13 +48,13 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 
         //Properties names
         public static readonly string OverridenPasswordPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.OverridenPassword);
-        
+
         public static readonly string OveridenUsernamePropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.OveridenUsername);
-        
+
         public static readonly string IncludePasswordPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.IncludePassword);
-        
+
         public static readonly string ExportHeaderPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.ExportHeader);
-        
+
         public static readonly string GitReposPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.GitRepos);
 
         public static readonly string NuGetPackagesIDsUnionPropName = ReflectionUtility.GetPropertyName((GitReposViewModel s) => s.NuGetPackagesIDsUnion);
@@ -61,15 +64,15 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 
         //Commands
         public RelayCommand ExportJsonCommand { get; set; }
-        
+
         public RelayCommand ExportJsonClipboardCommand { get; set; }
-        
+
         public RelayCommand ImportJsonCommand { get; set; }
-        
+
         public RelayCommand ImportJsonClipboardCommand { get; set; }
-        
+
         public RelayCommand AddRowCommand { get; set; }
-        
+
         public RelayCommand RemoveRowCommand { get; set; }
         //\Commands
 
@@ -175,8 +178,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         public GitReposViewModel()
         {
             gitRepos = new List<GitRepoModel>();
-            //gitRepos.Add(new GitRepoModel() { Url = "https://github.com/PeterKottas/NugetWorkflow.git" });
-            gitRepos.Add(new GitRepoModel() { Url = "http://git-bonobo:8083/test-api.git" });
+            gitRepos.Add(new GitRepoModel() { Url = "https://github.com/PeterKottas/NugetWorkflow.git" });
+
             ImportJsonClipboardCommand = new RelayCommand(ImportJsonClipboardExecute, ImportJsonClipboardCanExecute);
             ImportJsonCommand = new RelayCommand(ImportJsonExecute);
             ExportJsonCommand = new RelayCommand(ExportJsonExecute, ExportJsonCanExecute);

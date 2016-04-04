@@ -45,15 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\SaveSceneAttribute.cs" />
     <Compile Include="Classes\BaseException.cs" />
     <Compile Include="Converters\JavaScriptConverters\DynamicJsonConverter.cs" />
     <Compile Include="DTOs\GitRepos\GitRepoDTO.cs" />
     <Compile Include="Exceptions\MissingViewException.cs" />
+    <Compile Include="Exceptions\SceneSaveException.cs" />
+    <Compile Include="Exceptions\SceneLoadException.cs" />
     <Compile Include="Extensions\GitExtensions.cs" />
     <Compile Include="Extensions\SecureStringExtensions.cs" />
     <Compile Include="Extensions\UsernameEncryptionExtensions.cs" />
-    <Compile Include="Interfaces\IView.cs" />
+    <Compile Include="Interfaces\IPageUserControl.cs" />
+    <Compile Include="Interfaces\IViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ReflectionUtility.cs" />
   </ItemGroup>

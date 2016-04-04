@@ -17,15 +17,16 @@ using NugetWorkflow.Common.Base.Utils;
 using System.Linq.Expressions;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update;
 using System.Xml;
-using NugetWorkflow.Common.Base.Attributes;
 using NugetWorkflow.Common.GitAdapter.Interfaces;
 using NugetWorkflow.Plugins.GitAdapter;
 using NugetWorkflow.Common.GitAdapter.DTOs.Requests;
+using NugetWorkflow.UI.WpfUI.Attributes;
+using NugetWorkflow.UI.WpfUI.Base;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 {
     [SaveSceneAttribute]
-    public class GitRepoModel : NotifyPropertyChanged
+    public class GitRepoModel : BaseViewModel
     {
         //Dependency interfaces
         IGitAdapter gitAdapter;
@@ -246,7 +247,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
-        [SaveSceneAttribute]
         public string Hash
         {
             get

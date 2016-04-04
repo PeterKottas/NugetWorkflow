@@ -16,64 +16,62 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel MinWidth="200">
-            <StackPanel>
-                <TextBlock Text="Update NuGet versions" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
-                <WrapPanel>
-                    <GroupBox Header="Edit" Margin="5">
-                        <WrapPanel>
-                            <Button Content="Update all" Margin="{StaticResource ButtonMargin}" Command="{Binding UpdateAllCommand}"/>
-                            <Button Content="Update selected" Margin="{StaticResource ButtonMargin}" Command="{Binding UpdateSelectedCommand}"/>
-                        </WrapPanel>
-                    </GroupBox>
-                    <GroupBox Header="Package" Margin="5">
-                        <WrapPanel>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Margin="5,10" Text="NuGet ID :" VerticalAlignment="Center"/>
-                                <!--<TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding NuGetID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding GitReposVM.NuGetPackagesIDsUnion, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+            <TextBlock Text="Update NuGet versions" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
+            <WrapPanel>
+                <GroupBox Header="Edit" Margin="5">
+                    <WrapPanel>
+                        <Button Content="Update all" Margin="{StaticResource ButtonMargin}" Command="{Binding UpdateAllCommand}"/>
+                        <Button Content="Update selected" Margin="{StaticResource ButtonMargin}" Command="{Binding UpdateSelectedCommand}"/>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Package" Margin="5">
+                    <WrapPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="5,10" Text="NuGet ID :" VerticalAlignment="Center"/>
+                            <!--<TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding NuGetID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding GitReposVM.NuGetPackagesIDsUnion, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
                                          behaviors:AutoCompleteBehavior.AutoCompleteStringComparison="InvariantCultureIgnoreCase"
                                          FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>-->
-                                <ComboBox Margin="{StaticResource ButtonMargin}" ItemsSource="{Binding GitReposVM.NuGetPackagesIDsUnion, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+                            <ComboBox Margin="{StaticResource ButtonMargin}" ItemsSource="{Binding GitReposVM.NuGetPackagesIDsUnion, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
                                         SelectedValue="{Binding NuGetID, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1"/>
-                                
-                            </Grid>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Margin="5,10" Text="Version :" VerticalAlignment="Center"/>
-                                <TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding NuGetVersion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
-                            </Grid>
-                        </WrapPanel>
-                    </GroupBox>
-                    <GroupBox Header="Branch override" Margin="5">
-                        <WrapPanel>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Margin="5,10" Text="Branch :" VerticalAlignment="Center"/>
-                                <ComboBox Margin="{StaticResource ButtonMargin}" ItemsSource="{Binding GitReposVM.RepoBranchesUnion, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="5,10" Text="Version :" VerticalAlignment="Center"/>
+                            <TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding NuGetVersion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
+                        </Grid>
+                    </WrapPanel>
+                </GroupBox>
+                <GroupBox Header="Branch override" Margin="5">
+                    <WrapPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="5,10" Text="Branch :" VerticalAlignment="Center"/>
+                            <ComboBox Margin="{StaticResource ButtonMargin}" ItemsSource="{Binding GitReposVM.RepoBranchesUnion, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
                                         SelectedValue="{Binding UpdateBranch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="1"/>
-                                <Button Margin="{StaticResource ButtonMargin}" Command="{Binding RefreshBranchesCommand}" Content="Refresh" Grid.Column="2"/>
-                            </Grid>
-                        </WrapPanel>
-                    </GroupBox>
-                </WrapPanel>
-            </StackPanel>
+                            <Button Margin="{StaticResource ButtonMargin}" Command="{Binding RefreshBranchesCommand}" Content="Refresh" Grid.Column="2"/>
+                        </Grid>
+                    </WrapPanel>
+                </GroupBox>
+            </WrapPanel>
         </StackPanel>
         <GroupBox Grid.Row="1" Header="Git repos to Update from" Margin="5">
             <DataGrid 
                     AutoGenerateColumns="False"
                     CanUserAddRows="false"
                     CanUserDeleteRows="false"
-                    ItemsSource="{Binding Path=GitReposVM.GitRepos, Mode=TwoWay, diag:PresentationTraceSources.TraceLevel=High, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Margin="5" >
+                    ItemsSource="{Binding Path=GitReposVM.GitRepos, Mode=TwoWay}" Margin="5" >
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Git repo url">
                         <DataGridTemplateColumn.CellTemplate>

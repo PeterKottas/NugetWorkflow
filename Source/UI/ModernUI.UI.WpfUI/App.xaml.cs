@@ -1,6 +1,8 @@
 ﻿using NugetWorkflow.Common.Base.BaseClasses;
 using NugetWorkflow.Common.Base.Exceptions;
 using NugetWorkflow.Common.Base.Interfaces;
+using NugetWorkflow.UI.WpfUI.Pages.Home;
+using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,17 +47,24 @@ namespace NugetWorkflow.UI.WpfUI
 
         public RET GetView<RET>()
         {
-            var contains = viewDictionary.Keys.Contains(typeof(RET));
+            return (RET)GetView(typeof(RET));
+        }
+
+        public object GetView(Type type)
+        {
+            var contains = viewDictionary.Keys.Contains(type);
             if (!contains)
             {
-                throw new MissingViewException(string.Format("{0} is missing or does not implement {1} interface.", typeof(RET).FullName, typeof(IViewModel).FullName));
+                throw new MissingViewException(string.Format("{0} is missing or does not implement {1} interface.", type.FullName, typeof(IViewModel).FullName));
             }
-            return (RET)viewDictionary[typeof(RET)];
+            return viewDictionary[type];
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             SetupViewDictionary();
+            //SceneSaver.Save("test");
+            SceneSaver.MakeClean();
         }
     }
 }

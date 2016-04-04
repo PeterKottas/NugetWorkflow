@@ -114,6 +114,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Attributes\SaveSceneAttribute.cs" />
+    <Compile Include="Base\BaseUserControl.cs" />
+    <Compile Include="Base\BaseViewModel.cs" />
     <Compile Include="Pages\Home\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -130,7 +133,12 @@
       <DependentUpon>UpdatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Home\SubHome\Update\UpdateViewModel.cs" />
+    <Compile Include="Pages\Settings\SubSettings\General\GeneralSettingsViewModel.cs" />
     <Compile Include="Utils\AutoScrollHelper.cs" />
+    <Compile Include="Utils\JsonSecureStringConverter.cs" />
+    <Compile Include="Utils\PageUserControlService.cs" />
+    <Compile Include="Utils\PropertyInfoComparer.cs" />
+    <Compile Include="Utils\SaveSceneJsonResolver.cs" />
     <Compile Include="Utils\SceneSaver.cs" />
     <Compile Include="Utils\TimerUpdater.cs" />
     <Compile Include="Utils\ViewModelService.cs" />

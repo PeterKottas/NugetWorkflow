@@ -1,4 +1,5 @@
-﻿using NugetWorkflow.UI.WpfUI.Utils;
+﻿using NugetWorkflow.Common.Base.Interfaces;
+using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +20,16 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
     /// <summary>
     /// Interaction logic for Appearance.xaml
     /// </summary>
-    public partial class AppearancePage : UserControl
+    public partial class AppearancePage : UserControl, IPageUserControl
     {
         public AppearancePage()
         {
             InitializeComponent();
+            AssignViewModel();
+        }
 
-            // create and assign the appearance view model
+        public void AssignViewModel()
+        {
             this.DataContext = ViewModelService.GetViewModel<AppearanceViewModel>();
         }
     }

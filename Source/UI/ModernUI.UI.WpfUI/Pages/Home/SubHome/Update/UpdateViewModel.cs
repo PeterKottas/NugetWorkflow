@@ -1,11 +1,12 @@
 ﻿using FirstFloor.ModernUI.Presentation;
-using NugetWorkflow.Common.Base.Attributes;
 using NugetWorkflow.Common.Base.DTOs.GitRepos;
 using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.Common.Base.Utils;
 using NugetWorkflow.Common.GitAdapter.DTOs.Requests;
 using NugetWorkflow.Common.GitAdapter.Interfaces;
 using NugetWorkflow.Plugins.GitAdapter;
+using NugetWorkflow.UI.WpfUI.Attributes;
+using NugetWorkflow.UI.WpfUI.Base;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos;
 using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
@@ -24,7 +25,7 @@ using System.Windows.Threading;
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 {
     [SaveSceneAttribute]
-    public class UpdateViewModel : NotifyPropertyChanged, IViewModel
+    public class UpdateViewModel : BaseViewModel, IViewModel
     {
         //Dependencies interfaces
         private IGitAdapter gitAdapter;
@@ -87,8 +88,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
         //\Commands
 
         //Bindable properties
-        public GitReposViewModel GitReposVM { get; set; }
-
         public string UpdateBranch
         {
             get
@@ -209,6 +208,22 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                 ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
             }
         }
+
+        public GitReposViewModel GitReposVM
+        {
+            get
+            {
+                return ViewModelService.GetViewModel<GitReposViewModel>();
+            }
+        }
+
+        public BaseSetupViewModel BaseSetupVM
+        {
+            get
+            {
+                return ViewModelService.GetViewModel<BaseSetupViewModel>();
+            }
+        }
         //\Bindable properties
 
         //Implementation
@@ -267,7 +282,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 
         public void Initialize()
         {
-            GitReposVM = ViewModelService.GetViewModel<GitReposViewModel>();
         }
         //\Implementation
 
