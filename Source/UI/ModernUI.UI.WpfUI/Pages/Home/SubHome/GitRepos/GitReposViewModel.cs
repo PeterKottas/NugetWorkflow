@@ -77,6 +77,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         //\Commands
 
         //Bindable properties
+        public string Header
+        {
+            get
+            {
+                return "Setup your git server connections";
+            }
+        }
+
         public List<string> RepoBranchesUnion
         {
             get

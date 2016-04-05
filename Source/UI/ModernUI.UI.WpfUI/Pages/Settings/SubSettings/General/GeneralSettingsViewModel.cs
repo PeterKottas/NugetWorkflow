@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
 {
+    [SaveConfigAttribute]
     public class GeneralSettingsViewModel : BaseViewModel, IViewModel, IDisposable
     {
         //Private properties
@@ -37,7 +38,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
 
         public int UIUpdateCounter { get; set; }
 
-        [SaveSceneAttribute]
+        [SaveConfigAttribute]
         public bool FileWatcherIsEnabled
         {
             get

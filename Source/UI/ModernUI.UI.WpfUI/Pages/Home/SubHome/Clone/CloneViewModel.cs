@@ -145,6 +145,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
                 return ViewModelService.GetViewModel<GitReposViewModel>();
             }
         }
+
+        public string Header
+        {
+            get
+            {
+                return "Now lets clone some serious code!";
+            }
+        }
         //\Bindable properties
 
         //Implementation

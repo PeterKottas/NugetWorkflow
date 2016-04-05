@@ -1,4 +1,5 @@
 ﻿using FirstFloor.ModernUI.Presentation;
+using FirstFloor.ModernUI.Windows.Controls;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.Common.Base.Utils;
@@ -9,14 +10,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home
 {
     public class HomePageViewModel : BaseViewModel, IViewModel
     {
         //Private properties
-        private string header;
+        private Dictionary<string, string> headers = new Dictionary<string, string>()
+            {
+                {"/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml","You can do the base setup here"},
+                {"/Pages/Home/SubHome/GitRepos/GitReposPage.xaml","Now lets clone some serious code!"},
+                {"/Pages/Home/SubHome/Clone/ClonePage.xaml","Setup your git server connections"},
+                {"/Pages/Home/SubHome/Update/UpdatePage.xaml","Update your NuGet dependencies here"}
+            };
         private bool isDirty = false;
+        private string header = null;
         //\Private properties
 
         //Properties names        
@@ -60,6 +69,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
         public RelayCommand OpenFileCommand { get; set; }
 
         public RelayCommand SaveAsFileCommand { get; set; }
+
+        public RelayCommand ExitCommand { get; set; }
         //\Commands
 
         //Implementation
@@ -69,17 +80,26 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
             SaveFileCommand = new RelayCommand(SaveFileExecute, SaveFileCanExecute);
             OpenFileCommand = new RelayCommand(OpenFileExecute, OpenFileCanExecute);
             SaveAsFileCommand = new RelayCommand(SaveAsExecute, SaveAsCanExecute);
+            ExitCommand = new RelayCommand(SaveAsExecute, SaveAsCanExecute);
         }
 
         public void Initialize()
         {
+        }
+
+        public void UpdateHeader(string key)
+        {
+            if(headers.ContainsKey(key))
+            {
+                Header = headers[key];
+            }
         }
         //\Implementation
 
         //Commands logic
         private bool SaveAsCanExecute(object arg)
         {
-            if(IsDirty)
+            if (IsDirty)
             {
                 return true;
             }
@@ -88,23 +108,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
 
         private void SaveAsExecute(object obj)
         {
-            var dlg = new CommonSaveFileDialog();
-            dlg.Title = "Save your current scene";
-            dlg.AddToMostRecentlyUsedList = false;
-            dlg.EnsureFileExists = true;
-            dlg.EnsurePathExists = true;
-            dlg.EnsureReadOnly = false;
-            dlg.EnsureValidNames = true;
-            dlg.ShowPlacesList = true;
-            dlg.Filters.Add(new CommonFileDialogFilter("Scene","scn"));
-            dlg.DefaultExtension = "scn";
-
-            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                SceneSaver.Save(dlg.FileName);
-            }
-            dlg.Dispose();
-            SceneSaver.MakeClean();
+            SceneSaver.SaveUI();
         }
 
         private bool OpenFileCanExecute(object arg)
@@ -114,19 +118,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
 
         private void OpenFileExecute(object obj)
         {
-            var dlg = new CommonOpenFileDialog();
-            dlg.Title = "Choose scene to open";
-            dlg.IsFolderPicker = false;
-            dlg.Multiselect = false;
-            dlg.Filters.Add(new CommonFileDialogFilter("Scene", "scn"));
-            dlg.DefaultExtension = "scn";
-
-            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                SceneSaver.Load(dlg.FileName);
-            }
-            dlg.Dispose();
-            SceneSaver.MakeClean();
+            SceneSaver.OpenUI();
         }
 
         private bool SaveFileCanExecute(object arg)
@@ -140,7 +132,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
 
         private void SaveFileExecute(object obj)
         {
-            
+            SceneSaver.Save();
         }
 
         private bool NewFileCanExecute(object arg)
@@ -154,7 +146,16 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
 
         private void NewFileExecute(object obj)
         {
-            IsDirty = false;
+            if (SceneSaver.HandleDirtySceneOverWrite())
+            {
+                ViewModelService.SetupViewDictionary();
+                PageUserControlService.ReassignViewModels();
+            }
+        }
+
+        private void ExitCommandExecute(object obj)
+        {
+            Application.Current.Shutdown();
         }
         //\Commands logic
     }

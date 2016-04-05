@@ -26,22 +26,19 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
     {
         public BaseSetupPage()
         {
-            InitializeComponent();
             AssignViewModel();
-            this.IsVisibleChanged += BaseSetupPage_IsVisibleChanged;
-        }
-
-        void BaseSetupPage_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if((bool)e.NewValue)
-            {
-                ViewModelService.GetViewModel<HomePageViewModel>().Header = "Setup your workspace";
-            }
+            InitializeComponent();
+            AddUserControl(this);
         }
 
         public void AssignViewModel()
         {
             this.DataContext = ViewModelService.GetViewModel<BaseSetupViewModel>();
+        }
+
+        public void AddUserControl(IPageUserControl userControl)
+        {
+            PageUserControlService.AddUserControl(this);
         }
     }
 }

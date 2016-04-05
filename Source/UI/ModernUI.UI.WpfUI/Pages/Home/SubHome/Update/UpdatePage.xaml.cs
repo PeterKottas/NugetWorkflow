@@ -13,23 +13,19 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
     {
         public UpdatePage()
         {
-            InitializeComponent();
-            //container = ((App)Application.Current).Container;
-            this.IsVisibleChanged += ClonePage_IsVisibleChanged;
             AssignViewModel();
-        }
-
-        void ClonePage_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
-        {
-            if ((bool)e.NewValue)
-            {
-                ViewModelService.GetViewModel<HomePageViewModel>().Header = "Update your NuGet dependencies here";
-            }
+            InitializeComponent();
+            AddUserControl(this);
         }
 
         public void AssignViewModel()
         {
             this.DataContext = ViewModelService.GetViewModel<UpdateViewModel>();
+        }
+
+        public void AddUserControl(IPageUserControl userControl)
+        {
+            PageUserControlService.AddUserControl(this);
         }
     }
 }

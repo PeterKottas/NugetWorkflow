@@ -1,4 +1,6 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
+using NugetWorkflow.UI.WpfUI.Pages.Home;
+using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,15 @@ namespace NugetWorkflow.UI.WpfUI
         public MainWindow()
         {
             InitializeComponent();
+            this.Closing += MainWindow_Closing;
+        }
+
+        void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!SceneSaver.HandleDirtySceneOverWrite())
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

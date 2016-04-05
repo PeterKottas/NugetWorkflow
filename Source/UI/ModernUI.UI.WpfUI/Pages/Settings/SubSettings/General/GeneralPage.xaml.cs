@@ -25,13 +25,24 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
     {
         public GeneralPage()
         {
-            InitializeComponent();
             AssignViewModel();
+            InitializeComponent();
+            AddUserControl(this);
         }
 
         public void AssignViewModel()
         {
             this.DataContext = ViewModelService.GetViewModel<GeneralSettingsViewModel>();
+        }
+
+        public void AddUserControl(IPageUserControl userControl)
+        {
+            PageUserControlService.AddUserControl(this);
+        }
+
+        public string Header
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }

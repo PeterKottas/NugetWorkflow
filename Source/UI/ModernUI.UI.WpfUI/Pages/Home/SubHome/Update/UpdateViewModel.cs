@@ -224,6 +224,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                 return ViewModelService.GetViewModel<BaseSetupViewModel>();
             }
         }
+
+        public string Header
+        {
+            get
+            {
+                return "Update your NuGet dependencies here";
+            }
+        }
         //\Bindable properties
 
         //Implementation

@@ -24,13 +24,24 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
     {
         public AppearancePage()
         {
-            InitializeComponent();
             AssignViewModel();
+            InitializeComponent();
+            AddUserControl(this);
         }
 
         public void AssignViewModel()
         {
             this.DataContext = ViewModelService.GetViewModel<AppearanceViewModel>();
+        }
+
+        public void AddUserControl(IPageUserControl userControl)
+        {
+            PageUserControlService.AddUserControl(this);
+        }
+
+        public string Header
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }

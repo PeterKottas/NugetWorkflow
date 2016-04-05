@@ -27,7 +27,7 @@
                                              To="0"
                                              BeginTime="0:0:0"
                                              AutoReverse="False"
-                                             Duration="0:0:1" />
+                                             Duration="0:0:0.5" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger.Actions>
@@ -55,16 +55,16 @@
                                     <DoubleAnimation Storyboard.TargetName="translateTransform2"
                                              Storyboard.TargetProperty="(TranslateTransform.Y)"
                                              To="0"
-                                             BeginTime="0:0:0.5"
+                                             BeginTime="0:0:0.2"
                                              AutoReverse="False"
-                                             Duration="0:0:1.0" />
+                                             Duration="0:0:0.7" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger.Actions>
                     </EventTrigger>
                 </Menu.Triggers>
             </Menu>
-            <mui:ModernTab Layout="List" SelectedSource="/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml" Margin="0">
+            <mui:ModernTab Layout="List" SelectedSource="/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml" Margin="0" SelectedSourceChanged="ModernTab_SelectedSourceChanged">
                 <mui:ModernTab.Links>
                     <mui:Link DisplayName="Base setup" Source="/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml" />
                     <mui:Link DisplayName="Git repos" Source="/Pages/Home/SubHome/GitRepos/GitReposPage.xaml" />

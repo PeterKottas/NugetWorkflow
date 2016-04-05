@@ -404,9 +404,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         {
             hash = Guid.NewGuid().ToString();
             useOverrideCredentials = false;
-            username = string.Empty;
+            username = null;
             cloneToogle = false;
-            url = string.Empty;
+            url = null;
             gitAdapter = new GitAdapterCore();
         }
 

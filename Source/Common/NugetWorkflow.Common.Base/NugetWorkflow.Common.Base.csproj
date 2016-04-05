@@ -48,6 +48,7 @@
     <Compile Include="Classes\BaseException.cs" />
     <Compile Include="Converters\JavaScriptConverters\DynamicJsonConverter.cs" />
     <Compile Include="DTOs\GitRepos\GitRepoDTO.cs" />
+    <Compile Include="Exceptions\MissingPageControlException.cs" />
     <Compile Include="Exceptions\MissingViewException.cs" />
     <Compile Include="Exceptions\SceneSaveException.cs" />
     <Compile Include="Exceptions\SceneLoadException.cs" />

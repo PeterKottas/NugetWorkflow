@@ -16,28 +16,97 @@ using NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models;
 using System.IO;
 using NugetWorkflow.Common.Base.Exceptions;
 using NugetWorkflow.UI.WpfUI.Pages.Home;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using FirstFloor.ModernUI.Windows.Controls;
 
 namespace NugetWorkflow.UI.WpfUI.Utils
 {
     public static class SceneSaver
     {
-        private static HomePageViewModel homeVm = ViewModelService.GetViewModel<HomePageViewModel>();
+        private static HomePageViewModel homeVm
+        {
+            get
+            {
+                return ViewModelService.GetViewModel<HomePageViewModel>();
+            }
+        }
+        private static string lastFileSavedPath = null;
 
-        public static void Save(string path)
+        public static string LastFileSavedPath
+        {
+            get
+            {
+                return lastFileSavedPath;
+            }
+            set
+            {
+                lastFileSavedPath = value;
+            }
+        }
+
+        public static void SaveUI()
+        {
+            var dlg = new CommonSaveFileDialog();
+            dlg.Title = "Save your current scene";
+            dlg.AddToMostRecentlyUsedList = false;
+            dlg.EnsureFileExists = true;
+            dlg.EnsurePathExists = true;
+            dlg.EnsureReadOnly = false;
+            dlg.EnsureValidNames = true;
+            dlg.ShowPlacesList = true;
+            dlg.Filters.Add(new CommonFileDialogFilter("Scene", "scn"));
+            dlg.DefaultExtension = "scn";
+
+            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                SceneSaver.Save(dlg.FileName);
+            }
+            dlg.Dispose();
+            SceneSaver.MakeClean();
+        }
+
+        public static void OpenUI()
+        {
+            if (HandleDirtySceneOverWrite())
+            {
+                var dlg = new CommonOpenFileDialog();
+                dlg.Title = "Choose scene to open";
+                dlg.IsFolderPicker = false;
+                dlg.Multiselect = false;
+                dlg.Filters.Add(new CommonFileDialogFilter("Scene", "scn"));
+                dlg.DefaultExtension = "scn";
+
+                if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    SceneSaver.Load(dlg.FileName);
+                }
+                dlg.Dispose();
+                SceneSaver.MakeClean();
+            }
+        }
+
+        public static void Save(string path = null)
         {
             try
             {
-                var viewDictionary = ((App)Application.Current).ViewDictionary;
-                var result = JsonConvert.SerializeObject(viewDictionary,
-                    new JsonSerializerSettings { ContractResolver = SaveSceneJsonResolver.Instance, NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
-                File.WriteAllText(path, result);
+                if (string.IsNullOrEmpty(path))
+                {
+                    SaveUI();
+                }
+                else
+                {
+                    var viewDictionary = ViewModelService.ViewDictionary;
+                    var result = JsonConvert.SerializeObject(viewDictionary,
+                        new JsonSerializerSettings { ContractResolver = SaveSceneJsonResolver.Instance, NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
+                    File.WriteAllText(path, result);
+                }
             }
             catch (Exception e)
             {
 
                 throw new SceneSaveException("Exception while trying to save the scene", e);
             }
-            
+
         }
 
         private static object LoadObject(JToken source, Type destinationType)
@@ -45,7 +114,7 @@ namespace NugetWorkflow.UI.WpfUI.Utils
             if (source.Type == JTokenType.Object)
             {
                 var sourceObject = (JObject)source;
-                var destinationProps = destinationType.GetProperties(System.Reflection.BindingFlags.SetProperty).Where(prop => prop.GetCustomAttributes(false).Where(a => a.GetType() == typeof(SaveSceneAttribute)).Count() > 0).ToList();
+                var destinationProps = destinationType.GetProperties().Where(prop => prop.GetCustomAttributes(false).Where(a => a.GetType() == typeof(SaveSceneAttribute)).Count() > 0).ToList();
                 var destination = Activator.CreateInstance(destinationType);
                 foreach (var destinationProp in destinationProps)
                 {
@@ -106,7 +175,8 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                 {
                     dict.Add(item.Key, LoadObject(item.Value, item.Key));
                 }
-                ((App)Application.Current).ViewDictionary = dict;
+                ViewModelService.ViewDictionary = dict;
+                PageUserControlService.ReassignViewModels();
                 MakeClean();
             }
             catch (Exception e)
@@ -120,15 +190,37 @@ namespace NugetWorkflow.UI.WpfUI.Utils
             if (!homeVm.IsDirty && HomePageViewModel.IsDirtyPropName != PropertyName)
             {
                 var prop = parrent.GetType().GetProperty(PropertyName);
-                if(prop!=null)
+                if (prop != null)
                 {
                     var atr = prop.GetCustomAttributes(typeof(SaveSceneAttribute), false);
-                    if(atr != null && atr.Count()>0)
+                    if (atr != null && atr.Count() > 0)
                     {
                         homeVm.IsDirty = true;
                     }
                 }
             }
+        }
+
+        public static bool HandleDirtySceneOverWrite()
+        {
+            if (homeVm.IsDirty)
+            {
+                var res = ModernDialog.ShowMessage("Save current scene?", "Unsaved changes", System.Windows.MessageBoxButton.YesNoCancel);
+                if (res == MessageBoxResult.Yes)
+                {
+                    Save();
+                    return true;
+                }
+                else if (res == MessageBoxResult.No)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public static void MakeClean()

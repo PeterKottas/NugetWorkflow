@@ -11,23 +11,19 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
     {
         public GitReposPage()
         {
-            InitializeComponent();
-            //container = ((App)Application.Current).Container;
-            this.IsVisibleChanged += GitReposPage_IsVisibleChanged;
             AssignViewModel();
-        }
-
-        void GitReposPage_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
-        {
-            if ((bool)e.NewValue)
-            {
-                ViewModelService.GetViewModel<HomePageViewModel>().Header = "Setup your git server connections";
-            }
+            InitializeComponent();
+            AddUserControl(this);
         }
 
         public void AssignViewModel()
         {
             this.DataContext = ViewModelService.GetViewModel<GitReposViewModel>();
+        }
+
+        public void AddUserControl(IPageUserControl userControl)
+        {
+            PageUserControlService.AddUserControl(this);
         }
     }
 }

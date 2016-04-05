@@ -13,23 +13,19 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Clone
     {
         public ClonePage()
         {
-            InitializeComponent();
-            //container = ((App)Application.Current).Container;
-            this.IsVisibleChanged += ClonePage_IsVisibleChanged;
             AssignViewModel();
-        }
-
-        void ClonePage_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
-        {
-            if ((bool)e.NewValue)
-            {
-                ViewModelService.GetViewModel<HomePageViewModel>().Header = "Now lets clone some serious code!";
-            }
+            InitializeComponent();
+            AddUserControl(this);
         }
 
         public void AssignViewModel()
         {
             this.DataContext = ViewModelService.GetViewModel<CloneViewModel>();
+        }
+        
+        public void AddUserControl(IPageUserControl userControl)
+        {
+            PageUserControlService.AddUserControl(this);
         }
     }
 }

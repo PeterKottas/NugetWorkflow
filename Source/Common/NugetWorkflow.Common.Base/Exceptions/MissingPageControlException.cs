@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 namespace NugetWorkflow.Common.Base.Exceptions
 {
     [Serializable]
-    public class MissingPageControlException : BaseException
+    public class MissingViewException : BaseException
     {
-        public MissingPageControlException(string message)
-            : base(message)
+        public MissingViewException(string message) : base(message)
         {
 
         }

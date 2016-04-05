@@ -114,6 +114,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Attributes\SaveConfigAttribute.cs" />
     <Compile Include="Attributes\SaveSceneAttribute.cs" />
     <Compile Include="Base\BaseUserControl.cs" />
     <Compile Include="Base\BaseViewModel.cs" />
