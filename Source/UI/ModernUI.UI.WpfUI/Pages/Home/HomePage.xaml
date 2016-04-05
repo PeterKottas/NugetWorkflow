@@ -7,6 +7,17 @@
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.InputBindings>
+        <KeyBinding Modifiers="Control"
+                    Key="S"
+                    Command="{Binding SaveFileCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="O"
+                    Command="{Binding OpenFileCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="N"
+                    Command="{Binding NewFileCommand}" />
+    </UserControl.InputBindings>
     <Grid Style="{StaticResource ContentRoot}" Margin="0">
         <DockPanel HorizontalAlignment="Stretch" 
            VerticalAlignment="Stretch" 
@@ -57,7 +68,7 @@
                                              To="0"
                                              BeginTime="0:0:0.2"
                                              AutoReverse="False"
-                                             Duration="0:0:0.7" />
+                                             Duration="0:0:0.5" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger.Actions>

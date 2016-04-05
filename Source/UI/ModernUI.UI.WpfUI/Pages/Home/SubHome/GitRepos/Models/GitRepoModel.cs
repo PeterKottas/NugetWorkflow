@@ -113,6 +113,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         //\Properties names
 
         //Bindable properties
+        [SaveSceneAttribute]
         public bool UseUpdateBranch
         {
             get
@@ -125,6 +126,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                 OnPropertyChanged(UseUpdateBranchPropName);
             }
         }
+
+        [SaveSceneAttribute]
         public string UpdateBranch
         {
             get
@@ -436,10 +439,17 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 
         private List<string> GetRepoBranches(string basePath)
         {
-            return gitAdapter.GetRepoBranches(new RepoBranchesRequestDTO()
-                {
-                    Path = Path.Combine(basePath, repoName)
-                }).RepoBranches;
+            if (!string.IsNullOrEmpty(basePath) && !string.IsNullOrEmpty(RepoName))
+            {
+                return gitAdapter.GetRepoBranches(new RepoBranchesRequestDTO()
+                    {
+                        Path = Path.Combine(basePath, repoName)
+                    }).RepoBranches;
+            }
+            else
+            {
+                return new List<string>();
+            }
         }
 
         public void UpdatePackagesIDs()
@@ -455,29 +465,32 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 
         private List<string> GetPackagesIDs(string basePath)
         {
-            var path = Path.Combine(basePath, RepoName);
-            if (Directory.Exists(path))
+            if (!string.IsNullOrEmpty(basePath) && !string.IsNullOrEmpty(RepoName))
             {
-                var files = Directory.GetFiles(path, "packages.config", SearchOption.AllDirectories);
-                var nuGetIDs = new List<string>();
-                foreach (var file in files)
+                var path = Path.Combine(basePath, RepoName);
+                if (Directory.Exists(path))
                 {
-                    var doc = new XmlDocument();
-                    try
+                    var files = Directory.GetFiles(path, "packages.config", SearchOption.AllDirectories);
+                    var nuGetIDs = new List<string>();
+                    foreach (var file in files)
                     {
-                        doc.Load(file);
+                        var doc = new XmlDocument();
+                        try
+                        {
+                            doc.Load(file);
+                        }
+                        catch (Exception)
+                        {
+                            return new List<string>();
+                        }
+                        var elements = doc.GetElementsByTagName("package");
+                        foreach (XmlNode element in elements)
+                        {
+                            nuGetIDs.Add(element.Attributes["id"].Value);
+                        }
                     }
-                    catch (Exception)
-                    {
-                        return new List<string>();
-                    }
-                    var elements = doc.GetElementsByTagName("package");
-                    foreach (XmlNode element in elements)
-                    {
-                        nuGetIDs.Add(element.Attributes["id"].Value);
-                    }
+                    return nuGetIDs.Distinct().Where(a => a != null).ToList();
                 }
-                return nuGetIDs.Distinct().Where(a => a != null).ToList();
             }
             return new List<string>();
         }

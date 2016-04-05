@@ -57,12 +57,12 @@
                     AutoGenerateColumns="False"
                     CanUserAddRows="false"
                     CanUserDeleteRows="false"
-                    ItemsSource="{Binding GitRepos, Mode=TwoWay}" Margin="5" >
+                    ItemsSource="{Binding GitRepos, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}" Margin="5" >
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Margin="{StaticResource DataGridCellMargin}" Content="X" Command="{Binding RemoveRowCommand}" CommandParameter="{Binding Hash}"/>
+                                <Button Margin="{StaticResource DataGridCellMargin}" Content="X" Command="{Binding Path=DataContext.RemoveRowCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding Hash}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

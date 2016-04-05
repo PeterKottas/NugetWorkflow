@@ -31,7 +31,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         //\Private properties
 
         //Data hiding
-        private List<GitRepoModel> gitRepos;
+        private ObservableCollection<GitRepoModel> gitRepos;
 
         private bool includePassword = false;
 
@@ -166,7 +166,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         }
 
         [SaveSceneAttribute]
-        public List<GitRepoModel> GitRepos
+        public ObservableCollection<GitRepoModel> GitRepos
         {
             get
             {
@@ -185,7 +185,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         //Implementation
         public GitReposViewModel()
         {
-            gitRepos = new List<GitRepoModel>();
+            gitRepos = new ObservableCollection<GitRepoModel>();
             gitRepos.Add(new GitRepoModel() { Url = "https://github.com/PeterKottas/NugetWorkflow.git" });
 
             ImportJsonClipboardCommand = new RelayCommand(ImportJsonClipboardExecute, ImportJsonClipboardCanExecute);
@@ -211,7 +211,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
                 try
                 {
                     var jsonObject = GetObject(Json);
-                    var GitReposLocal = new List<GitRepoModel>();
+                    var GitReposLocal = new ObservableCollection<GitRepoModel>();
                     foreach (dynamic repo in jsonObject["GitReposJson"])
                     {
                         GitReposLocal.Add(new GitRepoModel()
@@ -395,6 +395,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         private void AddRowExectue(object obj)
         {
             GitRepos.Add(new GitRepoModel());
+            OnPropertyChanged(GitReposPropName);
         }
 
         private void RemoveRowExecute(object obj)
@@ -402,6 +403,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             var ID = obj.ToString();
             var row = GitRepos.Where(dto => dto.Hash == ID).FirstOrDefault();
             GitRepos.Remove(row);
+            OnPropertyChanged(GitReposPropName);
         }
         //\Commands logic
     }

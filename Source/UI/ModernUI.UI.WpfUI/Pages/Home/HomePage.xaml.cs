@@ -3,6 +3,7 @@ using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home
 {
@@ -18,6 +19,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
             AssignViewModel();
             InitializeComponent();
             AddUserControl(this);
+            Focusable = true;
+            Loaded += (s, e) => Keyboard.Focus(this);
         }
 
         public void AssignViewModel()
