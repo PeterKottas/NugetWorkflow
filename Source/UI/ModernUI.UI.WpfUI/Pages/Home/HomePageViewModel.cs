@@ -80,7 +80,17 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
             SaveFileCommand = new RelayCommand(SaveFileExecute, SaveFileCanExecute);
             OpenFileCommand = new RelayCommand(OpenFileExecute, OpenFileCanExecute);
             SaveAsFileCommand = new RelayCommand(SaveAsExecute, SaveAsCanExecute);
-            ExitCommand = new RelayCommand(SaveAsExecute, SaveAsCanExecute);
+            ExitCommand = new RelayCommand(ExitExecute, ExitExecuteCanExecute);
+        }
+
+        private bool ExitExecuteCanExecute(object arg)
+        {
+            return true;
+        }
+
+        private void ExitExecute(object obj)
+        {
+            Application.Current.Shutdown();
         }
 
         public void Initialize()
@@ -137,11 +147,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
 
         private bool NewFileCanExecute(object arg)
         {
-            if (IsDirty)
-            {
-                return true;
-            }
-            return false;
+            return true;
         }
 
         private void NewFileExecute(object obj)
@@ -150,6 +156,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
             {
                 ViewModelService.SetupViewDictionary();
                 PageUserControlService.ReassignViewModels();
+                SceneSaver.MakeClean();
             }
         }
 

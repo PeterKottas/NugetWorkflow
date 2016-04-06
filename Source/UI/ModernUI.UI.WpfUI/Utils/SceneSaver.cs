@@ -62,7 +62,6 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                 SceneSaver.Save(dlg.FileName);
             }
             dlg.Dispose();
-            SceneSaver.MakeClean();
         }
 
         public static void OpenUI()
@@ -99,6 +98,7 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                     var result = JsonConvert.SerializeObject(viewDictionary,
                         new JsonSerializerSettings { ContractResolver = SaveSceneJsonResolver.Instance, NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
                     File.WriteAllText(path, result);
+                    SceneSaver.MakeClean();
                 }
             }
             catch (Exception e)
@@ -106,7 +106,6 @@ namespace NugetWorkflow.UI.WpfUI.Utils
 
                 throw new SceneSaveException("Exception while trying to save the scene", e);
             }
-
         }
 
         private static object LoadObject(JToken source, Type destinationType)
