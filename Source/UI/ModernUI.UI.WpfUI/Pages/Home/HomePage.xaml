@@ -17,6 +17,12 @@
         <KeyBinding Modifiers="Control"
                     Key="N"
                     Command="{Binding NewFileCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="Z"
+                    Command="{Binding UndoCommand}" />
+        <KeyBinding Modifiers="Control"
+                    Key="Y"
+                    Command="{Binding RedoCommand}" />
     </UserControl.InputBindings>
     <Grid Style="{StaticResource ContentRoot}" Margin="0">
         <DockPanel HorizontalAlignment="Stretch" 
@@ -53,6 +59,10 @@
                     <MenuItem Header="_Save as" Command="{Binding SaveAsFileCommand}"/>
                     <Separator />
                     <MenuItem Header="_Exit" />
+                </MenuItem>
+                <MenuItem Header="_Edit" Icon="" Margin="0">
+                    <MenuItem Header="_Undo" InputGestureText="Ctrl+Z" Command="{Binding UndoCommand}"/>
+                    <MenuItem Header="_Redo" InputGestureText="Ctrl+Y" Command="{Binding RedoCommand}"/>
                 </MenuItem>
                 <Menu.RenderTransform>
                     <TranslateTransform x:Name="translateTransform2"

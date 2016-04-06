@@ -71,6 +71,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
         public RelayCommand SaveAsFileCommand { get; set; }
 
         public RelayCommand ExitCommand { get; set; }
+
+        public RelayCommand UndoCommand { get; set; }
+
+        public RelayCommand RedoCommand { get; set; }
         //\Commands
 
         //Implementation
@@ -81,6 +85,28 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
             OpenFileCommand = new RelayCommand(OpenFileExecute, OpenFileCanExecute);
             SaveAsFileCommand = new RelayCommand(SaveAsExecute, SaveAsCanExecute);
             ExitCommand = new RelayCommand(ExitExecute, ExitExecuteCanExecute);
+            UndoCommand = new RelayCommand(UndoExecute, UndoCanExecute);
+            RedoCommand = new RelayCommand(RedoExecute, RedoCanExecute);
+        }
+
+        private bool RedoCanExecute(object arg)
+        {
+            return UndoManager.RedoCanExecute();
+        }
+
+        private void RedoExecute(object obj)
+        {
+            UndoManager.Redo();
+        }
+
+        private bool UndoCanExecute(object arg)
+        {
+            return UndoManager.UndoCanExecute();
+        }
+
+        private void UndoExecute(object obj)
+        {
+            UndoManager.Undo();
         }
 
         private bool ExitExecuteCanExecute(object arg)

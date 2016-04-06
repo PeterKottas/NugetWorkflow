@@ -10,7 +10,7 @@ namespace NugetWorkflow.UI.WpfUI.Base
 {
     public abstract class BaseViewModel : NotifyPropertyChanged
     {
-        protected override void OnPropertyChanged(string propertyName)
+        private override void OnPropertyChanged(string propertyName)
         {
             SceneSaver.MakeDirty(this, propertyName);
             base.OnPropertyChanged(propertyName);
