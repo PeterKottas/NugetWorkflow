@@ -20,5 +20,11 @@ namespace NugetWorkflow.UI.WpfUI.Base
         {
             OnPropertyChanged(propertyName);
         }
+
+        protected void OnUndoRedoPropertyChanged(string propertyName, Action undo, Action redo)
+        {
+            UndoManager.RecordState(this, propertyName, undo, redo);
+            OnPropertyChanged(propertyName);
+        }
     }
 }

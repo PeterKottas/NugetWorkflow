@@ -85,7 +85,7 @@
                     </EventTrigger>
                 </Menu.Triggers>
             </Menu>
-            <mui:ModernTab Layout="List" SelectedSource="/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml" Margin="0" SelectedSourceChanged="ModernTab_SelectedSourceChanged">
+            <mui:ModernTab Layout="List" SelectedSource="{Binding SelectedPage}" Margin="0" SelectedSourceChanged="ModernTab_SelectedSourceChanged">
                 <mui:ModernTab.Links>
                     <mui:Link DisplayName="Base setup" Source="/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml" />
                     <mui:Link DisplayName="Git repos" Source="/Pages/Home/SubHome/GitRepos/GitReposPage.xaml" />

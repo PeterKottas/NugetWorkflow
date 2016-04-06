@@ -44,13 +44,13 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                     (dto.Container as BaseViewModel).OnPropertyChangedExternal(dto.PropertyName);
                     ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
                     ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();
+                    undoBufferIndex++;
                 }
                 catch (Exception)
                 {
 
                     throw;
                 }
-                undoBufferIndex++;
             }
         }
 
@@ -74,12 +74,12 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                     (dto.Container as BaseViewModel).OnPropertyChangedExternal(dto.PropertyName);
                     ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
                     ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();
+                    undoBufferIndex--;
                 }
                 catch (Exception)
                 {
                     throw;
                 }
-                undoBufferIndex--;
             }
         }
 

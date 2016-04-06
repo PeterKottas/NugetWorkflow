@@ -3,6 +3,7 @@ using FirstFloor.ModernUI.Windows.Controls;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.Common.Base.Utils;
+using NugetWorkflow.UI.WpfUI.Attributes;
 using NugetWorkflow.UI.WpfUI.Base;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System;
@@ -26,14 +27,30 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
             };
         private bool isDirty = false;
         private string header = null;
+        private string selectedPage = "/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml";
         //\Private properties
 
         //Properties names        
         public static readonly string HeaderPropName = ReflectionUtility.GetPropertyName((HomePageViewModel s) => s.Header);
         public static readonly string IsDirtyPropName = ReflectionUtility.GetPropertyName((HomePageViewModel s) => s.IsDirty);
+        public static readonly string SelectedPagePropName = ReflectionUtility.GetPropertyName((HomePageViewModel s) => s.SelectedPage);
         //\Properties names
 
         //Bindable properties
+        [SaveSceneAttribute]
+        public string SelectedPage
+        {
+            get
+            {
+                return selectedPage;
+            }
+            set
+            {
+                selectedPage = value;
+                OnPropertyChanged(IsDirtyPropName);
+            }
+        }
+
         public bool IsDirty
         {
             get
