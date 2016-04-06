@@ -117,6 +117,7 @@
     <Compile Include="Attributes\SaveConfigAttribute.cs" />
     <Compile Include="Attributes\SaveSceneAttribute.cs" />
     <Compile Include="Base\BaseViewModel.cs" />
+    <Compile Include="Controls\TextBoxNoUndo.cs" />
     <Compile Include="Pages\Home\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -235,6 +236,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\Controls\Menu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Controls\TextBoxNoUndo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

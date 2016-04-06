@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:NugetWorkflow.UI.WpfUI.Controls" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -17,7 +18,7 @@
                     <WrapPanel>
                         <Button Content="Choose" Margin="{StaticResource ButtonMargin}" Command="{Binding ChooseBasePathCommand}"/>
                         <Grid Margin="{StaticResource ButtonMargin}">
-                            <TextBox Text="{Binding BasePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="BasePathTextBox" VerticalAlignment="Center"/>
+                            <controls:TextBoxNoUndo IsUndoEnabled="False"  Text="{Binding BasePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="BasePathTextBox" VerticalAlignment="Center"/>
                             <TextBlock IsHitTestVisible="False" Text="Specify base path for nuget solution" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0" Foreground="DarkGray">
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">

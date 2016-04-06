@@ -39,10 +39,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
             }
             set
             {
+                var orig = basePath;
                 basePath = value;
                 ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
                 ViewModelService.GetViewModel<UpdateViewModel>().UpdatePackages();
                 OnPropertyChanged(BasePathPropName);
+                UndoManager.RecordState(this, BasePathPropName, () => basePath = orig, () => basePath = value);
                 ViewModelService.GetViewModel<GeneralSettingsViewModel>().UpdateBasePath(value);
             }
         }
@@ -56,7 +58,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
 
         public void Initialize()
         {
-            BasePath = BasePath;
+            ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+            ViewModelService.GetViewModel<UpdateViewModel>().UpdatePackages();
+            ViewModelService.GetViewModel<GeneralSettingsViewModel>().UpdateBasePath(BasePath);
         }
         //Implementation
 

@@ -25,13 +25,28 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
 
         //Data hiding
         private bool fileWatcherIsEnabled = true;
+        private int undoRedoLimit = 1000;
         //\Data hiding
 
         //Properties names        
         private static readonly string FileWatcherIsEnabledPropName = ReflectionUtility.GetPropertyName((GeneralSettingsViewModel s) => s.FileWatcherIsEnabled);
+        private static readonly string UndoRedoLimitPropName = ReflectionUtility.GetPropertyName((GeneralSettingsViewModel s) => s.UndoRedoLimit);
         //\Properties names        
 
         //Bindable properties
+        [SaveConfigAttribute]
+        public int UndoRedoLimit
+        {
+            get
+            {
+                return undoRedoLimit;
+            }
+            set
+            {
+                undoRedoLimit = value;
+                OnPropertyChanged(UndoRedoLimitPropName);
+            }
+        }
         public int RenameCounter { get; set; }
 
         public int ChangedCounter { get; set; }

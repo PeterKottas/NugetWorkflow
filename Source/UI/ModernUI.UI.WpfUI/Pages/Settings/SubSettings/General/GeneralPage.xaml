@@ -20,6 +20,10 @@
                         <TextBox Text="{Binding UIUpdateCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
                     </WrapPanel>
                 </GroupBox>
+                <WrapPanel>
+                    <TextBlock Margin="5,10" Text="Undo/Redo limit : " VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding UndoRedoLimit, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
+                </WrapPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>
