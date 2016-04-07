@@ -123,7 +123,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 var orig = useUpdateBranch;
-                useUpdateBranch = value;
                 OnUndoRedoPropertyChanged(UseUpdateBranchPropName, () => useUpdateBranch = orig, () => useUpdateBranch = value);
             }
         }
@@ -138,7 +137,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 var orig = updateBranch;
-                updateBranch = value;
                 OnUndoRedoPropertyChanged(UpdateBranchPropName, () => updateBranch = orig, () => updateBranch = value);
             }
         }
@@ -187,7 +185,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 var orig = useCustomRepoName;
-                useCustomRepoName = value;
                 OnUndoRedoPropertyChanged(UseCustomRepoNamePropName,
                     () =>
                     {
@@ -203,10 +200,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                         OnPropertyChanged(RepoNamePropName);
                         UpdateSetupStatus();
                     });
-
-                OnPropertyChanged(UseDefaultRepoNamePropName);
-                OnPropertyChanged(RepoNamePropName);
-                UpdateSetupStatus();
             }
         }
 
@@ -229,13 +222,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                 if (UseCustomRepoName)
                 {
                     orig = repoNameCustom;
-                    repoNameCustom = value;
-                    UpdateSetupStatus();
                 }
                 else
                 {
                     orig = repoName;
-                    repoName = value;
                 }
                 OnUndoRedoPropertyChanged(RepoNamePropName, () =>
                     {
@@ -264,8 +254,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                         UpdatePackagesIDs();
                         UpdateRepoBranches();
                     });
-                UpdatePackagesIDs();
-                UpdateRepoBranches();
             }
         }
 
@@ -279,7 +267,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 var orig = updateToogle;
-                updateToogle = value;
                 OnUndoRedoPropertyChanged(UpdateTooglePropName, () => updateToogle = orig, () => updateToogle = value);
             }
         }
@@ -294,7 +281,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 var orig = cloneToogle;
-                cloneToogle = value;
                 OnUndoRedoPropertyChanged(CloneTooglePropName, () => cloneToogle = orig, () => cloneToogle = value);
             }
         }
@@ -325,20 +311,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 var orig = url;
-                url = value;
-                Uri uriResult;
-                bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult);
-                if (result)
-                {
-                    string repoFolder = string.Empty;
-                    url.GetFolderFromUrl(ref repoFolder);
-                    RepoName = repoFolder;
-                }
-                else
-                {
-                    RepoName = null;
-                }
-                UpdateSetupStatus();
                 OnUndoRedoPropertyChanged(UrlPropName,
                     () =>
                     {
@@ -387,7 +359,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 var orig = username;
-                username = value;
                 OnUndoRedoPropertyChanged(UsernamePropName, () => username = orig, () => username = value);
             }
         }
@@ -402,7 +373,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 var orig = password;
-                password = value;
                 OnUndoRedoPropertyChanged(PasswordPropName, () => password = orig, () => password = value);
             }
         }
@@ -417,7 +387,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 var orig = useOverrideCredentials;
-                useOverrideCredentials = value;
                 OnUndoRedoPropertyChanged(UseOverrideCredentialsPropName, () => useOverrideCredentials = orig, () => useOverrideCredentials = value);
             }
         }

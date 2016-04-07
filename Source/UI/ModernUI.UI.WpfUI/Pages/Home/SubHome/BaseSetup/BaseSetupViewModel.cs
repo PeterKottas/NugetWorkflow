@@ -40,13 +40,21 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
             set
             {
                 var orig = basePath;
-                basePath = value;
-                ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
-                ViewModelService.GetViewModel<UpdateViewModel>().UpdatePackages();
-                //OnPropertyChanged(BasePathPropName);
-                //UndoManager.RecordState(this, BasePathPropName, () => basePath = orig, () => basePath = value);
-                OnUndoRedoPropertyChanged(BasePathPropName, () => basePath = orig, () => basePath = value);
-                ViewModelService.GetViewModel<GeneralSettingsViewModel>().UpdateBasePath(value);
+                OnUndoRedoPropertyChanged(BasePathPropName, 
+                    () => 
+                    {
+                        ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+                        ViewModelService.GetViewModel<UpdateViewModel>().UpdatePackages();
+                        basePath = orig;
+                        ViewModelService.GetViewModel<GeneralSettingsViewModel>().UpdateBasePath(value);
+                    }, 
+                    () => 
+                    {
+                        ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+                        ViewModelService.GetViewModel<UpdateViewModel>().UpdatePackages();
+                        basePath = value;
+                        ViewModelService.GetViewModel<GeneralSettingsViewModel>().UpdateBasePath(value);
+                    });
             }
         }
         //\Bindable properties

@@ -189,7 +189,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             set
             {
                 var orig = nuGetID;
-                nuGetID = value;
                 OnUndoRedoPropertyChanged(NuGetIDPropName, () =>
                     {
                         nuGetID = orig;
@@ -200,7 +199,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                         nuGetID = value;
                         ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
                     });
-                ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
             }
         }
 
@@ -214,7 +212,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             set
             {
                 var orig = nuGetVersion;
-                nuGetVersion = value;
                 OnUndoRedoPropertyChanged(NuGetVersionPropName, () =>
                     {
                         nuGetVersion = orig;
@@ -225,7 +222,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
                         nuGetVersion = value;
                         ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
                     });
-                ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
             }
         }
 

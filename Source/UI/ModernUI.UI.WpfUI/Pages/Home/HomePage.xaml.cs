@@ -36,7 +36,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
 
         private void ModernTab_SelectedSourceChanged(object sender, FirstFloor.ModernUI.Windows.Controls.SourceEventArgs e)
         {
-            Keyboard.Focus(this);
+            this.Focus();
+            //Keyboard.Focus(this);
         }
 
         private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)

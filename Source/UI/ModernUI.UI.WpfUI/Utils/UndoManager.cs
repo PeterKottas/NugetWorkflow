@@ -49,8 +49,15 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                         Undo = undo,
                         Redo = redo
                     });
+                enabled = false;
+                redo();
+                enabled = true;
                 ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
                 ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();
+            }
+            else
+            {
+                redo();
             }
         }
 
@@ -61,7 +68,9 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                 try
                 {
                     var dto = undoBuffer[undoBufferIndex];
+                    enabled = false;
                     dto.Undo();
+                    enabled = true;
                     (dto.Container as BaseViewModel).OnPropertyChangedExternal(dto.PropertyName);
                     ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
                     ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();
@@ -92,7 +101,9 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                 {
                     undoBufferIndex--;
                     var dto = undoBuffer[undoBufferIndex];
+                    enabled = false;
                     dto.Redo();
+                    enabled = true;
                     (dto.Container as BaseViewModel).OnPropertyChangedExternal(dto.PropertyName);
                     ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
                     ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();

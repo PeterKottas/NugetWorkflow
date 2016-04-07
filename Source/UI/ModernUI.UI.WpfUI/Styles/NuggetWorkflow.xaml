@@ -12,6 +12,7 @@
         <ResourceDictionary Source="Controls/MenuItem.xaml" />
         <ResourceDictionary Source="Controls/GridSplitter.xaml" />
         <ResourceDictionary Source="Controls/TextBoxNoUndo.xaml" />
+        <ResourceDictionary Source="Controls/Global.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <Thickness x:Key="ContentMargin">0</Thickness>
     <Style x:Key="ContentRoot" TargetType="FrameworkElement">

@@ -57,7 +57,7 @@
                     AutoGenerateColumns="False"
                     CanUserAddRows="false"
                     CanUserDeleteRows="false"
-                    ItemsSource="{Binding GitRepos, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}" Margin="5" UnloadingRow="DataGrid_UnloadingRow" >
+                    ItemsSource="{Binding GitRepos, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}" Margin="5" UnloadingRow="DataGrid_UnloadingRow" FocusVisualStyle="{x:Null}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="">
                         <DataGridTemplateColumn.CellTemplate>
@@ -76,7 +76,7 @@
                     <DataGridTemplateColumn Header="Username">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding UseOverrideCredentials, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding UseOverrideCredentials, Converter={StaticResource BooleanToVisibilityConverter}}" FocusVisualStyle="{x:Null}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

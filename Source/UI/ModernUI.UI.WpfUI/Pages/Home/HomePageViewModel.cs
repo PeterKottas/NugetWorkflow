@@ -46,7 +46,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
             set
             {
                 var orig = selectedPage;
-                selectedPage = value;
                 OnUndoRedoPropertyChanged(SelectedPagePropName, () =>
                     {
                         selectedPage = orig;
@@ -57,7 +56,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
                         selectedPage = value;
                         OnPropertyChanged(HeaderPropName);
                     });
-                OnPropertyChanged(HeaderPropName);
             }
         }
 
