@@ -188,8 +188,18 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             }
             set
             {
+                var orig = nuGetID;
                 nuGetID = value;
-                OnPropertyChanged(NuGetIDPropName);
+                OnUndoRedoPropertyChanged(NuGetIDPropName, () =>
+                    {
+                        nuGetID = orig;
+                        ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+                    },
+                    () =>
+                    {
+                        nuGetID = value;
+                        ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+                    });
                 ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
             }
         }
@@ -203,8 +213,18 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             }
             set
             {
+                var orig = nuGetVersion;
                 nuGetVersion = value;
-                OnPropertyChanged(NuGetVersionPropName);
+                OnUndoRedoPropertyChanged(NuGetVersionPropName, () =>
+                    {
+                        nuGetVersion = orig;
+                        ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+                    },
+                    () =>
+                    {
+                        nuGetVersion = value;
+                        ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
+                    });
                 ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
             }
         }
@@ -373,7 +393,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             var reposVM = ViewModelService.GetViewModel<GitReposViewModel>();
             if (reposVM.GitRepos.Count > 0)
             {
-                var updateAbleRepos = reposVM.GitRepos.Select(a=>a.CloneStatus==CloneStatusEnum.AlreadyCloned);
+                var updateAbleRepos = reposVM.GitRepos.Select(a => a.CloneStatus == CloneStatusEnum.AlreadyCloned);
                 if (updateAbleRepos.Count() > 0)
                 {
                     return true;

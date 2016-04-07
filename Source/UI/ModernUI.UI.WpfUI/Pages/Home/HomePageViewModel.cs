@@ -26,7 +26,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
                 {"/Pages/Home/SubHome/Update/UpdatePage.xaml","Update your NuGet dependencies here"}
             };
         private bool isDirty = false;
-        private string header = null;
         private string selectedPage = "/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml";
         //\Private properties
 
@@ -48,7 +47,17 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
             {
                 var orig = selectedPage;
                 selectedPage = value;
-                OnUndoRedoPropertyChanged(SelectedPagePropName, () => selectedPage = orig, () => selectedPage = value);
+                OnUndoRedoPropertyChanged(SelectedPagePropName, () =>
+                    {
+                        selectedPage = orig;
+                        OnPropertyChanged(HeaderPropName);
+                    }, 
+                    () => 
+                    {
+                        selectedPage = value;
+                        OnPropertyChanged(HeaderPropName);
+                    });
+                OnPropertyChanged(HeaderPropName);
             }
         }
 
@@ -69,12 +78,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
         {
             get
             {
-                return header;
-            }
-            set
-            {
-                header = value;
-                OnPropertyChanged(HeaderPropName);
+                return headers[selectedPage];
             }
         }
         //\Bindable properties
@@ -139,14 +143,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
 
         public void Initialize()
         {
-        }
-
-        public void UpdateHeader(string key)
-        {
-            if(headers.ContainsKey(key))
-            {
-                Header = headers[key];
-            }
         }
         //\Implementation
 

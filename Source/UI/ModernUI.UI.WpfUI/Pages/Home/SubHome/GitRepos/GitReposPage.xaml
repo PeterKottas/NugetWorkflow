@@ -57,7 +57,7 @@
                     AutoGenerateColumns="False"
                     CanUserAddRows="false"
                     CanUserDeleteRows="false"
-                    ItemsSource="{Binding GitRepos, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}" Margin="5" >
+                    ItemsSource="{Binding GitRepos, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}" Margin="5" UnloadingRow="DataGrid_UnloadingRow" >
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="">
                         <DataGridTemplateColumn.CellTemplate>

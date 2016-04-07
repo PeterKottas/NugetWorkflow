@@ -188,7 +188,21 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             {
                 var orig = useCustomRepoName;
                 useCustomRepoName = value;
-                OnUndoRedoPropertyChanged(UseCustomRepoNamePropName, () => useCustomRepoName = orig, () => useCustomRepoName = value);
+                OnUndoRedoPropertyChanged(UseCustomRepoNamePropName,
+                    () =>
+                    {
+                        useCustomRepoName = orig;
+                        OnPropertyChanged(UseDefaultRepoNamePropName);
+                        OnPropertyChanged(RepoNamePropName);
+                        UpdateSetupStatus();
+                    },
+                    () =>
+                    {
+                        useCustomRepoName = value;
+                        OnPropertyChanged(UseDefaultRepoNamePropName);
+                        OnPropertyChanged(RepoNamePropName);
+                        UpdateSetupStatus();
+                    });
 
                 OnPropertyChanged(UseDefaultRepoNamePropName);
                 OnPropertyChanged(RepoNamePropName);
@@ -211,16 +225,45 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             set
             {
+                string orig;
                 if (UseCustomRepoName)
                 {
+                    orig = repoNameCustom;
                     repoNameCustom = value;
                     UpdateSetupStatus();
                 }
                 else
                 {
+                    orig = repoName;
                     repoName = value;
                 }
-                OnPropertyChanged(RepoNamePropName);
+                OnUndoRedoPropertyChanged(RepoNamePropName, () =>
+                    {
+                        if (UseCustomRepoName)
+                        {
+                            repoNameCustom = orig;
+                            UpdateSetupStatus();
+                        }
+                        else
+                        {
+                            repoName = orig;
+                        }
+                        UpdatePackagesIDs();
+                        UpdateRepoBranches();
+                    }, () =>
+                    {
+                        if (UseCustomRepoName)
+                        {
+                            repoNameCustom = value;
+                            UpdateSetupStatus();
+                        }
+                        else
+                        {
+                            repoName = value;
+                        }
+                        UpdatePackagesIDs();
+                        UpdateRepoBranches();
+                    });
                 UpdatePackagesIDs();
                 UpdateRepoBranches();
             }
@@ -296,7 +339,41 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                     RepoName = null;
                 }
                 UpdateSetupStatus();
-                OnUndoRedoPropertyChanged(UrlPropName, () => url = orig, () => url = value);
+                OnUndoRedoPropertyChanged(UrlPropName,
+                    () =>
+                    {
+                        url = orig;
+                        Uri uriResultAct;
+                        bool resultAct = Uri.TryCreate(url, UriKind.Absolute, out uriResultAct);
+                        if (resultAct)
+                        {
+                            string repoFolder = string.Empty;
+                            url.GetFolderFromUrl(ref repoFolder);
+                            RepoName = repoFolder;
+                        }
+                        else
+                        {
+                            RepoName = null;
+                        }
+                        UpdateSetupStatus();
+                    },
+                    () =>
+                    { 
+                        url = value;
+                        Uri uriResultAct;
+                        bool resultAct = Uri.TryCreate(url, UriKind.Absolute, out uriResultAct);
+                        if (resultAct)
+                        {
+                            string repoFolder = string.Empty;
+                            url.GetFolderFromUrl(ref repoFolder);
+                            RepoName = repoFolder;
+                        }
+                        else
+                        {
+                            RepoName = null;
+                        }
+                        UpdateSetupStatus();
+                    });
             }
         }
 

@@ -156,7 +156,17 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             {
                 var orig = includePassword;
                 includePassword = value;
-                OnUndoRedoPropertyChanged(IncludePasswordPropName, () => includePassword = orig, () => includePassword = value);
+                OnUndoRedoPropertyChanged(IncludePasswordPropName,
+                    () =>
+                    {
+                        includePassword = orig;
+                        OnPropertyChanged(ExportHeaderPropName);
+                    },
+                    () =>
+                    {
+                        includePassword = value;
+                        OnPropertyChanged(ExportHeaderPropName);
+                    });
 
                 OnPropertyChanged(ExportHeaderPropName);
             }

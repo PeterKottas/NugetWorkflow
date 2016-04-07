@@ -13,8 +13,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
     /// </summary>
     public partial class HomePage : UserControl, IPageUserControl
     {
-        private string currentSource = string.Empty;
-        
         public HomePage()
         {
             AssignViewModel();
@@ -22,12 +20,13 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
             AddUserControl(this);
             Focusable = true;
             Loaded += (s, e) => Keyboard.Focus(this);
+            LostKeyboardFocus += (s, e) => Trace.WriteLine("Lost focus");
+            GotKeyboardFocus += (s, e) => Trace.WriteLine("Got focus");
         }
 
         public void AssignViewModel()
         {
             this.DataContext = ViewModelService.GetViewModel<HomePageViewModel>();
-            ViewModelService.GetViewModel<HomePageViewModel>().UpdateHeader(currentSource);
         }
 
         public void AddUserControl(IPageUserControl userControl)
@@ -37,17 +36,33 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
 
         private void ModernTab_SelectedSourceChanged(object sender, FirstFloor.ModernUI.Windows.Controls.SourceEventArgs e)
         {
-            currentSource = e.Source.ToString();
-            ViewModelService.GetViewModel<HomePageViewModel>().UpdateHeader(currentSource);
+            Keyboard.Focus(this);
         }
 
         private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            Trace.WriteLine(e.Key);
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 if(e.Key==Key.Z)
                 {
-                    Trace.WriteLine("now");
+                    ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.Execute(null);
+                }
+                else if (e.Key == Key.Y)
+                {
+                    ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.Execute(null);
+                }
+                else if (e.Key == Key.O)
+                {
+                    ViewModelService.GetViewModel<HomePageViewModel>().OpenFileCommand.Execute(null);
+                }
+                else if (e.Key == Key.N)
+                {
+                    ViewModelService.GetViewModel<HomePageViewModel>().NewFileCommand.Execute(null);
+                }
+                else if (e.Key == Key.S)
+                {
+                    ViewModelService.GetViewModel<HomePageViewModel>().SaveFileCommand.Execute(null);
                 }
             }
         }

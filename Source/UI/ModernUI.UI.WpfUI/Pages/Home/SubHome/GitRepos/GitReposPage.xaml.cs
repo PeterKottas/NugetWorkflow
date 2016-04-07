@@ -25,5 +25,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         {
             PageUserControlService.AddUserControl(this);
         }
+
+        private void DataGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
+        {
+            PageUserControlService.GetUserControl<HomePage>().Focus();
+        }
     }
 }
