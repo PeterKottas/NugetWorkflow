@@ -2,6 +2,7 @@
 using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -38,6 +39,17 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
         {
             currentSource = e.Source.ToString();
             ViewModelService.GetViewModel<HomePageViewModel>().UpdateHeader(currentSource);
+        }
+
+        private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                if(e.Key==Key.Z)
+                {
+                    Trace.WriteLine("now");
+                }
+            }
         }
     }
 }

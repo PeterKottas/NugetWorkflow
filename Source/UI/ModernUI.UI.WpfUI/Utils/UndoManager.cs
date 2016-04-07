@@ -15,27 +15,48 @@ namespace NugetWorkflow.UI.WpfUI.Utils
     {
         private static List<UndoStatesDTO> undoBuffer = new List<UndoStatesDTO>();
         private static int undoBufferIndex = 0;
+        private static bool enabled = true;
+
+        public static void ResetBuffer()
+        {
+            undoBuffer.Clear();
+            undoBufferIndex = 0;
+        }
+
+        public static void Enable()
+        {
+            enabled = true;
+        }
+
+        public static void Disable()
+        {
+            enabled = false;
+        }
 
         public static void RecordState(object container, string propetyName, Action undo, Action redo)
         {
-            if (undoBufferIndex > 0)
+            if (enabled)
             {
-                undoBuffer.RemoveRange(0, undoBufferIndex + 1);
-            }
-            undoBuffer.Insert(0, new UndoStatesDTO()
+                if (undoBufferIndex > 0)
                 {
-                    Container = container,
-                    PropertyName = propetyName,
-                    Undo = undo,
-                    Redo = redo
-                });
-            ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
-            ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();
+                    undoBuffer.RemoveRange(0, undoBufferIndex);
+                    undoBufferIndex = 0;
+                }
+                undoBuffer.Insert(0, new UndoStatesDTO()
+                    {
+                        Container = container,
+                        PropertyName = propetyName,
+                        Undo = undo,
+                        Redo = redo
+                    });
+                ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
+                ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();
+            }
         }
 
         public static void Undo()
         {
-            if (undoBufferIndex < undoBuffer.Count && undoBufferIndex >= 0)
+            if (undoBufferIndex < undoBuffer.Count && undoBufferIndex >= 0 && enabled)
             {
                 try
                 {
@@ -56,7 +77,7 @@ namespace NugetWorkflow.UI.WpfUI.Utils
 
         public static bool UndoCanExecute()
         {
-            if (undoBufferIndex < undoBuffer.Count && undoBufferIndex >= 0)
+            if (undoBufferIndex < undoBuffer.Count && undoBufferIndex >= 0 && enabled)
             {
                 return true;
             }
@@ -65,16 +86,16 @@ namespace NugetWorkflow.UI.WpfUI.Utils
 
         public static void Redo()
         {
-            if (undoBufferIndex > 0 && undoBufferIndex < undoBuffer.Count)
+            if (undoBufferIndex > 0 && undoBufferIndex <= undoBuffer.Count && enabled)
             {
                 try
                 {
+                    undoBufferIndex--;
                     var dto = undoBuffer[undoBufferIndex];
                     dto.Redo();
                     (dto.Container as BaseViewModel).OnPropertyChangedExternal(dto.PropertyName);
                     ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
                     ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();
-                    undoBufferIndex--;
                 }
                 catch (Exception)
                 {
@@ -85,7 +106,7 @@ namespace NugetWorkflow.UI.WpfUI.Utils
 
         public static bool RedoCanExecute()
         {
-            if (undoBufferIndex > 0 && undoBufferIndex < undoBuffer.Count)
+            if (undoBufferIndex > 0 && undoBufferIndex <= undoBuffer.Count && enabled)
             {
                 return true;
             }

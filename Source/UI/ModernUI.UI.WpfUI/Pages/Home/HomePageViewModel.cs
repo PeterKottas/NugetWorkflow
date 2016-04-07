@@ -46,8 +46,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
             }
             set
             {
+                var orig = selectedPage;
                 selectedPage = value;
-                OnPropertyChanged(IsDirtyPropName);
+                OnUndoRedoPropertyChanged(SelectedPagePropName, () => selectedPage = orig, () => selectedPage = value);
             }
         }
 

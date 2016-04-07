@@ -122,8 +122,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             set
             {
+                var orig = useUpdateBranch;
                 useUpdateBranch = value;
-                OnPropertyChanged(UseUpdateBranchPropName);
+                OnUndoRedoPropertyChanged(UseUpdateBranchPropName, () => useUpdateBranch = orig, () => useUpdateBranch = value);
             }
         }
 
@@ -136,8 +137,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             set
             {
+                var orig = updateBranch;
                 updateBranch = value;
-                OnPropertyChanged(UpdateBranchPropName);
+                OnUndoRedoPropertyChanged(UpdateBranchPropName, () => updateBranch = orig, () => updateBranch = value);
             }
         }
 
@@ -184,8 +186,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             set
             {
+                var orig = useCustomRepoName;
                 useCustomRepoName = value;
-                OnPropertyChanged(UseCustomRepoNamePropName);
+                OnUndoRedoPropertyChanged(UseCustomRepoNamePropName, () => useCustomRepoName = orig, () => useCustomRepoName = value);
+
                 OnPropertyChanged(UseDefaultRepoNamePropName);
                 OnPropertyChanged(RepoNamePropName);
                 UpdateSetupStatus();
@@ -231,8 +235,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             set
             {
+                var orig = updateToogle;
                 updateToogle = value;
-                OnPropertyChanged(UpdateTooglePropName);
+                OnUndoRedoPropertyChanged(UpdateTooglePropName, () => updateToogle = orig, () => updateToogle = value);
             }
         }
 
@@ -245,8 +250,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             set
             {
+                var orig = cloneToogle;
                 cloneToogle = value;
-                OnPropertyChanged(CloneTooglePropName);
+                OnUndoRedoPropertyChanged(CloneTooglePropName, () => cloneToogle = orig, () => cloneToogle = value);
             }
         }
 
@@ -275,6 +281,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             set
             {
+                var orig = url;
                 url = value;
                 Uri uriResult;
                 bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult);
@@ -289,7 +296,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                     RepoName = null;
                 }
                 UpdateSetupStatus();
-                OnPropertyChanged(UrlPropName);
+                OnUndoRedoPropertyChanged(UrlPropName, () => url = orig, () => url = value);
             }
         }
 
@@ -302,8 +309,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             set
             {
+                var orig = username;
                 username = value;
-                OnPropertyChanged(UsernamePropName);
+                OnUndoRedoPropertyChanged(UsernamePropName, () => username = orig, () => username = value);
             }
         }
 
@@ -316,8 +324,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             set
             {
+                var orig = password;
                 password = value;
-                OnPropertyChanged(PasswordPropName);
+                OnUndoRedoPropertyChanged(PasswordPropName, () => password = orig, () => password = value);
             }
         }
 
@@ -330,8 +339,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
             set
             {
+                var orig = useOverrideCredentials;
                 useOverrideCredentials = value;
-                OnPropertyChanged(UseOverrideCredentialsPropName);
+                OnUndoRedoPropertyChanged(UseOverrideCredentialsPropName, () => useOverrideCredentials = orig, () => useOverrideCredentials = value);
             }
         }
 

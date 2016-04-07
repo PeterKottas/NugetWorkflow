@@ -18,6 +18,7 @@ using System.Linq;
 using System.Security;
 using System.Web.Script.Serialization;
 using System.Windows;
+using System.Windows.Input;
 
 namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 {
@@ -120,8 +121,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             }
             set
             {
+                var orig = overridenPassword;
                 overridenPassword = value;
-                OnPropertyChanged(OverridenPasswordPropName);
+                OnUndoRedoPropertyChanged(OverridenPasswordPropName, () => overridenPassword = orig, () => overridenPassword = value);
             }
         }
 
@@ -136,8 +138,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             {
                 if (value != null)
                 {
+                    var orig = overidenUsername;
                     overidenUsername = value;
-                    OnPropertyChanged(OveridenUsernamePropName);
+                    OnUndoRedoPropertyChanged(OveridenUsernamePropName, () => overidenUsername = orig, () => overidenUsername = value);
                 }
             }
         }
@@ -151,8 +154,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             }
             set
             {
+                var orig = includePassword;
                 includePassword = value;
-                OnPropertyChanged(IncludePasswordPropName);
+                OnUndoRedoPropertyChanged(IncludePasswordPropName, () => includePassword = orig, () => includePassword = value);
+
                 OnPropertyChanged(ExportHeaderPropName);
             }
         }
@@ -174,8 +179,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             }
             set
             {
+                var orig = gitRepos;
                 gitRepos = value;
-                OnPropertyChanged(GitReposPropName);
+                OnUndoRedoPropertyChanged(GitReposPropName, () => gitRepos = orig, () => gitRepos = value);
             }
         }
 
@@ -394,8 +400,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 
         private void AddRowExectue(object obj)
         {
-            GitRepos.Add(new GitRepoModel());
-            OnPropertyChanged(GitReposPropName);
+            var newRepo = new GitRepoModel();
+            GitRepos.Add(newRepo);
+            OnUndoRedoPropertyChanged(GitReposPropName, ()=> gitRepos.Remove(gitRepos.Where(a=>a.Hash==newRepo.Hash).FirstOrDefault()), ()=>gitRepos.Add(newRepo));
         }
 
         private void RemoveRowExecute(object obj)
@@ -403,7 +410,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             var ID = obj.ToString();
             var row = GitRepos.Where(dto => dto.Hash == ID).FirstOrDefault();
             GitRepos.Remove(row);
-            OnPropertyChanged(GitReposPropName);
+            OnUndoRedoPropertyChanged(GitReposPropName, () => gitRepos.Add(row), () => gitRepos.Remove(row));
         }
         //\Commands logic
     }

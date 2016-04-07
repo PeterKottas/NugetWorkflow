@@ -6,24 +6,7 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.InputBindings>
-        <KeyBinding Modifiers="Control"
-                    Key="S"
-                    Command="{Binding SaveFileCommand}" />
-        <KeyBinding Modifiers="Control"
-                    Key="O"
-                    Command="{Binding OpenFileCommand}" />
-        <KeyBinding Modifiers="Control"
-                    Key="N"
-                    Command="{Binding NewFileCommand}" />
-        <KeyBinding Modifiers="Control"
-                    Key="Z"
-                    Command="{Binding UndoCommand}" />
-        <KeyBinding Modifiers="Control"
-                    Key="Y"
-                    Command="{Binding RedoCommand}" />
-    </UserControl.InputBindings>
+             d:DesignHeight="300" d:DesignWidth="300" PreviewKeyDown="UserControl_PreviewKeyDown">
     <Grid Style="{StaticResource ContentRoot}" Margin="0">
         <DockPanel HorizontalAlignment="Stretch" 
            VerticalAlignment="Stretch" 
@@ -85,7 +68,7 @@
                     </EventTrigger>
                 </Menu.Triggers>
             </Menu>
-            <mui:ModernTab Layout="List" SelectedSource="{Binding SelectedPage}" Margin="0" SelectedSourceChanged="ModernTab_SelectedSourceChanged">
+            <mui:ModernTab Layout="List" SelectedSource="{Binding SelectedPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0" SelectedSourceChanged="ModernTab_SelectedSourceChanged">
                 <mui:ModernTab.Links>
                     <mui:Link DisplayName="Base setup" Source="/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml" />
                     <mui:Link DisplayName="Git repos" Source="/Pages/Home/SubHome/GitRepos/GitReposPage.xaml" />
