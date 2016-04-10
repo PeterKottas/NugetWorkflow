@@ -29,7 +29,7 @@ namespace NugetWorkflow.UI.WpfUI
             }
             catch (Exception)
             {
-                MessageBox.Show("Test2");
+                MessageBox.Show("Test3");
             }
             
             ViewModelService.SetupViewDictionary();
