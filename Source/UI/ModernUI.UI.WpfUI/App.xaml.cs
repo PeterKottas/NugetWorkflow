@@ -18,23 +18,23 @@ namespace NugetWorkflow.UI.WpfUI
     /// </summary>
     public partial class App : Application
     {
-        async protected override void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
-            ViewModelService.SetupViewDictionary();
-            SceneSaver.MakeClean();
-            UndoManager.ResetBuffer();
-
             try
             {
                 using (var mgr = new UpdateManager(@"F:\NugetWorkflowManager\NuGet\Releases"))
                 {
-                    await mgr.UpdateApp();
+                    mgr.UpdateApp().RunSynchronously();
                 }
             }
             catch (Exception)
             {
                 MessageBox.Show("Test3");
             }
+
+            ViewModelService.SetupViewDictionary();
+            SceneSaver.MakeClean();
+            UndoManager.ResetBuffer();
         }
     }
 }
