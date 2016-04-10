@@ -1,6 +1,7 @@
 ﻿using FirstFloor.ModernUI.Presentation;
 using NugetWorkflow.UI.WpfUI.Base;
 using NugetWorkflow.UI.WpfUI.Pages.Home;
+using NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Analytics;
 using NugetWorkflow.UI.WpfUI.Utils.DTOs;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,37 @@ namespace NugetWorkflow.UI.WpfUI.Utils
         private static List<UndoStatesDTO> undoBuffer = new List<UndoStatesDTO>();
         private static int undoBufferIndex = 0;
         private static bool enabled = true;
+        private static int undoRedoLimit = 1000;
+
+        public static bool IsEnabled
+        {
+            get
+            {
+                return enabled;
+            }
+            set
+            {
+                enabled = value;
+                ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
+                ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();
+            }
+        }
+
+        public static int CurrentBufferSize
+        {
+            get
+            {
+                return undoBuffer.Count;
+            }
+        }
+
+        public static int CurrentBufferIndex
+        {
+            get
+            {
+                return undoBufferIndex;
+            }
+        }
 
         public static void ResetBuffer()
         {
@@ -25,12 +57,30 @@ namespace NugetWorkflow.UI.WpfUI.Utils
 
         public static void Enable()
         {
-            enabled = true;
+            IsEnabled = true;
         }
 
         public static void Disable()
         {
-            enabled = false;
+            IsEnabled = false;
+        }
+
+        public static int UndoRedoLimit
+        {
+            get
+            {
+                return undoRedoLimit;
+            }
+            set
+            {
+                undoRedoLimit = value;
+            }
+        }
+
+        private static void ProcessAnalytics()
+        {
+            ViewModelService.GetViewModel<AnalyticsViewModel>().OnPropertyChangedExternal(AnalyticsViewModel.UndoBufferSizePropName);
+            ViewModelService.GetViewModel<AnalyticsViewModel>().OnPropertyChangedExternal(AnalyticsViewModel.UndoBufferIndexPropName);
         }
 
         public static void RecordState(object container, string propetyName, Action undo, Action redo)
@@ -41,6 +91,7 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                 {
                     undoBuffer.RemoveRange(0, undoBufferIndex);
                     undoBufferIndex = 0;
+                    ViewModelService.GetViewModel<AnalyticsViewModel>().OnPropertyChangedExternal(AnalyticsViewModel.UndoBufferIndexPropName);
                 }
                 undoBuffer.Insert(0, new UndoStatesDTO()
                     {
@@ -52,6 +103,7 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                 enabled = false;
                 redo();
                 enabled = true;
+                ViewModelService.GetViewModel<AnalyticsViewModel>().OnPropertyChangedExternal(AnalyticsViewModel.UndoBufferSizePropName);
                 ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
                 ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();
             }
@@ -75,6 +127,7 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                     ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
                     ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();
                     undoBufferIndex++;
+                    ViewModelService.GetViewModel<AnalyticsViewModel>().OnPropertyChangedExternal(AnalyticsViewModel.UndoBufferIndexPropName);
                 }
                 catch (Exception)
                 {
@@ -107,6 +160,7 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                     (dto.Container as BaseViewModel).OnPropertyChangedExternal(dto.PropertyName);
                     ViewModelService.GetViewModel<HomePageViewModel>().UndoCommand.OnCanExecuteChanged();
                     ViewModelService.GetViewModel<HomePageViewModel>().RedoCommand.OnCanExecuteChanged();
+                    ViewModelService.GetViewModel<AnalyticsViewModel>().OnPropertyChangedExternal(AnalyticsViewModel.UndoBufferIndexPropName);
                 }
                 catch (Exception)
                 {

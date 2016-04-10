@@ -1,28 +1,46 @@
 ﻿<UserControl x:Class="NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General.GeneralPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:NugetWorkflow.UI.WpfUI.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <ScrollViewer>
-            <StackPanel MinWidth="200">
+            <StackPanel MinWidth="200" Grid.IsSharedSizeScope="True">
                 <TextBlock Text="General settings" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
-                <GroupBox Header="Auto UI refresh" Margin="5">
-                    <WrapPanel>
-                        <CheckBox Content="Enabled"  IsChecked="{Binding FileWatcherIsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource ButtonMargin}"/>
-                        <TextBlock Margin="5,10" Text="Renames : " VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding RenameCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
-                        <TextBlock Margin="5,10" Text="Changes : " VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding ChangedCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
-                        <TextBlock Margin="5,10" Text="Updates : " VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding UIUpdateCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
-                    </WrapPanel>
-                </GroupBox>
+                <controls:SubHeader Header="Auto UI refresh"></controls:SubHeader>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Enabled:" VerticalAlignment="Center"/>
+                    <CheckBox Content=""  IsChecked="{Binding FileWatcherIsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"/>
+                </Grid>
+                <controls:SubHeader Header="Undo/Redo"></controls:SubHeader>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Enabled:" VerticalAlignment="Center"/>
+                    <CheckBox Content=""  IsChecked="{Binding UndoRedoEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" />
+                </Grid>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Limit : " VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding UndoRedoLimit, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center" MinWidth="60"/>
+                </Grid>
                 <WrapPanel>
-                    <TextBlock Margin="5,10" Text="Undo/Redo limit : " VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding UndoRedoLimit, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" IsReadOnly="True"/>
+                    
                 </WrapPanel>
             </StackPanel>
         </ScrollViewer>

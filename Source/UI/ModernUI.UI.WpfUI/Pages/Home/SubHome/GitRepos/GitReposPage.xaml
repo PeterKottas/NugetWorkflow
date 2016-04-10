@@ -29,26 +29,6 @@
                             <CheckBox Content="Include password" IsChecked="{Binding IncludePassword, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource ButtonMargin}"/>
                         </WrapPanel>
                     </GroupBox>
-                    <GroupBox Header="Credentials override" Margin="5">
-                        <WrapPanel>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Margin="5,10" Text="Username :" VerticalAlignment="Center"/>
-                                <TextBox Margin="{StaticResource ButtonMargin}" Text="{Binding OveridenUsername, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2"/>
-                            </Grid>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Margin="5,10" Text="Password :" VerticalAlignment="Center"/>
-                                <PasswordBox Margin="{StaticResource ButtonMargin}" FontSize="15" Width="Auto" MinWidth="60" Grid.Column="2" utils:PasswordBoxHelper.SecurePassword="{Binding OverridenPassword, UpdateSourceTrigger=PropertyChanged}"/>
-                            </Grid>
-                        </WrapPanel>
-                    </GroupBox>
                 </WrapPanel>
             </StackPanel>
         </StackPanel>
@@ -76,14 +56,14 @@
                     <DataGridTemplateColumn Header="Username">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding UseOverrideCredentials, Converter={StaticResource BooleanToVisibilityConverter}}" FocusVisualStyle="{x:Null}"/>
+                                <TextBox Margin="{StaticResource DataGridCellMargin}" Text="{Binding UsernameCurrent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FocusVisualStyle="{x:Null}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Password">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <PasswordBox Margin="{StaticResource DataGridCellMargin}" utils:PasswordBoxHelper.SecurePassword="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding UseOverrideCredentials, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <PasswordBox Margin="{StaticResource DataGridCellMargin}" utils:PasswordBoxHelper.SecurePassword="{Binding PasswordCurrent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

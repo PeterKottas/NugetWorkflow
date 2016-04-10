@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Analytics.AnalyticsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:NugetWorkflow.UI.WpfUI.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel MinWidth="200" Grid.IsSharedSizeScope="True">
+                <TextBlock Text="General settings" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
+                <controls:SubHeader Header="UI refresh"></controls:SubHeader>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Renames:" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding GeneralSettingsVM.RenameCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center" IsReadOnly="True" MinWidth="60"/>
+                </Grid>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Changes:" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding GeneralSettingsVM.ChangedCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center" IsReadOnly="True" MinWidth="60"/>
+                </Grid>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Updates:" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding GeneralSettingsVM.UIUpdateCounter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center" IsReadOnly="True" MinWidth="60"/>
+                </Grid>
+                <controls:SubHeader Header="Undo/Redo"></controls:SubHeader>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Current buffer size:" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding UndoBufferSize, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center" IsReadOnly="True" MinWidth="60"/>
+                </Grid>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Current buffer index:" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding UndoBufferIndex, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center" IsReadOnly="True" MinWidth="60"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

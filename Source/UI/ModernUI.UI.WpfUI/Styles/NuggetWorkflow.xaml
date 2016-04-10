@@ -13,6 +13,7 @@
         <ResourceDictionary Source="Controls/GridSplitter.xaml" />
         <ResourceDictionary Source="Controls/TextBoxNoUndo.xaml" />
         <ResourceDictionary Source="Controls/Global.xaml" />
+        <ResourceDictionary Source="Controls/GroupBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <Thickness x:Key="ContentMargin">0</Thickness>
     <Style x:Key="ContentRoot" TargetType="FrameworkElement">

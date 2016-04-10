@@ -67,7 +67,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
 
         private List<string> repoBranches;
 
-        private string updateBranch = "master";
+        private string updateBranch = string.Empty;
 
         private bool useUpdateBranch = false;
         //\Data hiding
@@ -110,6 +110,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
         public static readonly string UpdateBranchPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UpdateBranch);
 
         public static readonly string UseUpdateBranchPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseUpdateBranch);
+
+        public static readonly string UsernameCurrentPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UsernameCurrent);
+
+        public static readonly string PasswordCurrentPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.PasswordCurrent);
+
+        public static readonly string UseDefaultCredentialsPropName = ReflectionUtility.GetPropertyName((GitRepoModel s) => s.UseDefaultCredentials);
         //\Properties names
 
         //Bindable properties
@@ -200,6 +206,102 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
                         OnPropertyChanged(RepoNamePropName);
                         UpdateSetupStatus();
                     });
+            }
+        }
+
+        public SecureString PasswordCurrent
+        {
+            get
+            {
+                if (UseOverrideCredentials)
+                {
+                    return password;
+                }
+                else
+                {
+                    return ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword;
+                }
+            }
+            set
+            {
+                SecureString orig;
+                if (UseOverrideCredentials)
+                {
+                    orig = password;
+                }
+                else
+                {
+                    orig = ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword;
+                }
+                OnUndoRedoPropertyChanged(PasswordCurrentPropName, () =>
+                {
+                    if (UseOverrideCredentials)
+                    {
+                        password = orig;
+                    }
+                    else
+                    {
+                        ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword = orig;
+                    }
+                }, () =>
+                {
+                    if (UseOverrideCredentials)
+                    {
+                        password = value;
+                    }
+                    else
+                    {
+                        ViewModelService.GetViewModel<GitReposViewModel>().OverridenPassword = value;
+                    }
+                });
+            }
+        }
+
+        public string UsernameCurrent
+        {
+            get
+            {
+                if (UseOverrideCredentials)
+                {
+                    return username;
+                }
+                else
+                {
+                    return ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername;
+                }
+            }
+            set
+            {
+                string orig;
+                if (UseOverrideCredentials)
+                {
+                    orig = username;
+                }
+                else
+                {
+                    orig = ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername;
+                }
+                OnUndoRedoPropertyChanged(UsernameCurrentPropName, () =>
+                {
+                    if (UseOverrideCredentials)
+                    {
+                        username = orig;
+                    }
+                    else
+                    {
+                        ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername = orig;
+                    }
+                }, () =>
+                {
+                    if (UseOverrideCredentials)
+                    {
+                        username = value;
+                    }
+                    else
+                    {
+                        ViewModelService.GetViewModel<GitReposViewModel>().OveridenUsername = value;
+                    }
+                });
             }
         }
 
@@ -377,6 +479,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             }
         }
 
+        public bool UseDefaultCredentials
+        {
+            get
+            {
+                return !UseOverrideCredentials;
+            }
+        }
+
         [SaveSceneAttribute]
         public bool UseOverrideCredentials
         {
@@ -387,7 +497,21 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos.Models
             set
             {
                 var orig = useOverrideCredentials;
-                OnUndoRedoPropertyChanged(UseOverrideCredentialsPropName, () => useOverrideCredentials = orig, () => useOverrideCredentials = value);
+                OnUndoRedoPropertyChanged(UseOverrideCredentialsPropName,
+                    () =>
+                    {
+                        useOverrideCredentials = orig;
+                        OnPropertyChanged(UsernameCurrentPropName);
+                        OnPropertyChanged(PasswordCurrentPropName);
+                        OnPropertyChanged(UseDefaultCredentialsPropName);
+                    },
+                    () =>
+                    {
+                        useOverrideCredentials = value;
+                        OnPropertyChanged(UsernameCurrentPropName);
+                        OnPropertyChanged(PasswordCurrentPropName);
+                        OnPropertyChanged(UseDefaultCredentialsPropName);
+                    });
             }
         }
 

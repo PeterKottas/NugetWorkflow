@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="NugetWorkflow.UI.WpfUI.Controls.SubHeader"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:NugetWorkflow.UI.WpfUI.Controls" 
+             mc:Ignorable="d" 
+             d:DesignHeight="20" d:DesignWidth="300">
+    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl},Mode=FindAncestor}}" Margin="0,10,0,20">
+        <DockPanel LastChildFill="True">
+            <TextBlock Text="{Binding Path=Header}" Margin="5,0,5,0"></TextBlock>
+            <Rectangle VerticalAlignment="Center" Height="1" Fill="{StaticResource SeparatorBackground}" ></Rectangle>
+        </DockPanel>
+    </Grid>
+</UserControl>

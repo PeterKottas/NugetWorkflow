@@ -1,15 +1,27 @@
 ﻿<UserControl x:Class="NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.About.AboutPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:NugetWorkflow.UI.WpfUI.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <ScrollViewer>
-            <StackPanel MinWidth="200">
-                <TextBlock Text="ABOUT" Style="{StaticResource Heading2}" />
-                <TextBlock Text="This software was intended to help people work with the new proposed nuget architecture for visual studio solutions." Margin="0,0,0,8" TextWrapping="Wrap" />
+            <StackPanel MinWidth="200" Margin="0,0,10,0">
+                <TextBlock Text="ABOUT" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
+                <TextBlock Text="This software is intended to help people work with the new proposed nuget architecture for visual studio solutions." Margin="0,0,0,8" TextWrapping="Wrap" />
+                <TextBlock Text="You can maintain full control over updating NuGet dependencies of multiple solution/s and/or projects or git repositaries at once! This can easily save hours and hours of tedious work." Margin="0,0,0,8" TextWrapping="Wrap" />
+                <controls:SubHeader Header="Source control"/>
+                <TextBlock Text="Using NuGet workflow manager allows you to commit and push your changes automatically even if you have current changes on you local branch. It can stash them, switch branches, commit sensible message, push and return back without you even noticing." Margin="0,0,0,8" TextWrapping="Wrap" />
+                <controls:SubHeader Header="Advanced UI"/>
+                <TextBlock Text="This software comes with powerfull yet simple user interface. Undo/redo is fully supported. You can import and export your repositories in JSon format and save the entire scene to make it accessible to your collegues. Passwords in the saved files and exports are encrypted and there is an options to exclude them and let others use their credentials." Margin="0,0,0,8" TextWrapping="Wrap" />
+                <controls:SubHeader Header="Contribute!"/>
+                <TextBlock Text="Link in the top bar titled 'Help' brings you to the public repo for this project. Please consider contributing with pull requests or at least open an issue if you find any." Margin="0,0,0,8" TextWrapping="Wrap" />
+                <controls:SubHeader Header="Enjoy"/>
+                <TextBlock Text="Thank you for using this software, I hope it will save you some precious time and that you will have a plesant experience using it." Margin="0,0,0,8" TextWrapping="Wrap" />
+                <TextBlock Text="Sincerely the author" Margin="0,10,0,8" TextWrapping="Wrap" HorizontalAlignment="Right" />
+                <TextBlock Text="Peter Kottas" Margin="0,10,0,8" TextWrapping="Wrap" HorizontalAlignment="Right" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

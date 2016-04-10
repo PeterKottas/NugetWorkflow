@@ -30,6 +30,22 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
         //\Commands
 
         //Bindable properties
+        public GitReposViewModel GitReposVM
+        {
+            get
+            {
+                return ViewModelService.GetViewModel<GitReposViewModel>();
+            }
+        }
+
+        public UpdateViewModel UpdateVM
+        {
+            get
+            {
+                return ViewModelService.GetViewModel<UpdateViewModel>();
+            }
+        }
+
         [SaveSceneAttribute]
         public string BasePath
         {

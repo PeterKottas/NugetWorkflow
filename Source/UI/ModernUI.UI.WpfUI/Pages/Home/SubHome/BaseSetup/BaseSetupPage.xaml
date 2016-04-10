@@ -5,35 +5,57 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:NugetWorkflow.UI.WpfUI.Controls" 
+             xmlns:utils="clr-namespace:NugetWorkflow.UI.WpfUI.Utils"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="400">
     <UserControl.Resources>
         <Thickness x:Key="ButtonMargin" >5</Thickness>
     </UserControl.Resources>
     <Grid Style="{StaticResource ContentRoot}" Margin="0">
         <ScrollViewer>
-            <StackPanel>
+            <StackPanel  Grid.IsSharedSizeScope="True">
                 <TextBlock Text="Base setup" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
-                <GroupBox Header="Base path" Margin="5">
-                    <WrapPanel>
-                        <Button Content="Choose" Margin="{StaticResource ButtonMargin}" Command="{Binding ChooseBasePathCommand}"/>
-                        <Grid Margin="{StaticResource ButtonMargin}">
-                            <controls:TextBoxNoUndo IsUndoEnabled="False"  Text="{Binding BasePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="BasePathTextBox" VerticalAlignment="Center"/>
-                            <TextBlock IsHitTestVisible="False" Text="Specify base path for nuget solution" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0" Foreground="DarkGray">
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Text, ElementName=BasePathTextBox}" Value="">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </Grid>
-                    </WrapPanel>
-                </GroupBox>
+                <controls:SubHeader Header="Git repos solution"></controls:SubHeader>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Base path:" TextAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                    <TextBox Text="{Binding BasePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="{StaticResource ButtonMargin}" MinWidth="60" VerticalAlignment="Center"/>
+                    <Button Content="Browse"  Grid.Column="2" Margin="{StaticResource ButtonMargin}" Command="{Binding ChooseBasePathCommand}"/>
+                </Grid>
+                <controls:SubHeader Header="Default settings"></controls:SubHeader>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Username:" TextAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
+                    <TextBox Text="{Binding GitReposVM.OveridenUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="{StaticResource ButtonMargin}" MinWidth="60" VerticalAlignment="Center" HorizontalContentAlignment="Stretch"/>
+                </Grid>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Password:" TextAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
+                    <PasswordBox Margin="{StaticResource ButtonMargin}" MinWidth="60" Grid.Column="1" VerticalAlignment="Center" utils:PasswordBoxHelper.SecurePassword="{Binding GitReposVM.OverridenPassword, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Branch:" TextAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
+                    <TextBox Text="{Binding UpdateVM.UpdateBranch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="{StaticResource ButtonMargin}" MinWidth="60" VerticalAlignment="Center" HorizontalContentAlignment="Stretch"/>
+                    <ComboBox Margin="{StaticResource ButtonMargin}" Grid.Column="2" ItemsSource="{Binding GitReposVM.RepoBranchesUnion, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" 
+                                        SelectedValue="{Binding UpdateVM.UpdateBranch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
     </Grid>

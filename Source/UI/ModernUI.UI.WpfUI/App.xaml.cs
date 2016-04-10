@@ -19,10 +19,9 @@ namespace NugetWorkflow.UI.WpfUI
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            UndoManager.Disable();
             ViewModelService.SetupViewDictionary();
             SceneSaver.MakeClean();
-            UndoManager.Enable();
+            UndoManager.ResetBuffer();
         }
     }
 }

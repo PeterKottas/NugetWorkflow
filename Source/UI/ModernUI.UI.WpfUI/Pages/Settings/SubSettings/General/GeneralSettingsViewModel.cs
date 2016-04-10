@@ -25,7 +25,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
 
         //Data hiding
         private bool fileWatcherIsEnabled = true;
-        private int undoRedoLimit = 1000;
         //\Data hiding
 
         //Properties names        
@@ -39,11 +38,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
         {
             get
             {
-                return undoRedoLimit;
+                return UndoManager.UndoRedoLimit;
             }
             set
             {
-                undoRedoLimit = value;
+                UndoManager.UndoRedoLimit = value;
                 OnPropertyChanged(UndoRedoLimitPropName);
             }
         }
@@ -64,6 +63,18 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
             {
                 fileWatcherIsEnabled = value;
                 OnPropertyChanged(FileWatcherIsEnabledPropName);
+            }
+        }
+
+        public bool UndoRedoEnabled
+        {
+            get
+            {
+                return UndoManager.IsEnabled;
+            }
+            set
+            {
+                UndoManager.IsEnabled = value;
             }
         }
         //\Bindable properties
