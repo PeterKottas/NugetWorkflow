@@ -24,12 +24,12 @@ namespace NugetWorkflow.UI.WpfUI
             {
                 using (var mgr = new UpdateManager(@"F:\NugetWorkflowManager\NuGet\Releases"))
                 {
-                    mgr.UpdateApp().RunSynchronously();
+                    mgr.UpdateApp();
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                MessageBox.Show("Test3");
+                MessageBox.Show(exception.Message);
             }
 
             ViewModelService.SetupViewDictionary();
