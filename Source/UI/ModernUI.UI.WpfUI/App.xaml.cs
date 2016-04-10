@@ -25,7 +25,7 @@ namespace NugetWorkflow.UI.WpfUI
             var task = new Task(update);
             task.Start();
             task.Wait();
-            
+
             ViewModelService.SetupViewDictionary();
             SceneSaver.MakeClean();
             UndoManager.ResetBuffer();
@@ -37,12 +37,12 @@ namespace NugetWorkflow.UI.WpfUI
             {
                 using (var mgr = new UpdateManager(@"F:\NugetWorkflowManager\NuGet\Releases"))
                 {
-                    await mgr.UpdateApp(); 
+                    await mgr.UpdateApp();
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
+                MessageBox.Show(exception.Message + "hello");
             }
         }
     }
