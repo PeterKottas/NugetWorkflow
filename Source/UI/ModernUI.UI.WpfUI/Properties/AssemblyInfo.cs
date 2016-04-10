@@ -7,13 +7,14 @@ using System.Windows.Media;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NugetWorkflow.UI.WpfUI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Nuget workflow manager takes care of updating nuget dependencies of multiple git repos at once.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("PeterKottas")]
 [assembly: AssemblyProduct("NugetWorkflow.UI.WpfUI")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
