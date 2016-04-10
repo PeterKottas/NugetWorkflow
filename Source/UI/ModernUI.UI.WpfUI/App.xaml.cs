@@ -18,13 +18,13 @@ namespace NugetWorkflow.UI.WpfUI
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        async protected override void OnStartup(StartupEventArgs e)
         {
             try
             {
                 using (var mgr = new UpdateManager(@"F:\NugetWorkflowManager\NuGet\Releases"))
                 {
-                    mgr.UpdateApp().Start();
+                    await mgr.UpdateApp();
                 }
             }
             catch (Exception exception)
