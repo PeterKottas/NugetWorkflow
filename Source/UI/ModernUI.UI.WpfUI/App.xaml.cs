@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace NugetWorkflow.UI.WpfUI
@@ -18,7 +20,18 @@ namespace NugetWorkflow.UI.WpfUI
     /// </summary>
     public partial class App : Application
     {
-        async protected override void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            var task = new Task(update);
+            task.Start();
+            task.Wait();
+            
+            ViewModelService.SetupViewDictionary();
+            SceneSaver.MakeClean();
+            UndoManager.ResetBuffer();
+        }
+
+        private async void update()
         {
             try
             {
@@ -31,10 +44,6 @@ namespace NugetWorkflow.UI.WpfUI
             {
                 MessageBox.Show(exception.Message);
             }
-
-            ViewModelService.SetupViewDictionary();
-            SceneSaver.MakeClean();
-            UndoManager.ResetBuffer();
         }
     }
 }
