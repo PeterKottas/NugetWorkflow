@@ -24,7 +24,7 @@ namespace NugetWorkflow.UI.WpfUI
             {
                 using (var mgr = new UpdateManager(@"F:\NugetWorkflowManager\NuGet\Releases"))
                 {
-                    mgr.UpdateApp();
+                    mgr.UpdateApp().Start();
                 }
             }
             catch (Exception exception)
