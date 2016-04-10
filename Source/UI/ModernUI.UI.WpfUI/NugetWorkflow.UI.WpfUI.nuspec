@@ -10,6 +10,6 @@
     </description>
   </metadata>
   <files>
-    <file src="bin\Release\**\*.*" target="lib\net45" />
+    <file src="bin\Release\**\*.*"  exclude="**\*.pdb" target="lib\net45" />
   </files>
 </package>
