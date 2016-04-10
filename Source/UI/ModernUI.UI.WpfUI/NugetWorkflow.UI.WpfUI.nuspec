@@ -11,5 +11,6 @@
   </metadata>
   <files>
     <file src="bin\Release\**\*.*"  exclude="**\*.pdb" target="lib\net45" />
+    <file src="bin\**\*.*" target="lib\net451" exclude="bin\**\*.*" />
   </files>
 </package>
