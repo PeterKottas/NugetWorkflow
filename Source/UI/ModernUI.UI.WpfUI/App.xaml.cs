@@ -20,10 +20,18 @@ namespace NugetWorkflow.UI.WpfUI
     {
         async protected override void OnStartup(StartupEventArgs e)
         {
-            using (var mgr = new UpdateManager(@"F:\NugetWorkflowManager\Releases"))
+            try
             {
-                await mgr.UpdateApp();
+                using (var mgr = new UpdateManager(@"F:\NugetWorkflowManager\NuGet\Releases"))
+                {
+                    await mgr.UpdateApp();
+                }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Test");
+            }
+            
             ViewModelService.SetupViewDictionary();
             SceneSaver.MakeClean();
             UndoManager.ResetBuffer();
