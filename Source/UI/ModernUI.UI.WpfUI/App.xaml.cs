@@ -20,6 +20,10 @@ namespace NugetWorkflow.UI.WpfUI
     {
         async protected override void OnStartup(StartupEventArgs e)
         {
+            ViewModelService.SetupViewDictionary();
+            SceneSaver.MakeClean();
+            UndoManager.ResetBuffer();
+
             try
             {
                 using (var mgr = new UpdateManager(@"F:\NugetWorkflowManager\NuGet\Releases"))
@@ -31,10 +35,6 @@ namespace NugetWorkflow.UI.WpfUI
             {
                 MessageBox.Show("Test3");
             }
-            
-            ViewModelService.SetupViewDictionary();
-            SceneSaver.MakeClean();
-            UndoManager.ResetBuffer();
         }
     }
 }
