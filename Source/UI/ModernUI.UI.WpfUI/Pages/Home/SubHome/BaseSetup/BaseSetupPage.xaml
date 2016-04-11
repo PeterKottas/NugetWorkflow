@@ -14,7 +14,7 @@
     <Grid Style="{StaticResource ContentRoot}" Margin="0">
         <ScrollViewer>
             <StackPanel  Grid.IsSharedSizeScope="True">
-                <TextBlock Text="Base setup" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Base setup - Ahoj mrno" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
                 <controls:SubHeader Header="Git repos solution"></controls:SubHeader>
                 <Grid Margin="30,0,0,0">
                     <Grid.ColumnDefinitions>
