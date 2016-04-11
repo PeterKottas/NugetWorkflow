@@ -35,14 +35,14 @@ namespace NugetWorkflow.UI.WpfUI
         {
             try
             {
-                using (var mgr = new UpdateManager(@"F:\NugetWorkflowManager\NuGet\Releases"))
+                using (var mgr = new UpdateManager(@"http://ec2-52-16-197-231.eu-west-1.compute.amazonaws.com:1234/RELEASES"))
                 {
                     await mgr.UpdateApp();
                 }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message + "hello");
+                MessageBox.Show("Exception while updating : " + exception.Message);
             }
         }
     }
