@@ -35,7 +35,7 @@ namespace NugetWorkflow.UI.WpfUI
         {
             try
             {
-                using (var mgr = new UpdateManager(@"http://ec2-52-16-197-231.eu-west-1.compute.amazonaws.com:1234/RELEASES"))
+                using (var mgr = new UpdateManager(@"http://ec2-52-16-197-231.eu-west-1.compute.amazonaws.com:1234"))
                 {
                     await mgr.UpdateApp();
                 }
