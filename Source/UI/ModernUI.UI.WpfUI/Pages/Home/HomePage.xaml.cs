@@ -17,7 +17,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
         {
             AssignViewModel();
             InitializeComponent();
-            AddUserControl(this);
+            AddUserControl();
             Focusable = true;
             Loaded += (s, e) => Keyboard.Focus(this);
             LostKeyboardFocus += (s, e) => Trace.WriteLine("Lost focus");
@@ -29,7 +29,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
             this.DataContext = ViewModelService.GetViewModel<HomePageViewModel>();
         }
 
-        public void AddUserControl(IPageUserControl userControl)
+        public void AddUserControl()
         {
             PageUserControlService.AddUserControl(this);
         }

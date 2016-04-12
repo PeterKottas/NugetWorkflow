@@ -1,5 +1,4 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System;
@@ -17,23 +16,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
+namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Update
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for General.xaml
     /// </summary>
-    public partial class BaseSetupPage : UserControl, IPageUserControl
+    public partial class UpdatePage : UserControl, IPageUserControl
     {
-        public BaseSetupPage()
+        public UpdatePage()
         {
-            AssignViewModel();
             InitializeComponent();
+            AssignViewModel();
             AddUserControl();
         }
 
         public void AssignViewModel()
         {
-            this.DataContext = ViewModelService.GetViewModel<BaseSetupViewModel>();
+            this.DataContext = ViewModelService.GetViewModel<UpdateViewModel>();
         }
 
         public void AddUserControl()

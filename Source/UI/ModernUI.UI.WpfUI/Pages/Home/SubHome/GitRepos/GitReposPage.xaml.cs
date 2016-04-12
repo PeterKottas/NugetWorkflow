@@ -13,7 +13,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         {
             AssignViewModel();
             InitializeComponent();
-            AddUserControl(this);
+            AddUserControl();
         }
 
         public void AssignViewModel()
@@ -21,7 +21,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             this.DataContext = ViewModelService.GetViewModel<GitReposViewModel>();
         }
 
-        public void AddUserControl(IPageUserControl userControl)
+        public void AddUserControl()
         {
             PageUserControlService.AddUserControl(this);
         }

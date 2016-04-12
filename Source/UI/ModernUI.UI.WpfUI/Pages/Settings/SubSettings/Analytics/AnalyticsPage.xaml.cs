@@ -27,7 +27,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Analytics
         {
             AssignViewModel();
             InitializeComponent();
-            AddUserControl(this);
+            AddUserControl();
         }
 
         public void AssignViewModel()
@@ -35,14 +35,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Analytics
             this.DataContext = ViewModelService.GetViewModel<AnalyticsViewModel>();
         }
 
-        public void AddUserControl(IPageUserControl userControl)
+        public void AddUserControl()
         {
             PageUserControlService.AddUserControl(this);
-        }
-
-        public string Header
-        {
-            get { throw new NotImplementedException(); }
         }
     }
 }

@@ -26,7 +26,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
         {
             AssignViewModel();
             InitializeComponent();
-            AddUserControl(this);
+            AddUserControl();
         }
 
         public void AssignViewModel()
@@ -34,7 +34,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
             this.DataContext = ViewModelService.GetViewModel<AppearanceViewModel>();
         }
 
-        public void AddUserControl(IPageUserControl userControl)
+        public void AddUserControl()
         {
             PageUserControlService.AddUserControl(this);
         }

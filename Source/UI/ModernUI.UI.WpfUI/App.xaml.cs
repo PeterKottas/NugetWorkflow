@@ -22,9 +22,9 @@ namespace NugetWorkflow.UI.WpfUI
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            var task = new Task(update);
+            /*var task = new Task(update);
             task.Start();
-            task.Wait();
+            task.Wait();*/
 
             ViewModelService.SetupViewDictionary();
             SceneSaver.MakeClean();
@@ -42,7 +42,7 @@ namespace NugetWorkflow.UI.WpfUI
             }
             catch (Exception exception)
             {
-                MessageBox.Show("Exception while updating : " + exception.Message);
+                //MessageBox.Show("Exception while updating : " + exception.Message);
             }
         }
     }

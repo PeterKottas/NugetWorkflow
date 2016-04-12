@@ -184,11 +184,16 @@
       <DependentUpon>UpdatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Home\SubHome\Update\UpdateViewModel.cs" />
+    <Compile Include="Pages\Settings\SubSettings\About\AboutViewModel.cs" />
     <Compile Include="Pages\Settings\SubSettings\Analytics\AnalyticsPage.xaml.cs">
       <DependentUpon>AnalyticsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Settings\SubSettings\Analytics\AnalyticsViewModel.cs" />
     <Compile Include="Pages\Settings\SubSettings\General\GeneralSettingsViewModel.cs" />
+    <Compile Include="Pages\Settings\SubSettings\Update\UpdatePage.xaml.cs">
+      <DependentUpon>UpdatePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\SubSettings\Update\UpdateViewModel.cs" />
     <Compile Include="Utils\AutoScrollHelper.cs" />
     <Compile Include="Utils\DTOs\UndoStatesDTO.cs" />
     <Compile Include="Utils\JsonSecureStringConverter.cs" />
@@ -277,6 +282,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Settings\SubSettings\Update\UpdatePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\Controls\GroupBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -331,6 +340,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="appbar.diagram.ico" />
+    <Content Include="Content\Images\appbar-diagram.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\NugetWorkflow.Common.Base\NugetWorkflow.Common.Base.csproj">
@@ -363,6 +375,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rem MOVE "$(TargetPath)" "$(TargetDir)\NWM.exe"</PostBuildEvent>

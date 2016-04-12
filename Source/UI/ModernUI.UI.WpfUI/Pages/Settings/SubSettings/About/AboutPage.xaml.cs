@@ -1,4 +1,6 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
+using NugetWorkflow.Common.Base.Interfaces;
+using NugetWorkflow.UI.WpfUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +21,23 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.About
     /// <summary>
     /// Interaction logic for About.xaml
     /// </summary>
-    public partial class AboutPage : UserControl
+    public partial class AboutPage : UserControl, IPageUserControl
     {
         public AboutPage()
         {
             InitializeComponent();
+            AssignViewModel();
+            AddUserControl();
+        }
+
+        public void AssignViewModel()
+        {
+            this.DataContext = ViewModelService.GetViewModel<AboutViewModel>();
+        }
+
+        public void AddUserControl()
+        {
+            PageUserControlService.AddUserControl(this);
         }
     }
 }

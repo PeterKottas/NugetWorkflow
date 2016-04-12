@@ -9,6 +9,6 @@ namespace NugetWorkflow.Common.Base.Interfaces
     public interface IPageUserControl
     {
         void AssignViewModel();
-        void AddUserControl(IPageUserControl userControl);
+        void AddUserControl();
     }
 }

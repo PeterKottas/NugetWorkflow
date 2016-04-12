@@ -15,7 +15,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
         {
             AssignViewModel();
             InitializeComponent();
-            AddUserControl(this);
+            AddUserControl();
         }
 
         public void AssignViewModel()
@@ -23,7 +23,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             this.DataContext = ViewModelService.GetViewModel<UpdateViewModel>();
         }
 
-        public void AddUserControl(IPageUserControl userControl)
+        public void AddUserControl()
         {
             PageUserControlService.AddUserControl(this);
         }
