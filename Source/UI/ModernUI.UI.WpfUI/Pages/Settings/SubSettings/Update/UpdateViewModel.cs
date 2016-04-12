@@ -1,4 +1,5 @@
-﻿using NugetWorkflow.Common.Base.Interfaces;
+﻿using FirstFloor.ModernUI.Presentation;
+using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.Common.Base.Utils;
 using NugetWorkflow.UI.WpfUI.Base;
 using Squirrel;
@@ -13,6 +14,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Update
 {
     public class UpdateViewModel : BaseViewModel, IViewModel
     {
+        //Constants
+        private const string updateNow = "Update now";
+        private const string updateNowProgress = "Updating";
+        //\Constants
+
         //Private properties
 
         //\Private properties
@@ -20,10 +26,16 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Update
         //Data hiding
         private bool automaticUpdatesEnabled;
         private string updateMessage;
+        private bool updateNowEnabled = true;
+        private string updateURL = @"http://ec2-52-16-197-231.eu-west-1.compute.amazonaws.com:1234/release";
+        private string updateNowButtonText = updateNow;
         //\Data hiding
 
         //Properties names        
         private static readonly string UpdateMessagePropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.UpdateMessage);
+        private static readonly string UpdateURLPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.UpdateURL);
+        private static readonly string UpdateNowEnabledPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.UpdateNowEnabled);
+        private static readonly string UpdateNowButtonTextPropName = ReflectionUtility.GetPropertyName((UpdateViewModel s) => s.UpdateNowButtonText);
         //\Properties names     
 
         //Bindable properties
@@ -59,36 +71,105 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Update
                 OnPropertyChanged(UpdateMessagePropName);
             }
         }
+
+        public string UpdateURL
+        {
+            get
+            {
+                return updateURL;
+            }
+            set
+            {
+                updateURL = value;
+                OnPropertyChanged(UpdateURLPropName);
+            }
+        }
+
+        public bool UpdateNowEnabled
+        {
+            get
+            {
+                return updateNowEnabled;
+            }
+            set
+            {
+                updateNowEnabled = value;
+                OnPropertyChanged(UpdateNowEnabledPropName);
+            }
+        }
+
+        public string UpdateNowButtonText
+        {
+            get
+            {
+                return updateNowButtonText;
+            }
+            set
+            {
+                updateNowButtonText = value;
+                OnPropertyChanged(UpdateNowButtonTextPropName);
+            }
+        }
+
+        public RelayCommand UpdateNowCommand { get; set; }
         //\Bindable properties
 
+        //Implementation
         public UpdateViewModel()
         {
             Initialize();
-            CheckForUpdates();
+            UpdateNowCommand = new RelayCommand(UpdateNowExecute);
+        }
+
+        private void UpdateNowExecute(object obj)
+        {
+            UpdateUI(false);
         }
 
         public void Initialize()
         {
+            UpdateUI();
         }
 
-        async public void CheckForUpdates()
+        private void UpdateUI(bool automatic = true)
+        {
+            new Task(() =>
+            {
+                UpdateNowEnabled = false;
+                UpdateNowButtonText = updateNowProgress;
+                CheckForUpdates(automatic);
+                UpdateNowButtonText = updateNow;
+                UpdateNowEnabled = true;
+            }).Start();
+        }
+
+        private async void CheckForUpdates(bool automatic = true)
         {
             try
             {
-                using (var mgr = new UpdateManager(@"http://ec2-52-16-197-231.eu-west-1.compute.amazonaws.com:1234/release"))
+                using (var mgr = new UpdateManager(UpdateURL))
                 {
                     var result = await mgr.CheckForUpdate();
-                    if (result.ReleasesToApply.Count() > 0 && AutomaticUpdatesEnabled)
+                    if (result.ReleasesToApply.Count() == 0)
                     {
-                         await mgr.UpdateApp();
-                         updateMessage = string.Format("");
+                        UpdateMessage = "You have the latest version";
+                    }
+                    else if (AutomaticUpdatesEnabled || !automatic)
+                    {
+                        mgr.UpdateApp().Wait();
+                        UpdateMessage = string.Format("Your app was successfully updated to version {0}", result.FutureReleaseEntry.Version.ToString());
+                    }
+                    else
+                    {
+                        UpdateMessage = string.Format("Latest version {0} will not be installed because automatic updates are disabled", result.FutureReleaseEntry.Version.ToString());
                     }
                 }
             }
             catch (Exception exception)
             {
-                updateMessage = exception.Message;
+                updateMessage = string.Format("Exception [{0}] prevented us from updating your app", exception.Message);
             }
         }
+        //\Implementation
     }
 }

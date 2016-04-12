@@ -11,12 +11,10 @@
             <FlowDocument>
                 <Paragraph>
                     <Run Text=" "/>
-                    <Run FontSize="60" Text="NWM"/>
+                    <Run FontSize="40" Text="Nuget Workflow Manager"/>
                 </Paragraph>
 
                 <Paragraph TextIndent="0">
-                    which stands for
-                    <Bold>Nuget Workflow Manager</Bold> ,
                     is intended to help people work with the new proposed nuget architecture for visual studio solutions.
                     Some advantages include:
                 </Paragraph>

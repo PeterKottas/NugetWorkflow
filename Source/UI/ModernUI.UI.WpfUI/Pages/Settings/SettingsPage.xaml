@@ -13,11 +13,11 @@
         </Grid.RowDefinitions>
         <mui:ModernTab Layout="List" SelectedSource="/Pages/Settings/SubSettings/Appearance/AppearancePage.xaml">
             <mui:ModernTab.Links>
-                <mui:Link DisplayName="Appearance" Source="/Pages/Settings/SubSettings/Appearance/AppearancePage.xaml" />
-                <mui:Link DisplayName="About" Source="/Pages/Settings/SubSettings/About/AboutPage.xaml"/>
                 <mui:Link DisplayName="General" Source="/Pages/Settings/SubSettings/General/GeneralPage.xaml" />
-                <mui:Link DisplayName="Analytics" Source="/Pages/Settings/SubSettings/Analytics/AnalyticsPage.xaml" />
                 <mui:Link DisplayName="Updates" Source="/Pages/Settings/SubSettings/Update/UpdatePage.xaml" />
+                <mui:Link DisplayName="Appearance" Source="/Pages/Settings/SubSettings/Appearance/AppearancePage.xaml" />
+                <mui:Link DisplayName="Analytics" Source="/Pages/Settings/SubSettings/Analytics/AnalyticsPage.xaml" />
+                <mui:Link DisplayName="About" Source="/Pages/Settings/SubSettings/About/AboutPage.xaml"/>
             </mui:ModernTab.Links>
         </mui:ModernTab>
         <Button Content="Save" Grid.Row="1"  Width="60" HorizontalAlignment="Right"></Button>

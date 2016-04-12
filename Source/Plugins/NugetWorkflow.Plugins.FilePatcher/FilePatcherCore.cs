@@ -37,7 +37,7 @@ namespace NugetWorkflow.Plugins.FilePatcher
                         break;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     if (numTries > 100)
                     {

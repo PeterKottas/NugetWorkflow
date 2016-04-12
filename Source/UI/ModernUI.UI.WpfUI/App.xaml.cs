@@ -22,28 +22,9 @@ namespace NugetWorkflow.UI.WpfUI
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            /*var task = new Task(update);
-            task.Start();
-            task.Wait();*/
-
             ViewModelService.SetupViewDictionary();
             SceneSaver.MakeClean();
             UndoManager.ResetBuffer();
-        }
-
-        private async void update()
-        {
-            try
-            {
-                using (var mgr = new UpdateManager(@"http://ec2-52-16-197-231.eu-west-1.compute.amazonaws.com:1234"))
-                {
-                    await mgr.UpdateApp();
-                }
-            }
-            catch (Exception exception)
-            {
-                //MessageBox.Show("Exception while updating : " + exception.Message);
-            }
         }
     }
 }

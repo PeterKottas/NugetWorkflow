@@ -26,8 +26,8 @@
                         <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
                         <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Margin="5,10" Text="Current version : " VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding CurrentVersion, Mode=OneTime}" Grid.Column="1" VerticalAlignment="Center" MinWidth="60"/>
+                    <TextBlock Margin="5,10" Text="Update URL:" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding UpdateURL, Mode=OneTime}" Grid.Column="1" VerticalAlignment="Center" MinWidth="60"/>
                 </Grid>
                 <Grid Margin="30,0,0,0">
                     <Grid.ColumnDefinitions>
@@ -35,8 +35,25 @@
                         <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
                         <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Margin="5,10" Text="Update status : " VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding UndoRedoLimit, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center" MinWidth="60"/>
+                    <TextBlock Margin="5,10" Text="Current version:" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding CurrentVersion, Mode=OneTime}" Grid.Column="1" VerticalAlignment="Center" MinWidth="60"/>
+                </Grid>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Update status:" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding UpdateMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center" MinWidth="60"/>
+                </Grid>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Margin="5,10" Content="{Binding UpdateNowButtonText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Grid.Column="2" Command="{Binding UpdateNowCommand}" IsEnabled="{Binding UpdateNowEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

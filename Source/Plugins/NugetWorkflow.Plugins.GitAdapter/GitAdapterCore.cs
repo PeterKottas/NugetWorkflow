@@ -213,7 +213,7 @@ namespace NugetWorkflow.Plugins.GitAdapter
                 var status = repo.RetrieveStatus();
                 if (status.IsDirty)
                 {
-                    var files = status.Where(a => a.State != FileStatus.Untracked).ToList();
+                    var files = status.Where(a => a.State != FileStatus.NewInWorkdir).ToList();
                     repo.Stage(files.Select(a => a.FilePath));
                     repo.Commit(message, appSignature, appSignature, new CommitOptions());
                 }
