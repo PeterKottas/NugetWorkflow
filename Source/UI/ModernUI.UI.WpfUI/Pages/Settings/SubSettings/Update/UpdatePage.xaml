@@ -27,7 +27,7 @@
                         <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Margin="5,10" Text="Update URL:" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding UpdateURL, Mode=OneTime}" Grid.Column="1" VerticalAlignment="Center" MinWidth="60"/>
+                    <TextBox Text="{Binding UpdateURL, Mode=OneTime}" Grid.Column="1" VerticalAlignment="Center" MinWidth="60" HorizontalAlignment="Left"/>
                 </Grid>
                 <Grid Margin="30,0,0,0">
                     <Grid.ColumnDefinitions>

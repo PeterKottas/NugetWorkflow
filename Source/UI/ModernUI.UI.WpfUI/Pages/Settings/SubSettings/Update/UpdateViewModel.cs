@@ -137,13 +137,13 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Update
             {
                 UpdateNowEnabled = false;
                 UpdateNowButtonText = updateNowProgress;
-                CheckForUpdates(automatic);
+                CheckForUpdates(automatic).Wait();
                 UpdateNowButtonText = updateNow;
                 UpdateNowEnabled = true;
             }).Start();
         }
 
-        private async void CheckForUpdates(bool automatic = true)
+        private async Task CheckForUpdates(bool automatic = true)
         {
             try
             {

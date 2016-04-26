@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Security;
 using System.Web.Script.Serialization;
 using System.Windows;
@@ -75,6 +76,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
         public RelayCommand AddRowCommand { get; set; }
 
         public RelayCommand RemoveRowCommand { get; set; }
+
+        public RelayCommand FetchFeedCommand { get; set; }
         //\Commands
 
         //Bindable properties
@@ -218,7 +221,13 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             }
         }
 
-        public BaseSetupViewModel homeViewModel { get; set; }
+        public BaseSetupViewModel HomeViewModel 
+        { 
+            get
+            {
+                return ViewModelService.GetViewModel<BaseSetupViewModel>();
+            }
+        }
         //\Bindable properties
 
         //Implementation
@@ -233,6 +242,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             ExportJsonClipboardCommand = new RelayCommand(ExportJsonClipboardExecute, ExportJsonCanExecute);
             RemoveRowCommand = new RelayCommand(RemoveRowExecute);
             AddRowCommand = new RelayCommand(AddRowExectue);
+            FetchFeedCommand = new RelayCommand(FetchFeedExecute, FetchFeedCanExecute);
             serializer = new JavaScriptSerializer();
             deSerializer = new JavaScriptSerializer();
             deSerializer.RegisterConverters(new[] { new DynamicJsonConverter() });
@@ -240,7 +250,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
 
         public void Initialize()
         {
-            this.homeViewModel = ViewModelService.GetViewModel<BaseSetupViewModel>();
         }
 
         private void LoadModelFromJson(string Json)
@@ -461,6 +470,33 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.GitRepos
             var ID = obj.ToString();
             var row = GitRepos.Where(dto => dto.Hash == ID).FirstOrDefault();
             OnUndoRedoPropertyChanged(GitReposPropName, () => gitRepos.Add(row), () => gitRepos.Remove(row));
+        }
+
+        private async void FetchFeedExecute(object obj)
+        {
+            if(PathUtils.IsHttpUrl(HomeViewModel.ReposFeed))
+            {
+                var httpClient = new HttpClient();
+                var resp = await httpClient.GetStringAsync(HomeViewModel.ReposFeed);
+                LoadModelFromJson(resp);
+            }
+            else
+            {
+                if (File.Exists(HomeViewModel.ReposFeed))
+                {
+                    var Json = File.ReadAllText(HomeViewModel.ReposFeed);
+                    LoadModelFromJson(Json);
+                }
+            }
+        }
+
+        private bool FetchFeedCanExecute(object arg)
+        {
+            if(string.IsNullOrEmpty(HomeViewModel.ReposFeed))
+            {
+                return false;
+            }
+            return true;
         }
         //\Commands logic
     }

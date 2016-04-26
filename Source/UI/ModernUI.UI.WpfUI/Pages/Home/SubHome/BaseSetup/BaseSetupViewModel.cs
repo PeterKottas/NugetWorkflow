@@ -18,11 +18,13 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
     {
         //Data hiding
         private string basePath = @"C:\NugetTest";
+        private string reposFeed = @"C:\NugetTest\Feed.txt";
         //private string basePath = @"C:\Users\MasterPC\Desktop\Delete";
         //\Data hiding
 
         //Properties names
         private static readonly string BasePathPropName = ReflectionUtility.GetPropertyName((BaseSetupViewModel s) => s.BasePath);
+        private static readonly string ReposFeedPropName = ReflectionUtility.GetPropertyName((BaseSetupViewModel s) => s.ReposFeed);
         //\Properties names        
 
         //Commands
@@ -43,6 +45,20 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
             get
             {
                 return ViewModelService.GetViewModel<UpdateViewModel>();
+            }
+        }
+
+        [SaveSceneAttribute]
+        public string ReposFeed
+        {
+            get
+            {
+                return reposFeed;
+            }
+            set
+            {
+                reposFeed = value;
+                OnPropertyChanged(ReposFeedPropName);
             }
         }
 

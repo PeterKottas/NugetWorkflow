@@ -131,6 +131,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -198,6 +199,7 @@
     <Compile Include="Utils\DTOs\UndoStatesDTO.cs" />
     <Compile Include="Utils\JsonSecureStringConverter.cs" />
     <Compile Include="Utils\PageUserControlService.cs" />
+    <Compile Include="Utils\PathUtils.cs" />
     <Compile Include="Utils\PropertyInfoComparer.cs" />
     <Compile Include="Utils\SaveSceneJsonResolver.cs" />
     <Compile Include="Utils\SceneSaver.cs" />

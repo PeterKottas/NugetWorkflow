@@ -26,6 +26,15 @@
                     <TextBox Text="{Binding BasePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="{StaticResource ButtonMargin}" MinWidth="60" VerticalAlignment="Center"/>
                     <Button Content="Browse"  Grid.Column="2" Margin="{StaticResource ButtonMargin}" Command="{Binding ChooseBasePathCommand}"/>
                 </Grid>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Repos feed:" TextAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                    <TextBox Text="{Binding ReposFeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="{StaticResource ButtonMargin}" MinWidth="60" VerticalAlignment="Center"/>
+                </Grid>
                 <controls:SubHeader Header="Default settings"></controls:SubHeader>
                 <Grid Margin="30,0,0,0">
                     <Grid.ColumnDefinitions>

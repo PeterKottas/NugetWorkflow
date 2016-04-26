@@ -20,6 +20,7 @@
                             <Button Content="Add one" Margin="{StaticResource ButtonMargin}" Command="{Binding AddRowCommand}"/>
                             <Button Content="Import Json" Margin="{StaticResource ButtonMargin}" Command="{Binding ImportJsonCommand}"/>
                             <Button Content="Json from clipboard" Margin="{StaticResource ButtonMargin}" Command="{Binding ImportJsonClipboardCommand}"/>
+                            <Button Content="Fetch feed" Margin="{StaticResource ButtonMargin}" Command="{Binding FetchFeedCommand}"/>
                         </WrapPanel>
                     </GroupBox>
                     <GroupBox Header="{Binding ExportHeader,FallbackValue=Export json}" Margin="5">
