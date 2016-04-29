@@ -180,7 +180,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Update
                     {
                         UpdateMessage = "You have the latest version";
                     }
-                    UpdateMessage = string.Format("Latest version {0}. Update by clicking \"{1}\"", result.FutureReleaseEntry.Version.ToString(), updateNow);
+                    else
+                    {
+                        UpdateMessage = string.Format("Latest version {0}. Update by clicking \"{1}\"", result.FutureReleaseEntry.Version.ToString(), updateNow);
+                    }
                 }
             }
             catch (Exception exception)
