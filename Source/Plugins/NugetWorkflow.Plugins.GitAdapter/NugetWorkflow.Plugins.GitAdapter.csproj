@@ -12,7 +12,7 @@
     <AssemblyName>NugetWorkflow.Plugins.GitAdapter</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>044e4216</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>ee0f7d8c</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,9 +51,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Common\NugetWorkflow.Common.Base\NugetWorkflow.Common.Base.csproj">
       <Project>{c7bc1a33-2f34-418b-b067-d8ce27fee7b1}</Project>
       <Name>NugetWorkflow.Common.Base</Name>
@@ -70,6 +67,9 @@
       <Project>{0412c7df-351d-4fcc-863b-7cdb1ca4a5e6}</Project>
       <Name>NugetWorkflow.Plugins.FilePatcher</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

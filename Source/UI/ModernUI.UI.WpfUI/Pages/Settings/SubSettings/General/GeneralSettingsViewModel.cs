@@ -21,6 +21,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
         private FileSystemWatcher basePathWatcher;
         private TimerUpdater UIRefresher;
         private bool requiresUIUpdate;
+        private bool autoLoadSceneIsEnabled;
+        private bool autoLoadLastSavedIsEnabled;
+        private string lastSavedScene;
+        private string chosenSceneToAutoLoad;
         //\Private properties
 
         //Data hiding
@@ -30,6 +34,11 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
         //Properties names        
         private static readonly string FileWatcherIsEnabledPropName = ReflectionUtility.GetPropertyName((GeneralSettingsViewModel s) => s.FileWatcherIsEnabled);
         private static readonly string UndoRedoLimitPropName = ReflectionUtility.GetPropertyName((GeneralSettingsViewModel s) => s.UndoRedoLimit);
+        private static readonly string AutoLoadSceneIsEnabledPropName = ReflectionUtility.GetPropertyName((GeneralSettingsViewModel s) => s.AutoLoadSceneIsEnabled);
+        private static readonly string AutoLoadLastSavedIsEnabledPropName = ReflectionUtility.GetPropertyName((GeneralSettingsViewModel s) => s.AutoLoadLastSavedIsEnabled);
+        private static readonly string SceneToAutoLoadPropName = ReflectionUtility.GetPropertyName((GeneralSettingsViewModel s) => s.SceneToAutoLoad);
+        private static readonly string LastSavedScenePropName = ReflectionUtility.GetPropertyName((GeneralSettingsViewModel s) => s.LastSavedScene);
+        private static readonly string ChosenSceneToAutoLoadPropName = ReflectionUtility.GetPropertyName((GeneralSettingsViewModel s) => s.ChosenSceneToAutoLoad);
         //\Properties names        
 
         //Bindable properties
@@ -46,6 +55,88 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
                 OnPropertyChanged(UndoRedoLimitPropName);
             }
         }
+
+        [SaveConfigAttribute]
+        public bool AutoLoadSceneIsEnabled
+        {
+            get
+            {
+                return autoLoadSceneIsEnabled;
+            }
+            set
+            {
+                autoLoadSceneIsEnabled = value;
+                OnPropertyChanged(AutoLoadSceneIsEnabledPropName);
+            }
+        }
+
+        [SaveConfigAttribute]
+        public bool AutoLoadLastSavedIsEnabled
+        {
+            get
+            {
+                return autoLoadLastSavedIsEnabled;
+            }
+            set
+            {
+                autoLoadLastSavedIsEnabled = value;
+                OnPropertyChanged(AutoLoadLastSavedIsEnabledPropName);
+                OnPropertyChanged(SceneToAutoLoadPropName);
+            }
+        }
+
+        [SaveConfigAttribute]
+        public string LastSavedScene
+        {
+            get
+            {
+                return lastSavedScene;
+            }
+            set
+            {
+                lastSavedScene = value;
+                OnPropertyChanged(LastSavedScenePropName);
+                OnPropertyChanged(SceneToAutoLoadPropName);
+            }
+        }
+
+        [SaveConfigAttribute]
+        public string ChosenSceneToAutoLoad
+        {
+            get
+            {
+                return chosenSceneToAutoLoad;
+            }
+            set
+            {
+                chosenSceneToAutoLoad = value;
+                OnPropertyChanged(ChosenSceneToAutoLoadPropName);
+                OnPropertyChanged(SceneToAutoLoadPropName);
+            }
+        }
+
+        public string SceneToAutoLoad
+        {
+            get
+            {
+                if (AutoLoadLastSavedIsEnabled)
+                {
+                    return LastSavedScene;
+                }
+                else
+                {
+                    return ChosenSceneToAutoLoad;
+                }
+            }
+            set
+            {
+                if (!AutoLoadLastSavedIsEnabled)
+                {
+                    ChosenSceneToAutoLoad = value;
+                }
+            }
+        }
+
         public int RenameCounter { get; set; }
 
         public int ChangedCounter { get; set; }
@@ -160,6 +251,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General
 
         public void Initialize()
         {
+            AutoLoadSceneIsEnabled = true;
+            AutoLoadLastSavedIsEnabled = true;
         }
     }
 }

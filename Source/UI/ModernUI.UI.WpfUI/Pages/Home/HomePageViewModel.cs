@@ -26,12 +26,14 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
                 {"/Pages/Home/SubHome/Update/UpdatePage.xaml","Update your NuGet dependencies here"}
             };
         private bool isDirty = false;
+        private bool isConfigDirty = false;
         private string selectedPage = "/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml";
         //\Private properties
 
         //Properties names        
         public static readonly string HeaderPropName = ReflectionUtility.GetPropertyName((HomePageViewModel s) => s.Header);
         public static readonly string IsDirtyPropName = ReflectionUtility.GetPropertyName((HomePageViewModel s) => s.IsDirty);
+        public static readonly string IsConfigDirtyPropName = ReflectionUtility.GetPropertyName((HomePageViewModel s) => s.IsConfigDirty);
         public static readonly string SelectedPagePropName = ReflectionUtility.GetPropertyName((HomePageViewModel s) => s.SelectedPage);
         //\Properties names
 
@@ -56,6 +58,19 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home
                         selectedPage = value;
                         OnPropertyChanged(HeaderPropName);
                     });
+            }
+        }
+
+        public bool IsConfigDirty
+        {
+            get
+            {
+                return isConfigDirty;
+            }
+            set
+            {
+                isConfigDirty = value;
+                OnPropertyChanged(IsConfigDirtyPropName);
             }
         }
 

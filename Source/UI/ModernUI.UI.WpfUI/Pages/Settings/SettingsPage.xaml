@@ -11,7 +11,7 @@
             <RowDefinition/>
             <RowDefinition Height="26"/>
         </Grid.RowDefinitions>
-        <mui:ModernTab Layout="List" SelectedSource="/Pages/Settings/SubSettings/Appearance/AppearancePage.xaml">
+        <mui:ModernTab Layout="List" SelectedSource="/Pages/Settings/SubSettings/General/GeneralPage.xaml">
             <mui:ModernTab.Links>
                 <mui:Link DisplayName="General" Source="/Pages/Settings/SubSettings/General/GeneralPage.xaml" />
                 <mui:Link DisplayName="Updates" Source="/Pages/Settings/SubSettings/Update/UpdatePage.xaml" />
@@ -20,6 +20,9 @@
                 <mui:Link DisplayName="About" Source="/Pages/Settings/SubSettings/About/AboutPage.xaml"/>
             </mui:ModernTab.Links>
         </mui:ModernTab>
-        <Button Content="Save" Grid.Row="1"  Width="60" HorizontalAlignment="Right"></Button>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button Content="Load" HorizontalAlignment="Right" Command="{Binding LoadConfigCommand}"></Button>
+            <Button Content="Save" HorizontalAlignment="Right" Command="{Binding SaveConfigCommand}" Margin="5,0,5,0"></Button>
+        </StackPanel>
     </Grid>
 </UserControl>

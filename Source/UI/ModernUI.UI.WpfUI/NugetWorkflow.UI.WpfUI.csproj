@@ -185,6 +185,7 @@
       <DependentUpon>UpdatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Home\SubHome\Update\UpdateViewModel.cs" />
+    <Compile Include="Pages\Settings\SettingsPageViewModel.cs" />
     <Compile Include="Pages\Settings\SubSettings\About\AboutViewModel.cs" />
     <Compile Include="Pages\Settings\SubSettings\Analytics\AnalyticsPage.xaml.cs">
       <DependentUpon>AnalyticsPage.xaml</DependentUpon>
@@ -198,10 +199,13 @@
     <Compile Include="Utils\AutoScrollHelper.cs" />
     <Compile Include="Utils\DTOs\UndoStatesDTO.cs" />
     <Compile Include="Utils\JsonSecureStringConverter.cs" />
+    <Compile Include="Converters\InvertBooleanConverter.cs" />
     <Compile Include="Utils\PageUserControlService.cs" />
     <Compile Include="Utils\PathUtils.cs" />
     <Compile Include="Utils\PropertyInfoComparer.cs" />
+    <Compile Include="Utils\SaveConfig.cs" />
     <Compile Include="Utils\SaveSceneJsonResolver.cs" />
+    <Compile Include="Utils\ConfigSaver.cs" />
     <Compile Include="Utils\SceneSaver.cs" />
     <Compile Include="Utils\TimerUpdater.cs" />
     <Compile Include="Utils\UndoManager.cs" />
@@ -332,13 +336,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\Converters\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\NuggetWorkflow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appbar.diagram.ico" />
@@ -377,7 +382,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rem MOVE "$(TargetPath)" "$(TargetDir)\NWM.exe"</PostBuildEvent>

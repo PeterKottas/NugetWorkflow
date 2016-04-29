@@ -54,7 +54,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 
         private List<string> nuGetIDAutocomplete = new List<string>();
 
-        private string updateBranch = "master";
+        private string updateBranch;
         //\Data hiding
 
         //Properties names
@@ -88,6 +88,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
         //\Commands
 
         //Bindable properties
+        [SaveSceneAttribute]
         public string UpdateBranch
         {
             get
@@ -96,8 +97,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
             }
             set
             {
+                var orig = updateBranch;
                 updateBranch = value;
-                OnPropertyChanged(UpdateBranchPropName);
+                OnUndoRedoPropertyChanged(UpdateBranchPropName, () => updateBranch = orig, () => updateBranch = value);
             }
         }
 
@@ -306,6 +308,9 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.Update
 
         public void Initialize()
         {
+#if DEBUG
+            updateBranch = "master";
+#endif
         }
         //\Implementation
 

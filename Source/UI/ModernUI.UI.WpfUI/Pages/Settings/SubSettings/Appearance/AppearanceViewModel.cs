@@ -18,11 +18,12 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
     /// <summary>
     /// A simple view model for configuring theme, font and accent colors.
     /// </summary>
+    [SaveConfigAttribute]
     public class AppearanceViewModel : BaseViewModel, IViewModel
     {
         //Data hiding
         private const string FontSmall = "small";
-        
+
         private const string FontLarge = "large";
 
         private Color[] accentColors = new Color[]{
@@ -49,17 +50,18 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
         };
 
         private Color selectedAccentColor;
-        
+
         private LinkCollection themes = new LinkCollection();
-        
+
         private Link selectedTheme;
-        
+
         private string selectedFontSize;
         //\Data hiding
 
         //Properties names
         private static readonly string SelectedAccentColorPropName = ReflectionUtility.GetPropertyName((AppearanceViewModel s) => s.SelectedAccentColor);
         private static readonly string SelectedThemePropName = ReflectionUtility.GetPropertyName((AppearanceViewModel s) => s.SelectedTheme);
+        private static readonly string SelectedThemeLinkPropName = ReflectionUtility.GetPropertyName((AppearanceViewModel s) => s.SelectedThemeLink);
         //\Properties names
 
         //Bindable properties
@@ -78,6 +80,23 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
             get { return this.accentColors; }
         }
 
+        [SaveConfigAttribute]
+        public string SelectedThemeLink
+        {
+            get { return this.SelectedTheme.Source.ToString(); }
+            set
+            {
+                if (this.selectedTheme.Source.ToString() != value)
+                {
+                    SelectedTheme = themes.Where(a => a.Source.ToString() == value).FirstOrDefault();
+                    OnPropertyChanged(SelectedThemePropName);
+
+                    // and update the actual theme
+                    AppearanceManager.Current.ThemeSource = SelectedTheme.Source;
+                }
+            }
+        }
+
         public Link SelectedTheme
         {
             get { return this.selectedTheme; }
@@ -87,6 +106,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
                 {
                     this.selectedTheme = value;
                     OnPropertyChanged(SelectedThemePropName);
+                    OnPropertyChanged(SelectedThemeLinkPropName);
 
                     // and update the actual theme
                     AppearanceManager.Current.ThemeSource = value.Source;
@@ -94,6 +114,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
             }
         }
 
+        [SaveConfigAttribute]
         public string SelectedFontSize
         {
             get { return this.selectedFontSize; }
@@ -109,6 +130,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Appearance
             }
         }
 
+        [SaveConfigAttribute]
         public Color SelectedAccentColor
         {
             get { return this.selectedAccentColor; }

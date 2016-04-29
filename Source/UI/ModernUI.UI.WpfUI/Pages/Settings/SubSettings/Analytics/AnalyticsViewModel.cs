@@ -32,7 +32,6 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Analytics
         //\Properties names        
 
         //Bindable properties
-        [SaveConfigAttribute]
         public GeneralSettingsViewModel GeneralSettingsVM
         {
             get

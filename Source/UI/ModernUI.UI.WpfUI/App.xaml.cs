@@ -3,6 +3,7 @@ using NugetWorkflow.Common.Base.BaseClasses;
 using NugetWorkflow.Common.Base.Exceptions;
 using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.UI.WpfUI.Pages.Home;
+using NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Update;
 using NugetWorkflow.UI.WpfUI.Utils;
 using Squirrel;
 using System;
@@ -23,8 +24,15 @@ namespace NugetWorkflow.UI.WpfUI
         protected override void OnStartup(StartupEventArgs e)
         {
             ViewModelService.SetupViewDictionary();
-            SceneSaver.MakeClean();
+            UndoManager.Disable();
+            ConfigSaver.Load();
+            SceneSaver.AutoLoad();
+            ConfigSaver.LoadLastSavedScene();
             UndoManager.ResetBuffer();
+            SceneSaver.MakeClean();
+            ConfigSaver.MakeClean();
+            UndoManager.Enable();
+            ViewModelService.GetViewModel<UpdateViewModel>().UpdateUI();
         }
     }
 }

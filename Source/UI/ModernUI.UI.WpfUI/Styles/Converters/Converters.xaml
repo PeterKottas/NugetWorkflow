@@ -1,11 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    xmlns:mui="http://firstfloorsoftware.com/ModernUI">
-
-    
-
-    <Style TargetType="Menu">
-        <Setter Property="Background" Value="Transparent" />
-    </Style>
+                    xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                    xmlns:converters="clr-namespace:NugetWorkflow.UI.WpfUI.Converters">
+    <converters:InvertBooleanConverter x:Key="InvertBooleanConverter" />
 </ResourceDictionary>

@@ -5,11 +5,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:utils="clr-namespace:NugetWorkflow.UI.WpfUI.Utils"
+             d:DesignHeight="500" d:DesignWidth="500">
     <Grid>
         <ScrollViewer>
             <StackPanel MinWidth="200" Grid.IsSharedSizeScope="True">
                 <TextBlock Text="General settings" Style="{StaticResource Heading2}" HorizontalAlignment="Center"/>
+                <controls:SubHeader Header="Load scene on startup"></controls:SubHeader>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Enabled:" VerticalAlignment="Center"/>
+                    <CheckBox Content=""  IsChecked="{Binding AutoLoadSceneIsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Auto load last saved:" VerticalAlignment="Center"/>
+                    <CheckBox Content=""  IsChecked="{Binding AutoLoadLastSavedIsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"/>
+                </Grid>
+                <Grid Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto" SharedSizeGroup="LabelWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,10" Text="Scene to be loaded: " VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding SceneToAutoLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding AutoLoadLastSavedIsEnabled, Converter={StaticResource InvertBooleanConverter}}" Grid.Column="1" VerticalAlignment="Center" MinWidth="60"/>
+                </Grid>
                 <controls:SubHeader Header="Auto UI refresh"></controls:SubHeader>
                 <Grid Margin="30,0,0,0">
                     <Grid.ColumnDefinitions>
@@ -36,7 +65,7 @@
                         <ColumnDefinition Width="Auto" SharedSizeGroup="ContentWidth"></ColumnDefinition>
                         <ColumnDefinition Width="Auto" SharedSizeGroup="ButtonWidth"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Margin="5,10" Text="Limit : " VerticalAlignment="Center"/>
+                    <TextBlock Margin="5,10" Text="Limit: " VerticalAlignment="Center"/>
                     <TextBox Text="{Binding UndoRedoLimit, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" VerticalAlignment="Center" MinWidth="60"/>
                 </Grid>
                 <WrapPanel>

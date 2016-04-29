@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace NugetWorkflow.UI.WpfUI.Utils
 {
-    public class SaveConfigJsonResolver : DefaultContractResolver
+    public class SaveSceneJsonResolver : DefaultContractResolver
     {
 
-        public static readonly SaveConfigJsonResolver Instance = new SaveConfigJsonResolver();
+        public static readonly SaveSceneJsonResolver Instance = new SaveSceneJsonResolver();
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
-            var attributes = member.GetCustomAttributes().Where(a => a.GetType() == typeof(SaveConfigAttribute));
+            var attributes = member.GetCustomAttributes().Where(a => a.GetType() == typeof(SaveSceneAttribute));
             if (attributes.Count() > 0)
             {
                 property.ShouldSerialize = instance => true;

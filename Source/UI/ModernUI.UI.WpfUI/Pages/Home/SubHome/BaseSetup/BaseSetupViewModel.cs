@@ -17,8 +17,8 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
     public class BaseSetupViewModel : BaseViewModel, IViewModel
     {
         //Data hiding
-        private string basePath = @"C:\NugetTest";
-        private string reposFeed = @"C:\NugetTest\Feed.txt";
+        private string basePath;
+        private string reposFeed;
         //private string basePath = @"C:\Users\MasterPC\Desktop\Delete";
         //\Data hiding
 
@@ -102,6 +102,10 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Home.SubHome.BaseSetup
             ViewModelService.GetViewModel<GitReposViewModel>().UpdateStatuses();
             ViewModelService.GetViewModel<UpdateViewModel>().UpdatePackages();
             ViewModelService.GetViewModel<GeneralSettingsViewModel>().UpdateBasePath(BasePath);
+#if DEBUG
+            basePath = @"C:\NugetTest";
+            reposFeed = @"C:\NugetTest\Feed.txt";
+#endif
         }
         //Implementation
 

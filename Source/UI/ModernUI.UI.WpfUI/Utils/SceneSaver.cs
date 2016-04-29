@@ -18,6 +18,7 @@ using NugetWorkflow.Common.Base.Exceptions;
 using NugetWorkflow.UI.WpfUI.Pages.Home;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using FirstFloor.ModernUI.Windows.Controls;
+using NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.General;
 
 namespace NugetWorkflow.UI.WpfUI.Utils
 {
@@ -30,6 +31,15 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                 return ViewModelService.GetViewModel<HomePageViewModel>();
             }
         }
+
+        private static GeneralSettingsViewModel generalSettingsVm
+        {
+            get
+            {
+                return ViewModelService.GetViewModel<GeneralSettingsViewModel>();
+            }
+        }
+
         private static string lastFileSavedPath = null;
 
         public static string LastFileSavedPath
@@ -94,10 +104,11 @@ namespace NugetWorkflow.UI.WpfUI.Utils
                 }
                 else
                 {
-                    var viewDictionary = ViewModelService.ViewDictionary;
+                    var viewDictionary = (Dictionary<Type, object>)ViewModelService.ViewDictionary.Where(a => a.Key.GetCustomAttributes(typeof(SaveSceneAttribute), false).Count() > 0).ToDictionary(p => p.Key, p => p.Value);
                     var result = JsonConvert.SerializeObject(viewDictionary,
                         new JsonSerializerSettings { ContractResolver = SaveSceneJsonResolver.Instance, NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore });
                     File.WriteAllText(path, result);
+                    ConfigSaver.SaveLastSavedScene(path);
                     SceneSaver.MakeClean();
                 }
             }
@@ -163,20 +174,37 @@ namespace NugetWorkflow.UI.WpfUI.Utils
             }
         }
 
+        public static void AutoLoad()
+        {
+            if (generalSettingsVm.AutoLoadSceneIsEnabled)
+            {
+                var path = generalSettingsVm.SceneToAutoLoad;
+                Load(path);
+            }
+        }
+
         public static void Load(string path)
         {
             try
             {
-                var json = File.ReadAllText(path);
-                var jObject = JsonConvert.DeserializeObject<Dictionary<Type, JObject>>(json, new JsonSerializerSettings { ContractResolver = SaveSceneJsonResolver.Instance });
-                var dict = new Dictionary<Type, object>();
-                foreach (var item in jObject)
+                if (File.Exists(path))
                 {
-                    dict.Add(item.Key, LoadObject(item.Value, item.Key));
+                    var json = File.ReadAllText(path);
+                    var jObject = JsonConvert.DeserializeObject<Dictionary<Type, JObject>>(json, new JsonSerializerSettings { ContractResolver = SaveSceneJsonResolver.Instance });
+                    var dict = new Dictionary<Type, object>();
+                    foreach (var item in jObject)
+                    {
+                        dict.Add(item.Key, LoadObject(item.Value, item.Key));
+                    }
+                    var dictScenes = dict.Where(a => a.Key.GetCustomAttributes(typeof(SaveSceneAttribute), false).Count() > 0);
+                    foreach (var dictScene in dictScenes)
+                    {
+                        ViewModelService.ViewDictionary.Remove(dictScene.Key);
+                        ViewModelService.ViewDictionary.Add(dictScene.Key, dictScene.Value);
+                    }
+                    PageUserControlService.ReassignViewModels();
+                    MakeClean();
                 }
-                ViewModelService.ViewDictionary = dict;
-                PageUserControlService.ReassignViewModels();
-                MakeClean();
             }
             catch (Exception e)
             {
@@ -184,17 +212,22 @@ namespace NugetWorkflow.UI.WpfUI.Utils
             }
         }
 
-        public static void MakeDirty(object parrent, string PropertyName)
+        public static void MakeDirty(object parent, string PropertyName)
         {
-            if (!homeVm.IsDirty && HomePageViewModel.IsDirtyPropName != PropertyName)
+            if ((!homeVm.IsDirty || !homeVm.IsConfigDirty) && HomePageViewModel.IsDirtyPropName != PropertyName)
             {
-                var prop = parrent.GetType().GetProperty(PropertyName);
+                var prop = parent.GetType().GetProperty(PropertyName);
                 if (prop != null)
                 {
-                    var atr = prop.GetCustomAttributes(typeof(SaveSceneAttribute), false);
-                    if (atr != null && atr.Count() > 0)
+                    var atrSaveScene = prop.GetCustomAttributes(typeof(SaveSceneAttribute), false);
+                    if (atrSaveScene != null && atrSaveScene.Count() > 0)
                     {
                         homeVm.IsDirty = true;
+                    }
+                    var atrSaveConfig = prop.GetCustomAttributes(typeof(SaveConfigAttribute), false);
+                    if (atrSaveConfig != null && atrSaveConfig.Count() > 0)
+                    {
+                        homeVm.IsConfigDirty = true;
                     }
                 }
             }

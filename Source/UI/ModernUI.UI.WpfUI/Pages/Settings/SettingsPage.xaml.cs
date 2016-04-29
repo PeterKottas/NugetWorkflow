@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NugetWorkflow.Common.Base.Interfaces;
+using NugetWorkflow.UI.WpfUI.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +20,23 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings
     /// <summary>
     /// Interaction logic for SettingsPage.xaml
     /// </summary>
-    public partial class SettingsPage : UserControl
+    public partial class SettingsPage : UserControl, IPageUserControl
     {
         public SettingsPage()
         {
             InitializeComponent();
+            AssignViewModel();
+            AddUserControl();
+        }
+
+        public void AssignViewModel()
+        {
+            this.DataContext = ViewModelService.GetViewModel<SettingsPageViewModel>();
+        }
+
+        public void AddUserControl()
+        {
+            PageUserControlService.AddUserControl(this);
         }
     }
 }
