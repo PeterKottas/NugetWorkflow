@@ -70,7 +70,7 @@
             </Menu>
             <mui:ModernTab Layout="List" SelectedSource="{Binding SelectedPage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0" SelectedSourceChanged="ModernTab_SelectedSourceChanged">
                 <mui:ModernTab.Links>
-                    <mui:Link DisplayName="Basic setup" Source="/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml" />
+                    <mui:Link DisplayName="Base setup" Source="/Pages/Home/SubHome/BaseSetup/BaseSetupPage.xaml" />
                     <mui:Link DisplayName="Git repos" Source="/Pages/Home/SubHome/GitRepos/GitReposPage.xaml" />
                     <mui:Link DisplayName="Clone" Source="/Pages/Home/SubHome/Clone/ClonePage.xaml" />
                     <mui:Link DisplayName="Update" Source="/Pages/Home/SubHome/Update/UpdatePage.xaml" />
