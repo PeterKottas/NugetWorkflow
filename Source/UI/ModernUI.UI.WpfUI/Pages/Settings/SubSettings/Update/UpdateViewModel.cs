@@ -144,7 +144,7 @@ namespace NugetWorkflow.UI.WpfUI.Pages.Settings.SubSettings.Update
 #if DEBUG
             updateURL = @"http://ec2-52-16-197-231.eu-west-1.compute.amazonaws.com:1234/release";
 #endif
-            //UpdateUI();
+            UpdateUI();
         }
 
         public void CheckUI()
