@@ -26,8 +26,8 @@ namespace NugetWorkflow.UI.WpfUI
             ViewModelService.SetupViewDictionary();
             UndoManager.Disable();
             ConfigSaver.Load();
-            SceneSaver.AutoLoad();
             ConfigSaver.LoadLastSavedScene();
+            SceneSaver.AutoLoad();
             UndoManager.ResetBuffer();
             SceneSaver.MakeClean();
             ConfigSaver.MakeClean();
