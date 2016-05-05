@@ -169,6 +169,7 @@
       <DependentUpon>SubHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TextBoxNoUndo.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Pages\Home\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>

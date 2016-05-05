@@ -1,4 +1,5 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
+using NugetWorkflow.Common.Base.Interfaces;
 using NugetWorkflow.UI.WpfUI.Pages.Home;
 using NugetWorkflow.UI.WpfUI.Utils;
 using System;
@@ -21,11 +22,13 @@ namespace NugetWorkflow.UI.WpfUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : ModernWindow
+    public partial class MainWindow : ModernWindow, IPageUserControl
     {
         public MainWindow()
         {
             InitializeComponent();
+            AssignViewModel();
+            AddUserControl();
             this.Closing += MainWindow_Closing;
         }
 
@@ -35,6 +38,16 @@ namespace NugetWorkflow.UI.WpfUI
             {
                 e.Cancel = true;
             }
+        }
+
+        public void AssignViewModel()
+        {
+            this.DataContext = ViewModelService.GetViewModel<MainWindowViewModel>();
+        }
+
+        public void AddUserControl()
+        {
+            PageUserControlService.AddUserControl(this);
         }
     }
 }
