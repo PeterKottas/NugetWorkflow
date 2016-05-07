@@ -29,7 +29,7 @@ namespace NugetWorkflow.UI.WpfUI.Utils
         {
             viewDictionary = new Dictionary<Type, object>();
             var viewInterface = typeof(IViewModel);
-            var types = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("NugetWorkflow.UI.WpfUI")).SelectMany(s => s.GetTypes())
+            var types = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith(typeof(ViewModelService).Assembly.FullName)).SelectMany(s => s.GetTypes())
                 .Where(p => viewInterface.IsAssignableFrom(p) && p != viewInterface);
             foreach (var type in types)
             {

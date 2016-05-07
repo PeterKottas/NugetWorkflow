@@ -98,18 +98,14 @@ namespace NugetWorkflow.Plugins.GitAdapter
             {
                 OriginalStashCount = repo.Stashes.Count()
             };
-            repo.Stashes.Add(appSignature);
+            repo.Stashes.Add(appSignature, "Stashed current work");
             return ret;
         }
 
         private void PopAll(Repository repo, StashDTO stashResponse)
         {
             int index = stashResponse.OriginalStashCount;
-            foreach (var stash in repo.Stashes)
-            {
-                repo.Stashes.Pop(index);
-                index++;
-            }
+            repo.Stashes.Pop(index);
         }
 
         private SwitchBranchResponseDTO SwitchBranch(Repository repo, GitRepoDTO gitRepo, bool needToStash)
@@ -132,6 +128,16 @@ namespace NugetWorkflow.Plugins.GitAdapter
                 {
                     try
                     {
+                        if (branch.IsRemote)
+                        {
+                            var localName = branch.FriendlyName.Split('/')[1];
+                            var localBranch = repo.Branches.Where(a => a.FriendlyName == localName).FirstOrDefault();
+                            if (localBranch == null)
+                            {
+                                localBranch = repo.CreateBranch(localName, branch.FriendlyName);
+                            }
+                            branch = localBranch;
+                        }
                         repo.Checkout(branch);
                     }
                     catch (Exception e)
@@ -189,7 +195,7 @@ namespace NugetWorkflow.Plugins.GitAdapter
 
             try
             {
-                repo.Network.Push(repo.Branches.Where(a => a.FriendlyName == gitRepo.UpdateBranch).FirstOrDefault(), new PushOptions()
+                repo.Network.Push(repo.Head, new PushOptions()
                     {
                         CredentialsProvider = (_url, _user, _cred) => new UsernamePasswordCredentials
                         {
@@ -287,7 +293,7 @@ namespace NugetWorkflow.Plugins.GitAdapter
                 {
                     return new RepoBranchesResponseDTO()
                     {
-                        RepoBranches = repo.Branches.Where(a => !a.IsRemote).Select(a => a.FriendlyName).ToList()
+                        RepoBranches = repo.Branches.Select(a => a.FriendlyName).ToList()
                     };
                 }
             }
